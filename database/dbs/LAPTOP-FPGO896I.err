@@ -44,3 +44,5 @@
 2022-02-18T12:38:13.645763Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
 2022-02-18T12:38:15.168778Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
 2022-02-18T12:38:15.169561Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2022-02-18T12:38:15.970632Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2022-02-18T12:38:15.970877Z 0 [System] [MY-010931] [Server] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqld.exe: ready for connections. Version: '8.0.28'  socket: ''  port: 3306  MySQL Community Server - GPL.
