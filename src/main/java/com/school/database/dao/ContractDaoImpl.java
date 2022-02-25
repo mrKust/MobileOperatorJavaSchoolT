@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -22,39 +21,30 @@ public class ContractDaoImpl implements Dao<Contract> {
     public Contract get(int id) {
         Contract contract = null;
 
-        try (Session session = sessionFactory.openSession()){
+        Session session = sessionFactory.openSession();
+        contract = session.get(Contract.class, id);
 
-            contract = session.get(Contract.class, id);
-
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
         return contract;
     }
 
     @Override
     public List<Contract> getAll() {
+
         List<Contract> result = null;
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.openSession();
 
-            Query query = session.createQuery("SELECT e FROM Contract e");
-            result = query.getResultList();
+        Query query = session.createQuery("SELECT e FROM Contract e");
+        result = query.getResultList();
 
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
         return result;
     }
 
     @Override
     public void save(Contract contract) {
-        try (Session session = sessionFactory.openSession()) {
 
-            session.saveOrUpdate(contract);
+        Session session = sessionFactory.openSession();
+        session.saveOrUpdate(contract);
 
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
     }
 
     /*@Override

@@ -21,7 +21,7 @@
         <form:option value="false" label="Couldn't be connected"/>
 </form:select>
     <br><br>
-    <input type="submit", value="Confirm">
+    <input type="submit", value="Confirm"/>
 </form:form>
 </body>
 </html>

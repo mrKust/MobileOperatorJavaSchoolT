@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -22,39 +21,29 @@ public class TariffDaoImpl implements Dao<Tariff> {
     public Tariff get(int id) {
         Tariff tariff = null;
 
-        try (Session session = sessionFactory.openSession()){
+        Session session = sessionFactory.openSession();
+        tariff = session.get(Tariff.class, id);
 
-            tariff = session.get(Tariff.class, id);
-
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
         return tariff;
     }
 
     @Override
     public List<Tariff> getAll() {
         List<Tariff> result = null;
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.openSession();
 
-            Query query = session.createQuery("SELECT e FROM Tariff e");
-            result = query.getResultList();
+        Query query = session.createQuery("SELECT e FROM Tariff e");
+        result = query.getResultList();
 
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
         return result;
     }
 
     @Override
     public void save(Tariff tariff) {
-        try (Session session = sessionFactory.openSession()) {
 
-            session.saveOrUpdate(tariff);
+        Session session = sessionFactory.openSession();
+        session.saveOrUpdate(tariff);
 
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
     }
 
     /*@Override

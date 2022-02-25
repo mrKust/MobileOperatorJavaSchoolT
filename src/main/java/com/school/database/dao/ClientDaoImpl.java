@@ -21,40 +21,29 @@ public class ClientDaoImpl implements Dao<Client> {
     public Client get(int id) {
         Client client = null;
 
-        try (Session session = sessionFactory.openSession()){
+        Session session = sessionFactory.openSession();
+        client = session.get(Client.class, id);
 
-            client = session.get(Client.class, id);
-
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
         return client;
     }
 
     @Override
     public List<Client> getAll() {
         List<Client> result = null;
-        try (Session session = sessionFactory.openSession()) {
 
-            Query query = session.createQuery("from Client ", Client.class);
-            result = query.getResultList();
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("from Client ", Client.class);
+        result = query.getResultList();
 
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
         return result;
     }
 
     @Override
     public void save(Client client) {
 
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.openSession();
+        session.saveOrUpdate(client);
 
-            session.saveOrUpdate(client);
-
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
     }
 
     /*@Override

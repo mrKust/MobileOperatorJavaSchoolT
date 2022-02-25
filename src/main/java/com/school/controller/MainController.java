@@ -64,8 +64,8 @@ public class MainController {
     @RequestMapping("/updateOption")
     public String updateOption(@RequestParam("optionId") int id, Model model) {
 
-        Options option = optionsServiceMVC.get(id);
-        model.addAttribute("options", option);
+        Options options = optionsServiceMVC.get(id);
+        model.addAttribute("options", options);
 
         return "option-info-form";
     }

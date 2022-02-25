@@ -16,19 +16,21 @@
 
         <c:forEach var="options" items="${allOptions}">
 
-            <c:url var="updateOption" value="/updateOption">
+            <c:url var="updateButton" value="/updateOption">
                 <c:param name="optionId" value="${options.id}"/>
             </c:url>
+
             <tr>
-                <td>${options.getOptionsName()}</td>
-                <td>${options.getPrice()}</td>
-                <td>${options.getCostToAdd()}</td>
-                <td>${options.isAvailableOptionToConnectOrNot()}</td>
+                <td>${options.optionsName}</td>
+                <td>${options.price}</td>
+                <td>${options.costToAdd}</td>
+                <td>${options.availableOptionToConnectOrNot}</td>
                 <td>
                     <input type="button" value="Update"
-                        onclick="window.location.href = 'updateOption'"/>
+                        onclick="window.location.href = '${updateButton}'"/>
                 </td>
             </tr>
+
         </c:forEach>
     </tr>
 </table>

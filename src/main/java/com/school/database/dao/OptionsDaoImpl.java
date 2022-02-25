@@ -20,13 +20,9 @@ public class OptionsDaoImpl implements Dao<Options> {
     public Options get(int id) {
         Options options = null;
 
-        try (Session session = sessionFactory.openSession()){
+        Session session = sessionFactory.getCurrentSession();
+        options = session.get(Options.class, id);
 
-            options = session.get(Options.class, id);
-
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
         return options;
     }
 
@@ -34,26 +30,19 @@ public class OptionsDaoImpl implements Dao<Options> {
     public List<Options> getAll() {
         List<Options> result = null;
 
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Options ", Options.class);
+        result = query.getResultList();
 
-            Query query = session.createQuery("from Options ", Options.class);
-            result = query.getResultList();
-
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
         return result;
     }
 
     @Override
     public void save(Options options) {
-        try (Session session = sessionFactory.openSession()) {
 
-            session.saveOrUpdate(options);
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(options);
 
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
     }
 
     /*@Override
