@@ -19,4 +19,16 @@ public class OptionsServiceImpl implements ServiceMVC<Options>{
     public List<Options> getAll() {
         return optionsDao.getAll();
     }
+
+    @Override
+    @Transactional
+    public void save(Options options) {
+        optionsDao.save(options);
+    }
+
+    @Override
+    @Transactional
+    public Options get(int id) {
+        return optionsDao.get(id);
+    }
 }

@@ -19,4 +19,16 @@ public class ClientServiceImpl implements ServiceMVC<Client> {
     public List<Client> getAll() {
         return clientDao.getAll();
     }
+
+    @Override
+    @Transactional
+    public void save(Client client) {
+        clientDao.save(client);
+    }
+
+    @Override
+    @Transactional
+    public Client get(int id) {
+        return clientDao.get(id);
+    }
 }

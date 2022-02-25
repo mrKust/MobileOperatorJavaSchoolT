@@ -19,4 +19,16 @@ public class ContractServiceImpl implements ServiceMVC<Contract>{
     public List<Contract> getAll() {
         return contractDao.getAll();
     }
+
+    @Override
+    @Transactional
+    public void save(Contract contract) {
+        contractDao.save(contract);
+    }
+
+    @Override
+    @Transactional
+    public Contract get(int id) {
+        return contractDao.get(id);
+    }
 }

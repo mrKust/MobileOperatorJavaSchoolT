@@ -19,4 +19,16 @@ public class TariffServiceImpl  implements ServiceMVC<Tariff>{
     public List<Tariff> getAll() {
         return tariffDao.getAll();
     }
+
+    @Override
+    @Transactional
+    public void save(Tariff tariff) {
+        tariffDao.save(tariff);
+    }
+
+    @Override
+    @Transactional
+    public Tariff get(int id) {
+        return tariffDao.get(id);
+    }
 }

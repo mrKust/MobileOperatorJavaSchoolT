@@ -1,6 +1,5 @@
 package com.school.controller;
 
-import com.school.database.dao.OptionsDaoImpl;
 import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
 import com.school.database.entity.Options;
@@ -9,7 +8,9 @@ import com.school.service.ServiceMVC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,18 +31,42 @@ public class MainController {
 
 
 
-    /*@RequestMapping("/")
-    public String showView() {
-        return "login-view";
-    }*/
-
     @RequestMapping("/")
+    public String showView() {
+        return "redirect:/allOptions";
+    }
+
+    @RequestMapping("/allOptions")
     public String showAllOptions(Model model) {
 
         List<Options> allOptions = optionsServiceMVC.getAll();
-        List<Tariff> allTariffs = tariffServiceMVC.getAll();
         model.addAttribute("allOptions", allOptions);
 
         return "all-options";
+    }
+
+    @RequestMapping("/addNewOption")
+    public String addNewOption(Model model) {
+
+        Options options = new Options();
+        model.addAttribute("options", options);
+        return "option-info-form";
+    }
+
+    @RequestMapping("/saveOption")
+    public String saveOption(@ModelAttribute("options") Options option) {
+
+        optionsServiceMVC.save(option);
+
+        return "redirect:/allOptions";
+    }
+
+    @RequestMapping("/updateOption")
+    public String updateOption(@RequestParam("optionId") int id, Model model) {
+
+        Options option = optionsServiceMVC.get(id);
+        model.addAttribute("options", option);
+
+        return "option-info-form";
     }
 }

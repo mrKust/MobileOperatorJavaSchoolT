@@ -18,33 +18,27 @@ public class ContractDaoImpl implements Dao<Contract> {
     @Autowired
     private SessionFactory sessionFactory;
 
-    /*@Override
+    @Override
     public Contract get(int id) {
         Contract contract = null;
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = sessionFactory.openSession()){
 
             contract = session.get(Contract.class, id);
-            if (contract != null)
-                return contract;
-            else System.out.println("Contract with this id not found");
+
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-        return null;
-    }*/
+        return contract;
+    }
 
     @Override
-    @Transactional
     public List<Contract> getAll() {
         List<Contract> result = null;
         try (Session session = sessionFactory.openSession()) {
 
             Query query = session.createQuery("SELECT e FROM Contract e");
             result = query.getResultList();
-            if (result.size() != 0)
-                return result;
-            else System.out.println("No such elements");
 
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -52,19 +46,18 @@ public class ContractDaoImpl implements Dao<Contract> {
         return result;
     }
 
-    /*@Override
+    @Override
     public void save(Contract contract) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            Integer id =(Integer)session.save(contract);
-            System.out.println("Contract is created  with Id::"+id);
-            session.getTransaction().commit();
+        try (Session session = sessionFactory.openSession()) {
+
+            session.saveOrUpdate(contract);
+
         } catch (HibernateException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
+    /*@Override
     public void update(Contract contract, String[] params) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 

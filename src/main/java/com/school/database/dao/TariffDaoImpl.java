@@ -18,33 +18,27 @@ public class TariffDaoImpl implements Dao<Tariff> {
     @Autowired
     private SessionFactory sessionFactory;
 
-    /*@Override
+    @Override
     public Tariff get(int id) {
         Tariff tariff = null;
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = sessionFactory.openSession()){
 
             tariff = session.get(Tariff.class, id);
-            if (tariff != null)
-                return tariff;
-            else System.out.println("Tariff with this id not found");
+
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-        return null;
-    }*/
+        return tariff;
+    }
 
     @Override
-    @Transactional
     public List<Tariff> getAll() {
         List<Tariff> result = null;
         try (Session session = sessionFactory.openSession()) {
 
             Query query = session.createQuery("SELECT e FROM Tariff e");
             result = query.getResultList();
-            if (result.size() != 0)
-                return result;
-            else System.out.println("No such elements");
 
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -52,19 +46,18 @@ public class TariffDaoImpl implements Dao<Tariff> {
         return result;
     }
 
-    /*@Override
+    @Override
     public void save(Tariff tariff) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            Integer id =(Integer)session.save(tariff);
-            System.out.println("Tariff is created  with Id::"+id);
-            session.getTransaction().commit();
+        try (Session session = sessionFactory.openSession()) {
+
+            session.saveOrUpdate(tariff);
+
         } catch (HibernateException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
+    /*@Override
     public void update(Tariff tariff, String[] params) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 

@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import java.util.GregorianCalendar;
@@ -18,24 +17,21 @@ public class ClientDaoImpl implements Dao<Client> {
     @Autowired
     private SessionFactory sessionFactory;
 
-   /* @Override
+    @Override
     public Client get(int id) {
         Client client = null;
 
         try (Session session = sessionFactory.openSession()){
 
             client = session.get(Client.class, id);
-            if (client != null)
-                return client;
-            else System.out.println("Client with this id not found");
+
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-        return null;
-    }*/
+        return client;
+    }
 
     @Override
-    @Transactional
     public List<Client> getAll() {
         List<Client> result = null;
         try (Session session = sessionFactory.openSession()) {
@@ -43,29 +39,25 @@ public class ClientDaoImpl implements Dao<Client> {
             Query query = session.createQuery("from Client ", Client.class);
             result = query.getResultList();
 
-            if (result.size() != 0)
-                return result;
-            else System.out.println("No such elements");
-
         } catch (HibernateException e) {
             e.printStackTrace();
         }
         return result;
     }
 
-   /* @Override
+    @Override
     public void save(Client client) {
 
         try (Session session = sessionFactory.openSession()) {
 
-            session.save(client);
+            session.saveOrUpdate(client);
 
         } catch (HibernateException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
+    /*@Override
     public void update(Client client, String[] params) {
         try (Session session = sessionFactory.openSession()) {
 

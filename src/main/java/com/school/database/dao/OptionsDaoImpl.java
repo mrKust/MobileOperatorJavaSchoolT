@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -17,21 +16,19 @@ public class OptionsDaoImpl implements Dao<Options> {
     @Autowired
     private SessionFactory sessionFactory;
 
-    /*@Override
+    @Override
     public Options get(int id) {
         Options options = null;
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()){
+        try (Session session = sessionFactory.openSession()){
 
             options = session.get(Options.class, id);
-            if (options != null)
-                return options;
-            else System.out.println("Options with this id not found");
+
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-        return null;
-    }*/
+        return options;
+    }
 
     @Override
     public List<Options> getAll() {
@@ -42,29 +39,24 @@ public class OptionsDaoImpl implements Dao<Options> {
             Query query = session.createQuery("from Options ", Options.class);
             result = query.getResultList();
 
-            if (result.size() != 0)
-                return result;
-            else System.out.println("No such elements");
-
         } catch (HibernateException e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    /*@Override
+    @Override
     public void save(Options options) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.beginTransaction();
-            Integer id =(Integer)session.save(options);
-            System.out.println("Option is created  with Id::"+id);
-            session.getTransaction().commit();
+        try (Session session = sessionFactory.openSession()) {
+
+            session.saveOrUpdate(options);
+
         } catch (HibernateException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
+    /*@Override
     public void update(Options options, String[] params) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
