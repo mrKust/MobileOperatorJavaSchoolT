@@ -31,4 +31,10 @@ public class TariffServiceImpl  implements ServiceMVC<Tariff>{
     public Tariff get(int id) {
         return tariffDao.get(id);
     }
+
+    @Override
+    @Transactional
+    public void delete(int id) {
+        tariffDao.delete(id);
+    }
 }

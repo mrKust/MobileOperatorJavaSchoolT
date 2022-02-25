@@ -20,6 +20,10 @@
                 <c:param name="optionId" value="${options.id}"/>
             </c:url>
 
+            <c:url var="deleteButton" value="/deleteOption">
+                <c:param name="optionId" value="${options.id}"/>
+            </c:url>
+
             <tr>
                 <td>${options.optionsName}</td>
                 <td>${options.price}</td>
@@ -28,6 +32,8 @@
                 <td>
                     <input type="button" value="Update"
                         onclick="window.location.href = '${updateButton}'"/>
+                    <input type="button" value="Delete"
+                        onclick="window.location.href = '${deleteButton}'"/>
                 </td>
             </tr>
 

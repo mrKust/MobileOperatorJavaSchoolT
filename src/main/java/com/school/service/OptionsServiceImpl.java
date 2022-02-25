@@ -31,4 +31,10 @@ public class OptionsServiceImpl implements ServiceMVC<Options>{
     public Options get(int id) {
         return optionsDao.get(id);
     }
+
+    @Override
+    @Transactional
+    public void delete(int id) {
+        optionsDao.delete(id);
+    }
 }

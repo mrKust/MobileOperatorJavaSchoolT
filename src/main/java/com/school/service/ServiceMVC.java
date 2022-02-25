@@ -9,4 +9,6 @@ public interface ServiceMVC<T> {
     void save(T t);
 
     T get(int id);
+
+    void delete(int id);
 }

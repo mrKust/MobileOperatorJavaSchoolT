@@ -71,23 +71,15 @@ public class ClientDaoImpl implements Dao<Client> {
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void delete(int clientId) {
-        try (Session session = sessionFactory.openSession()) {
-            Client client = session.get(Client.class, clientId);
-            if(client != null){
-                session.beginTransaction();
-
-                session.delete(client);
-                session.getTransaction().commit();
-            }else{
-                System.out.println("Employee doesn't exist with provideded Id..");
-            }
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
     }*/
+
+   @Override
+    public void delete(int clientId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("delete from Client " +
+                "where id =:clientId");
+        query.setParameter("clientId", clientId);
+
+    }
 
 }

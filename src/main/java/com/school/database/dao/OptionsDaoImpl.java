@@ -1,7 +1,6 @@
 package com.school.database.dao;
 
 import com.school.database.entity.Options;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,23 +65,16 @@ public class OptionsDaoImpl implements Dao<Options> {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     @Override
     public void delete(int optionsId) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Options options = session.get(Options.class, optionsId);
-            if(options != null){
-                session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("delete from Options " +
+                "where id =:optionId");
+        query.setParameter("optionId", optionsId);
+        query.executeUpdate();
 
-                session.delete(options);
-                session.getTransaction().commit();
-            }else{
-                System.out.println("Options doesn't exist with provideded Id..");
-            }
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
-    }*/
+    }
 
 }

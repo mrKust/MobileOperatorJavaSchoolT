@@ -66,23 +66,15 @@ public class TariffDaoImpl implements Dao<Tariff> {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     @Override
     public void delete(int tariffId) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Tariff tariff = session.get(Tariff.class, tariffId);
-            if(tariff != null){
-                session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("delete from Tariff " +
+                "where id =:tariffId");
+        query.setParameter("tariffId", tariffId);
 
-                session.delete(tariff);
-                session.getTransaction().commit();
-            }else{
-                System.out.println("Employee doesn't exist with provideded Id..");
-            }
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
-    }*/
+    }
 
 }

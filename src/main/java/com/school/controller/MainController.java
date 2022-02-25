@@ -69,4 +69,29 @@ public class MainController {
 
         return "option-info-form";
     }
+
+    @RequestMapping("/deleteOption")
+    public String deleteOption(@RequestParam("optionId") int id ) {
+
+        optionsServiceMVC.delete(id);
+
+        return "redirect:/allOptions";
+    }
+
+    @RequestMapping("/allTariffs")
+    public String showAllTariff(Model model) {
+
+        List<Tariff> allTariffs = tariffServiceMVC.getAll();
+        model.addAttribute("allTariffs", allTariffs);
+
+        return "all-tariffs";
+    }
+
+    @RequestMapping("/tariffInfo")
+    public String showTariffInfo(@RequestParam("tariffId") int id, Model model) {
+        Tariff tariff = tariffServiceMVC.get(id);
+        model.addAttribute("tariffs", id);
+
+        return "tariff-info-form";
+    }
 }

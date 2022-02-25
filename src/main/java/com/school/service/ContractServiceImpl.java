@@ -31,4 +31,10 @@ public class ContractServiceImpl implements ServiceMVC<Contract>{
     public Contract get(int id) {
         return contractDao.get(id);
     }
+
+    @Override
+    @Transactional
+    public void delete(int id) {
+        contractDao.delete(id);
+    }
 }

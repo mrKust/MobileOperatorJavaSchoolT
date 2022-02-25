@@ -64,23 +64,15 @@ public class ContractDaoImpl implements Dao<Contract> {
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Override
     public void delete(int contractId) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Contract contract = session.get(Contract.class, contractId);
-            if(contract != null){
-                session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("delete from Contract " +
+                "where id =:contractId");
+        query.setParameter("contractId", contractId);
 
-                session.delete(contract);
-                session.getTransaction().commit();
-            }else{
-                System.out.println("Contract doesn't exist with provideded Id..");
-            }
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
-    }*/
+    }
 
 }
