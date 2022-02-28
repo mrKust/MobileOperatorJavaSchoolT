@@ -1,7 +1,6 @@
 package com.school.database.dao;
 
 import com.school.database.entity.Contract;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class ContractDaoImpl implements Dao<Contract> {
     public Contract get(int id) {
         Contract contract = null;
 
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         contract = session.get(Contract.class, id);
 
         return contract;
@@ -31,7 +30,7 @@ public class ContractDaoImpl implements Dao<Contract> {
     public List<Contract> getAll() {
 
         List<Contract> result = null;
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("SELECT e FROM Contract e");
         result = query.getResultList();
@@ -42,7 +41,7 @@ public class ContractDaoImpl implements Dao<Contract> {
     @Override
     public void save(Contract contract) {
 
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(contract);
 
     }
@@ -72,6 +71,7 @@ public class ContractDaoImpl implements Dao<Contract> {
         Query query = session.createQuery("delete from Contract " +
                 "where id =:contractId");
         query.setParameter("contractId", contractId);
+        query.executeUpdate();
 
     }
 

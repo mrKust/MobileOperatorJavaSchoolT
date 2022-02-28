@@ -21,7 +21,7 @@ public class ClientDaoImpl implements Dao<Client> {
     public Client get(int id) {
         Client client = null;
 
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         client = session.get(Client.class, id);
 
         return client;
@@ -31,7 +31,7 @@ public class ClientDaoImpl implements Dao<Client> {
     public List<Client> getAll() {
         List<Client> result = null;
 
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from Client ", Client.class);
         result = query.getResultList();
 
@@ -41,7 +41,7 @@ public class ClientDaoImpl implements Dao<Client> {
     @Override
     public void save(Client client) {
 
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(client);
 
     }
@@ -79,6 +79,7 @@ public class ClientDaoImpl implements Dao<Client> {
         Query query = session.createQuery("delete from Client " +
                 "where id =:clientId");
         query.setParameter("clientId", clientId);
+        query.executeUpdate();
 
     }
 

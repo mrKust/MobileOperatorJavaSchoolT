@@ -21,7 +21,7 @@ public class TariffDaoImpl implements Dao<Tariff> {
     public Tariff get(int id) {
         Tariff tariff = null;
 
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         tariff = session.get(Tariff.class, id);
 
         return tariff;
@@ -30,7 +30,7 @@ public class TariffDaoImpl implements Dao<Tariff> {
     @Override
     public List<Tariff> getAll() {
         List<Tariff> result = null;
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("SELECT e FROM Tariff e");
         result = query.getResultList();
@@ -41,7 +41,7 @@ public class TariffDaoImpl implements Dao<Tariff> {
     @Override
     public void save(Tariff tariff) {
 
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(tariff);
 
     }
@@ -74,6 +74,7 @@ public class TariffDaoImpl implements Dao<Tariff> {
         Query query = session.createQuery("delete from Tariff " +
                 "where id =:tariffId");
         query.setParameter("tariffId", tariffId);
+        query.executeUpdate();
 
     }
 

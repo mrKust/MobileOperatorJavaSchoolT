@@ -72,8 +72,6 @@ public class Tariff {
     }
 
     public void setPrice(int price) {
-        if (price < 0)
-            throw new IllegalArgumentException("Price of the tariff must be positive");
         this.price = price;
     }
 

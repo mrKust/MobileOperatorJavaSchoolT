@@ -7,6 +7,21 @@
 <body>
 <header>
     <h1>Corgi the best</h1>
+    <a href="/allOptions">
+        Options list
+    </a>
+    <br>
+    <a href="/allTariffs">
+        Tariffs list
+    </a>
+    <br>
+    <a href="/allClients">
+        Clients list
+    </a>
+    <br>
+    <a href="/allContracts">
+        Contracts list
+    </a>
 </header>
 <aside>
     <ul>
