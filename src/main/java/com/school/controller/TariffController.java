@@ -5,6 +5,7 @@ import com.school.service.ServiceMVC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,7 @@ public class TariffController {
     @Autowired
     private ServiceMVC<Tariff> tariffServiceMVC;
 
-    @RequestMapping("/allTariffs")
+    @GetMapping("/allTariffs")
     public String showAllTariff(Model model) {
 
         List<Tariff> tariffs = tariffServiceMVC.getAll();
@@ -26,7 +27,7 @@ public class TariffController {
         return "all-tariffs";
     }
 
-    @RequestMapping("/addNewTariff")
+    @GetMapping("/addNewTariff")
     public String addNewTariff(Model model) {
 
         Tariff tariff = new Tariff();
@@ -34,7 +35,7 @@ public class TariffController {
         return "tariff-info-form";
     }
 
-    @RequestMapping("/saveTariff")
+    @GetMapping("/saveTariff")
     public String saveTariff(@ModelAttribute("tariffs") Tariff tariff) {
 
         tariffServiceMVC.save(tariff);
@@ -42,7 +43,7 @@ public class TariffController {
         return "redirect:/allTariffs";
     }
 
-    @RequestMapping("/updateTariff")
+    @GetMapping("/updateTariff")
     public String updateTariff(@RequestParam("tariffId") int id, Model model) {
 
         Tariff tariff = tariffServiceMVC.get(id);
@@ -51,7 +52,7 @@ public class TariffController {
         return "tariff-info-form";
     }
 
-    @RequestMapping("/deleteTariff")
+    @GetMapping("/deleteTariff")
     public String deleteTariff(@RequestParam("tariffId") int id ) {
 
         tariffServiceMVC.delete(id);

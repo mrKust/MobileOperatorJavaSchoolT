@@ -6,6 +6,7 @@ import com.school.service.ServiceMVC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,7 @@ public class ClientController {
     @Autowired
     private ServiceMVC<Client> clientServiceMVC;
 
-    @RequestMapping("/allClients")
+    @GetMapping("/allClients")
     public String showAllClients(Model model) {
 
         List<Client> allClients = clientServiceMVC.getAll();
@@ -27,7 +28,7 @@ public class ClientController {
         return "all-clients";
     }
 
-    @RequestMapping("/addNewClient")
+    @GetMapping("/addNewClient")
     public String addNewClient(Model model) {
 
         Client client = new Client();
@@ -35,7 +36,7 @@ public class ClientController {
         return "client-info-form";
     }
 
-    @RequestMapping("/saveClient")
+    @GetMapping("/saveClient")
     public String saveClient(@ModelAttribute("clients") Client client) {
 
         clientServiceMVC.save(client);
@@ -43,7 +44,7 @@ public class ClientController {
         return "redirect:/allClients";
     }
 
-    @RequestMapping("/updateClient")
+    @GetMapping("/updateClient")
     public String updateClient(@RequestParam("clientId") int id, Model model) {
 
         Client client = clientServiceMVC.get(id);
@@ -52,7 +53,7 @@ public class ClientController {
         return "client-info-form";
     }
 
-    @RequestMapping("/deleteClient")
+    @GetMapping("/deleteClient")
     public String deleteClient(@RequestParam("clientId") int id ) {
 
         clientServiceMVC.delete(id);

@@ -6,6 +6,7 @@ import com.school.service.ServiceMVC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,7 @@ public class ContractController {
     @Autowired
     private ServiceMVC<Contract> contractServiceMVC;
 
-    @RequestMapping("/allContracts")
+    @GetMapping("/allContracts")
     public String showAllContracts(Model model) {
 
         List<Contract> allContracts = contractServiceMVC.getAll();
@@ -27,7 +28,7 @@ public class ContractController {
         return "all-contracts";
     }
 
-    @RequestMapping("/addNewContract")
+    @GetMapping("/addNewContract")
     public String addNewContract(Model model) {
 
         Contract contract = new Contract();
@@ -35,7 +36,7 @@ public class ContractController {
         return "contract-info-form";
     }
 
-    @RequestMapping("/saveContract")
+    @GetMapping("/saveContract")
     public String saveContract(@ModelAttribute("contracts") Contract contract) {
 
         contractServiceMVC.save(contract);
@@ -43,7 +44,7 @@ public class ContractController {
         return "redirect:/allContracts";
     }
 
-    @RequestMapping("/updateContract")
+    @GetMapping("/updateContract")
     public String updateContract(@RequestParam("contractId") int id, Model model) {
 
         Contract contract = contractServiceMVC.get(id);
@@ -52,7 +53,7 @@ public class ContractController {
         return "contract-info-form";
     }
 
-    @RequestMapping("/deleteContract")
+    @GetMapping("/deleteContract")
     public String deleteContract(@RequestParam("contractId") int id ) {
 
         contractServiceMVC.delete(id);
