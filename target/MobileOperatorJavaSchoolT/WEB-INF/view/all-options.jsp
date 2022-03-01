@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <title>Options List</title>
@@ -43,7 +44,9 @@
 
 <br>
 
+<security:authorize access="hasRole('ADMIN')">
 <input type="button" value="Add"
     onclick="window.location.href = 'addNewOption'"/>
+</security:authorize>
 </body>
 </html>
