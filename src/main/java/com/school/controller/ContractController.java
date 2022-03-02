@@ -19,7 +19,7 @@ public class ContractController {
     @Autowired
     private ServiceMVC<Contract> contractServiceMVC;
 
-    @GetMapping("/allContracts")
+    @RequestMapping("/allContracts")
     public String showAllContracts(Model model) {
 
         List<Contract> allContracts = contractServiceMVC.getAll();
@@ -28,7 +28,7 @@ public class ContractController {
         return "all-contracts";
     }
 
-    @GetMapping("/addNewContract")
+    @RequestMapping("/addNewContract")
     public String addNewContract(Model model) {
 
         Contract contract = new Contract();
@@ -36,7 +36,7 @@ public class ContractController {
         return "contract-info-form";
     }
 
-    @GetMapping("/saveContract")
+    @RequestMapping("/saveContract")
     public String saveContract(@ModelAttribute("contracts") Contract contract) {
 
         contractServiceMVC.save(contract);
@@ -44,7 +44,7 @@ public class ContractController {
         return "redirect:/allContracts";
     }
 
-    @GetMapping("/updateContract")
+    @RequestMapping("/updateContract")
     public String updateContract(@RequestParam("contractId") int id, Model model) {
 
         Contract contract = contractServiceMVC.get(id);
@@ -53,7 +53,7 @@ public class ContractController {
         return "contract-info-form";
     }
 
-    @GetMapping("/deleteContract")
+    @RequestMapping("/deleteContract")
     public String deleteContract(@RequestParam("contractId") int id ) {
 
         contractServiceMVC.delete(id);

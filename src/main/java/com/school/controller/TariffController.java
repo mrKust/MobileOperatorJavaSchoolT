@@ -18,7 +18,7 @@ public class TariffController {
     @Autowired
     private ServiceMVC<Tariff> tariffServiceMVC;
 
-    @GetMapping("/allTariffs")
+    @RequestMapping("/allTariffs")
     public String showAllTariff(Model model) {
 
         List<Tariff> tariffs = tariffServiceMVC.getAll();
@@ -27,7 +27,7 @@ public class TariffController {
         return "all-tariffs";
     }
 
-    @GetMapping("/addNewTariff")
+    @RequestMapping("/addNewTariff")
     public String addNewTariff(Model model) {
 
         Tariff tariff = new Tariff();
@@ -35,7 +35,7 @@ public class TariffController {
         return "tariff-info-form";
     }
 
-    @GetMapping("/saveTariff")
+    @RequestMapping("/saveTariff")
     public String saveTariff(@ModelAttribute("tariffs") Tariff tariff) {
 
         tariffServiceMVC.save(tariff);
@@ -43,7 +43,7 @@ public class TariffController {
         return "redirect:/allTariffs";
     }
 
-    @GetMapping("/updateTariff")
+    @RequestMapping("/updateTariff")
     public String updateTariff(@RequestParam("tariffId") int id, Model model) {
 
         Tariff tariff = tariffServiceMVC.get(id);
@@ -52,7 +52,7 @@ public class TariffController {
         return "tariff-info-form";
     }
 
-    @GetMapping("/deleteTariff")
+    @RequestMapping("/deleteTariff")
     public String deleteTariff(@RequestParam("tariffId") int id ) {
 
         tariffServiceMVC.delete(id);

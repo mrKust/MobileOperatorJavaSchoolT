@@ -18,7 +18,7 @@ public class OptionsController {
     @Autowired
     private ServiceMVC<Options> optionsServiceMVC;
 
-    @GetMapping("/allOptions")
+    @RequestMapping("/allOptions")
     public String showAllOptions(Model model) {
 
         List<Options> allOptions = optionsServiceMVC.getAll();
@@ -27,7 +27,7 @@ public class OptionsController {
         return "all-options";
     }
 
-    @GetMapping("/addNewOption")
+    @RequestMapping("/addNewOption")
     public String addNewOption(Model model) {
 
         Options options = new Options();
@@ -35,7 +35,7 @@ public class OptionsController {
         return "option-info-form";
     }
 
-    @GetMapping("/saveOption")
+    @RequestMapping("/saveOption")
     public String saveOption(@ModelAttribute("options") Options option) {
 
         optionsServiceMVC.save(option);
@@ -43,7 +43,7 @@ public class OptionsController {
         return "redirect:/allOptions";
     }
 
-    @GetMapping("/updateOption")
+    @RequestMapping("/updateOption")
     public String updateOption(@RequestParam("optionId") int id, Model model) {
 
         Options options = optionsServiceMVC.get(id);
@@ -52,7 +52,7 @@ public class OptionsController {
         return "option-info-form";
     }
 
-    @GetMapping("/deleteOption")
+    @RequestMapping("/deleteOption")
     public String deleteOption(@RequestParam("optionId") int id ) {
 
         optionsServiceMVC.delete(id);

@@ -44,9 +44,8 @@
 
 <br>
 
-<security:authorize access="hasRole('ADMIN')">
 <input type="button" value="Add"
     onclick="window.location.href = 'addNewOption'"/>
-</security:authorize>
+
 </body>
 </html>

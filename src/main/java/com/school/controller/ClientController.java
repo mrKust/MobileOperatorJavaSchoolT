@@ -19,7 +19,7 @@ public class ClientController {
     @Autowired
     private ServiceMVC<Client> clientServiceMVC;
 
-    @GetMapping("/allClients")
+    @RequestMapping("/allClients")
     public String showAllClients(Model model) {
 
         List<Client> allClients = clientServiceMVC.getAll();
@@ -28,7 +28,7 @@ public class ClientController {
         return "all-clients";
     }
 
-    @GetMapping("/addNewClient")
+    @RequestMapping("/addNewClient")
     public String addNewClient(Model model) {
 
         Client client = new Client();
@@ -36,7 +36,7 @@ public class ClientController {
         return "client-info-form";
     }
 
-    @GetMapping("/saveClient")
+    @RequestMapping("/saveClient")
     public String saveClient(@ModelAttribute("clients") Client client) {
 
         clientServiceMVC.save(client);
@@ -44,7 +44,7 @@ public class ClientController {
         return "redirect:/allClients";
     }
 
-    @GetMapping("/updateClient")
+    @RequestMapping("/updateClient")
     public String updateClient(@RequestParam("clientId") int id, Model model) {
 
         Client client = clientServiceMVC.get(id);
@@ -53,7 +53,7 @@ public class ClientController {
         return "client-info-form";
     }
 
-    @GetMapping("/deleteClient")
+    @RequestMapping("/deleteClient")
     public String deleteClient(@RequestParam("clientId") int id ) {
 
         clientServiceMVC.delete(id);
