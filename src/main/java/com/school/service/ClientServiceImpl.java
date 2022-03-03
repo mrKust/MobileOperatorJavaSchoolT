@@ -34,6 +34,12 @@ public class ClientServiceImpl implements ServiceMVC<Client> {
 
     @Override
     @Transactional
+    public Client getByName(String email) {
+        return clientDao.getByName(email);
+    }
+
+    @Override
+    @Transactional
     public void delete(int id) {
         clientDao.delete(id);
     }

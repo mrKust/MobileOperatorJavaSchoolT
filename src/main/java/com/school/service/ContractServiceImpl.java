@@ -1,6 +1,7 @@
 package com.school.service;
 
 import com.school.database.dao.Dao;
+import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,12 @@ public class ContractServiceImpl implements ServiceMVC<Contract>{
     @Transactional
     public Contract get(int id) {
         return contractDao.get(id);
+    }
+
+    @Override
+    @Transactional
+    public Contract getByName(String phoneNumber) {
+        return contractDao.getByName(phoneNumber);
     }
 
     @Override

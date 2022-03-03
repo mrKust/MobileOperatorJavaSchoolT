@@ -13,7 +13,9 @@
         <th>Price</th>
         <th>Cost to add</th>
         <th>Available to Connect</th>
-        <th>Operations</th>
+        <security:authorize access="hasRole('control')">
+            <th>Operations</th>
+        </security:authorize>
 
         <c:forEach var="options" items="${allOptions}">
 
@@ -30,12 +32,14 @@
                 <td>${options.price}</td>
                 <td>${options.costToAdd}</td>
                 <td>${options.availableOptionToConnectOrNot}</td>
-                <td>
-                    <input type="button" value="Update"
-                        onclick="window.location.href = '${updateButton}'"/>
-                    <input type="button" value="Delete"
-                        onclick="window.location.href = '${deleteButton}'"/>
-                </td>
+                <security:authorize access="hasRole('control')">
+                    <td>
+                        <input type="button" value="Update"
+                            onclick="window.location.href = '${updateButton}'"/>
+                        <input type="button" value="Delete"
+                            onclick="window.location.href = '${deleteButton}'"/>
+                    </td>
+                </security:authorize>
             </tr>
 
         </c:forEach>
@@ -44,8 +48,10 @@
 
 <br>
 
+<security:authorize access="hasRole('control')">
 <input type="button" value="Add"
     onclick="window.location.href = 'addNewOption'"/>
+</security:authorize>
 
 </body>
 </html>

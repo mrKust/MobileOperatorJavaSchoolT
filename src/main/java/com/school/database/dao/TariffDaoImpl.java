@@ -28,6 +28,19 @@ public class TariffDaoImpl implements Dao<Tariff> {
     }
 
     @Override
+    public Tariff getByName(String name) {
+        Tariff tariff = null;
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Tariff where tariff_name=:name");
+        query.setParameter("name", name);
+
+        tariff = (Tariff) query.getSingleResult();
+
+        return tariff;
+    }
+
+    @Override
     public List<Tariff> getAll() {
         List<Tariff> result = null;
         Session session = sessionFactory.getCurrentSession();

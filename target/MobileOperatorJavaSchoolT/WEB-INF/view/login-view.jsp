@@ -1,3 +1,5 @@
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>
@@ -5,6 +7,7 @@
     </title>
 </head>
 <body>
+
 <header>
     <h1>Corgi the best</h1>
     <a href="/allOptions">
@@ -14,23 +17,28 @@
     <a href="/allTariffs">
         Tariffs list
     </a>
+    <security:authorize access="hasRole('client')">
+        <br>
+        <a href="/ownClientInfo">
+            My user info
+        </a>
     <br>
-    <a href="/allClients">
-        Clients list
+    <a href="/ownContractInfo">
+        My contract
     </a>
-    <br>
-    <a href="/allContracts">
-        Contracts list
-    </a>
-</header>
-<aside>
-    <ul>
-        <p>Экономьте электричество</p>
-        <p>Хороший язык</p>
-        <a href="https:\\yandex.ru">Search</a>
-    </ul>
+    </security:authorize>
 
-</aside>
+    <security:authorize access="hasRole('control')">
+        <br>
+        <a href="/allClients">
+            Clients list
+        </a>
+        <br>
+        <a href="/allContracts">
+            Contracts list
+        </a>
+    </security:authorize>
+</header>
 
 <main>
     <section>

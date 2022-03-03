@@ -26,6 +26,19 @@ public class OptionsDaoImpl implements Dao<Options> {
     }
 
     @Override
+    public Options getByName(String name) {
+        Options options = null;
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Options where optionsName=:name");
+        query.setParameter("name", name);
+
+        options = (Options) query.getSingleResult();
+
+        return options;
+    }
+
+    @Override
     public List<Options> getAll() {
         List<Options> result = null;
 

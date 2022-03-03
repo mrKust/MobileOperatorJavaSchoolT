@@ -10,5 +10,7 @@ public interface ServiceMVC<T> {
 
     T get(int id);
 
+    T getByName(String name);
+
     void delete(int id);
 }

@@ -1,6 +1,7 @@
 package com.school.service;
 
 import com.school.database.dao.Dao;
+import com.school.database.entity.Client;
 import com.school.database.entity.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,12 @@ public class OptionsServiceImpl implements ServiceMVC<Options>{
     @Transactional
     public Options get(int id) {
         return optionsDao.get(id);
+    }
+
+    @Override
+    @Transactional
+    public Options getByName(String name) {
+        return optionsDao.getByName(name);
     }
 
     @Override

@@ -28,6 +28,19 @@ public class ClientDaoImpl implements Dao<Client> {
     }
 
     @Override
+    public Client getByName(String email) {
+        Client client = null;
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Client where email_address=:email");
+        query.setParameter("email", email);
+
+        client = (Client) query.getSingleResult();
+
+        return client;
+    }
+
+    @Override
     public List<Client> getAll() {
         List<Client> result = null;
 

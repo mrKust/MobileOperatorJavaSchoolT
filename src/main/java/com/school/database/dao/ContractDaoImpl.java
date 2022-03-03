@@ -1,5 +1,6 @@
 package com.school.database.dao;
 
+import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,6 +23,19 @@ public class ContractDaoImpl implements Dao<Contract> {
 
         Session session = sessionFactory.getCurrentSession();
         contract = session.get(Contract.class, id);
+
+        return contract;
+    }
+
+    @Override
+    public Contract getByName(String phone) {
+        Contract contract = null;
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Contract where phoneNumber=:phone");
+        query.setParameter("phone", phone);
+
+        contract = (Contract) query.getSingleResult();
 
         return contract;
     }
