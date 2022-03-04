@@ -28,11 +28,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
     }
 
-    /*@Override
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/common/**").hasAnyRole("client", "control")
+                .antMatchers("/client/**").hasRole("client")
+                .antMatchers("/control/**").hasRole("control")
+                .antMatchers("/").authenticated()
                 .and().formLogin();
-    }*/
+    }
 
 }
