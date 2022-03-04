@@ -21,7 +21,7 @@ public class Client {
     private String surname;
 
     @Column(name="date_of_birth")
-    private java.sql.Date date_of_birth;
+    private String date_of_birth;
 
     @Column(name="passport_number")
     private String passport_number;
@@ -53,7 +53,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(String first_name, String surname, java.sql.Date date_of_birth, String passport_number, String address, String phone_number, String email_address, String password_log_in, boolean clientNumberBlockStatus, String userRole, String roleOfUserWhoBlockedNumber) {
+    public Client(String first_name, String surname, String date_of_birth, String passport_number, String address, String phone_number, String email_address, String password_log_in, boolean clientNumberBlockStatus, String userRole, String roleOfUserWhoBlockedNumber) {
         this.first_name = first_name;
         this.surname = surname;
         this.date_of_birth = date_of_birth;
@@ -91,11 +91,11 @@ public class Client {
         this.surname = surname;
     }
 
-    public Date getDate_of_birth() {
+    public String getDate_of_birth() {
         return date_of_birth;
     }
 
-    public void setDate_of_birth(java.sql.Date date_of_birth) {
+    public void setDate_of_birth(String date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
 
@@ -128,10 +128,6 @@ public class Client {
     }
 
     public void setEmail_address(String email_address) {
-        /*Pattern pattern = Pattern.compile("^[A-Z0-9+_.-]+@[A-Z0-9.-]+$");
-        Matcher matcher = pattern.matcher(email_address);
-        if (!matcher.matches())
-            throw new IllegalArgumentException("Incorrect email. E-mail should be in type *@*.*");*/
         this.email_address = email_address;
     }
 

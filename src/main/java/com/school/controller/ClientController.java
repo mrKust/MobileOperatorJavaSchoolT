@@ -1,6 +1,7 @@
 package com.school.controller;
 
 import com.school.database.entity.Client;
+import com.school.database.entity.Contract;
 import com.school.database.entity.Options;
 import com.school.service.ServiceMVC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -59,5 +61,15 @@ public class ClientController {
         clientServiceMVC.delete(id);
 
         return "redirect:/allClients";
+    }
+
+    @RequestMapping("/ownClientInfo")
+    public String showOwnClient(Principal principal, Model model) {
+
+        Client client = clientServiceMVC.getByName(principal.getName());
+        model.addAttribute("clients", client);
+
+        return "client-info-form";
+
     }
 }
