@@ -4,6 +4,7 @@
 <html>
 <title>Clients list</title>
 <body>
+<jsp:include page="../common/header.jsp"/>
 <h2>All Clients</h2>
 <br>
 

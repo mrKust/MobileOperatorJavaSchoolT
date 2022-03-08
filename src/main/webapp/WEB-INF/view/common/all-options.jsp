@@ -4,6 +4,7 @@
 <html>
 <title>Options List</title>
 <body>
+<jsp:include page="header.jsp"/>
 <h2>All Options</h2>
 <br>
 

@@ -8,37 +8,7 @@
 </head>
 <body>
 
-<header>
-    <h1>Corgi the best</h1>
-    <a href="/common/allOptions">
-        Options list
-    </a>
-    <br>
-    <a href="/common/allTariffs">
-        Tariffs list
-    </a>
-    <security:authorize access="hasRole('client')">
-        <br>
-        <a href="/client/updateClient">
-            My user info
-        </a>
-    <br>
-    <a href="/client/updateContract">
-        My contract
-    </a>
-    </security:authorize>
-
-    <security:authorize access="hasRole('control')">
-        <br>
-        <a href="/control/allClients">
-            Clients list
-        </a>
-        <br>
-        <a href="/control/allContracts">
-            Contracts list
-        </a>
-    </security:authorize>
-</header>
+<jsp:include page="header.jsp"/>
 
 <main>
     <section>

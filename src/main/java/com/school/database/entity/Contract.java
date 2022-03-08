@@ -24,7 +24,7 @@ public class Contract {
     @JoinColumn(name = "client_id")
     private Client contractClient;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "contract_options",
             joinColumns = @JoinColumn(name = "contract_id"),

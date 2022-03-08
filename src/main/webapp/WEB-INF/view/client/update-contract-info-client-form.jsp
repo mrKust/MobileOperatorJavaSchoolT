@@ -2,8 +2,9 @@
 <!DOCTYPE html>
 
 <html>
-<title>Add new contract</title>
+<title>My contract</title>
 <body>
+<jsp:include page="../common/header.jsp"/>
 <h2>Contract info</h2>
 <br>
 <form:form action="/common/saveContract" modelAttribute="contracts">

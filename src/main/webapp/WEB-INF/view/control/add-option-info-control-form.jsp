@@ -4,6 +4,7 @@
 <html>
 <title>Add new option</title>
 <body>
+<jsp:include page="../common/header.jsp"/>
 <h2>Option info</h2>
 <br>
 <form:form action="/common/saveOption" modelAttribute="options">

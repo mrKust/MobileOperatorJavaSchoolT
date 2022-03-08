@@ -5,6 +5,7 @@
 <html>
 <title>List of tariffs</title>
 <body>
+<jsp:include page="header.jsp"/>
 <h2>All tariffs</h2>
 <br>
 <table>

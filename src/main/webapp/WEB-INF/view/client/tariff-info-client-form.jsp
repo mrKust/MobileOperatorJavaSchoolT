@@ -4,6 +4,8 @@
 <html>
 <title>Tariff full info</title>
 <body>
+
+<jsp:include page="../common/header.jsp"/>
 <h2>Tariff info</h2>
 <br>
 <form:form action="/common/saveTariff" modelAttribute="tariffs">

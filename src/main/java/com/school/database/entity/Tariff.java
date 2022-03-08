@@ -42,15 +42,6 @@ public class Tariff {
         this.availableToConnectOrNotStatus = availableToConnectOrNotStatus;
     }
 
-    public void addAvailableOptions(Options newOption) {
-        if (options == null) {
-            options = new ArrayList<Options>();
-        }
-        /*if (this.getOptions().contains(newOption))
-            throw new IllegalArgumentException("Option already available for this tariff");*/
-        options.add(newOption);
-    }
-
     public int getId() {
         return id;
     }

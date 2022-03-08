@@ -3,6 +3,7 @@
 <html>
 <title>Contracts list</title>
 <body>
+<jsp:include page="../common/header.jsp"/>
 <h2>All Contracts</h2>
 <br>
 

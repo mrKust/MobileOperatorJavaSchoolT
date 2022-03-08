@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
 <html>
@@ -12,9 +13,10 @@
 <title>Add new client</title>
 
 <body>
+<jsp:include page="../common/header.jsp"/>
 <h2>Client info</h2>
 <br>
-<form:form action="/common/saveClient" modelAttribute="clients">
+<form:form action="/common/saveClient" modelAttribute="client">
 
     <form:hidden path="id"/>
     <form:hidden path="userRole"/>
@@ -53,6 +55,14 @@
     <form:option value="true" label="Ready to work"/>
     <form:option value="false" label="Couldn't work. It's blocked"/>
 </form:select>
+    <br><br>
+    <c:set var="role" value="null"/>
+    <c:choose>
+        <c:when test="${client.clientNumberBlockStatus} == false">
+            <c:set var="role" value="control"/>
+        </c:when>
+    </c:choose>
+
     <br><br>
     <input type="submit", value="Confirm"/>
 </form:form>

@@ -38,7 +38,7 @@ public class Client {
     @Column(name="password_log_in")
     private String password_log_in;
 
-    @OneToOne(mappedBy = "contractClient")
+    @OneToOne(mappedBy = "contractClient", cascade = CascadeType.ALL)
     private Contract contract;
 
     @Column(name = "status_of_number_block")

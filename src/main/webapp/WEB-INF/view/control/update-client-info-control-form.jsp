@@ -12,6 +12,7 @@
 <title>Add new client</title>
 
 <body>
+<jsp:include page="../common/header.jsp"/>
     <h2>Client info</h2>
     <br>
     <form:form action="/common/saveClient" modelAttribute="clients">

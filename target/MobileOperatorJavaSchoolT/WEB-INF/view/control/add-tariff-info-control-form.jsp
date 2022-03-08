@@ -1,20 +1,30 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
 <html>
 <title>Tariff full info</title>
 <body>
+<jsp:include page="../common/header.jsp"/>
 <h2>Tariff info</h2>
 <br>
-<form:form action="/common/saveTariff" modelAttribute="tariffs">
+<form:form action="/common/saveTariff" modelAttribute="model">
 
-    <form:hidden path="id"/>
+    <form:hidden path="object.id"/>
 
-    Name <form:input path="tariff_name"/>
+    Name <form:input path="object.tariff_name"/>
     <br><br>
-    Price <form:input path="price"/>
+    Price <form:input path="object.price"/>
     <br><br>
-    Status <form:select path="availableToConnectOrNotStatus">
+    <table>
+        <c:forEach var="option" items="${optionsList}">
+            <tr id=${option.id}><td>${option.optionsName}</td><td><form:checkbox path="strings" value="${option.id}" name="list"/></td>
+            </tr>
+        </c:forEach>
+    </table>
+
+    <br>
+    This tariff <form:select path="object.availableToConnectOrNotStatus">
     <form:option value="true" label="Ready to connect"/>
     <form:option value="false" label="Couldn't be connected"/>
 </form:select>

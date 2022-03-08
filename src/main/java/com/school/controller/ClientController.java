@@ -1,6 +1,8 @@
 package com.school.controller;
 
 import com.school.database.entity.Client;
+import com.school.database.entity.Tariff;
+import com.school.dto.ClientDto;
 import com.school.service.ServiceMVC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,15 +31,16 @@ public class ClientController {
     }
 
     @RequestMapping("/control/addNewClient")
-    public String addNewClient(Model model) {
+    public String addNewClient(Model model, Autentifi) {
 
+        String role = request.getAuthType();
         Client client = new Client();
-        model.addAttribute("clients", client);
+        model.addAttribute("client", client);
         return "control/add-client-info-control-form";
     }
 
     @RequestMapping("/common/saveClient")
-    public String saveClient(@ModelAttribute("clients") Client client, HttpServletRequest request) {
+    public String saveClient(@ModelAttribute("client") Client client, HttpServletRequest request) {
 
         clientServiceMVC.save(client);
         if (request.isUserInRole("ROLE_control"))
