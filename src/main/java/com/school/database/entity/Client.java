@@ -1,9 +1,6 @@
 package com.school.database.entity;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Entity
 @Table(name="client")
@@ -42,7 +39,7 @@ public class Client {
     private Contract contract;
 
     @Column(name = "status_of_number_block")
-    private boolean clientNumberBlockStatus;
+    private boolean clientNumberReadyToWorkStatus;
 
     @Column(name = "user_role")
     private String userRole;
@@ -53,7 +50,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(String first_name, String surname, String date_of_birth, String passport_number, String address, String phone_number, String email_address, String password_log_in, boolean clientNumberBlockStatus, String userRole, String roleOfUserWhoBlockedNumber) {
+    public Client(String first_name, String surname, String date_of_birth, String passport_number, String address, String phone_number, String email_address, String password_log_in, boolean clientNumberReadyToWorkStatus, String userRole, String roleOfUserWhoBlockedNumber) {
         this.first_name = first_name;
         this.surname = surname;
         this.date_of_birth = date_of_birth;
@@ -62,7 +59,7 @@ public class Client {
         this.phone_number = phone_number;
         this.email_address = email_address;
         this.password_log_in = password_log_in;
-        this.clientNumberBlockStatus = clientNumberBlockStatus;
+        this.clientNumberReadyToWorkStatus = clientNumberReadyToWorkStatus;
         this.userRole = userRole;
         this.roleOfUserWhoBlockedNumber = roleOfUserWhoBlockedNumber;
     }
@@ -147,12 +144,12 @@ public class Client {
         this.contract = contract;
     }
 
-    public boolean isClientNumberBlockStatus() {
-        return clientNumberBlockStatus;
+    public boolean isClientNumberReadyToWorkStatus() {
+        return clientNumberReadyToWorkStatus;
     }
 
-    public void setClientNumberBlockStatus(boolean clientNumberBlockStatus) {
-        this.clientNumberBlockStatus = clientNumberBlockStatus;
+    public void setClientNumberReadyToWorkStatus(boolean clientNumberBlockStatus) {
+        this.clientNumberReadyToWorkStatus = clientNumberBlockStatus;
     }
 
     public String getUserRole() {

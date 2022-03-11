@@ -8,30 +8,31 @@ import java.util.List;
 
 public class TariffDto {
 
-    private Tariff object;
-    private String[] strings;
+    private Tariff tariff;
 
-    public Tariff getObject() {
-        return object;
+    private String[] stringsOptions;
+
+    public Tariff getTariff() {
+        return tariff;
     }
 
-    public void setObject(Tariff object) {
-        this.object = object;
+    public void setTariff(Tariff tariff) {
+        this.tariff = tariff;
     }
 
-    public String[] getStrings() {
-        return strings;
+    public String[] getStringsOptions() {
+        return stringsOptions;
     }
 
-    public void setStrings(String[] strings) {
-        this.strings = strings;
+    public void setStringsOptions(String[] stringsOptions) {
+        this.stringsOptions = stringsOptions;
     }
 
     public List<Options> wrapStringsToList(List<Options> allOptions) {
         List<Options> result = new ArrayList<>();
 
-        for (int i = 0; i < this.strings.length; i++) {
-            int optionId = Integer.parseInt(this.strings[i]);
+        for (int i = 0; i < this.stringsOptions.length; i++) {
+            int optionId = Integer.parseInt(this.stringsOptions[i]);
             for(Options option : allOptions) {
                 if (option.getId() == optionId) {
                     result.add(option);

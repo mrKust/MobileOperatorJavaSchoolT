@@ -6,8 +6,6 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <title>Add new client</title>
@@ -16,18 +14,20 @@
 <jsp:include page="../common/header.jsp"/>
 <h2>Client info</h2>
 <br>
-<form:form action="/common/saveClient" modelAttribute="client">
+<form:form action="/common/saveClient" modelAttribute="model">
 
-    <form:hidden path="id"/>
-    <form:hidden path="userRole"/>
-    <form:hidden path="password_log_in"/>
-    <form:hidden path="roleOfUserWhoBlockedNumber"/>
+    <form:hidden path="client.id"/>
+    <form:hidden path="client.userRole"/>
+    <form:hidden path="client.password_log_in"/>
+    <form:hidden path="client.roleOfUserWhoBlockedNumber"/>
+    <form:hidden path="client.clientNumberReadyToWorkStatus"/>
+    <form:hidden path="operationType"/>
 
-    Name <form:input path="first_name"/>
+    Name <form:input path="client.first_name"/>
     <br><br>
-    Surname <form:input path="surname"/>
+    Surname <form:input path="client.surname"/>
     <br><br>
-    Date of birth: <form:input type="text" path="date_of_birth"/>
+    Date of birth: <form:input type="text" path="client.date_of_birth"/>
     <script>
         id="selectedDtaeVal"
         $(function() {
@@ -43,28 +43,28 @@
         });
     </script>
     <br><br>
-    Passport_number <form:input path="passport_number"/>
+    Passport_number <form:input path="client.passport_number"/>
     <br><br>
-    Address <form:input path="address"/>
+    Address <form:input path="client.address"/>
     <br><br>
-    Phone number <form:input path="phone_number"/>
+    Phone number <form:input path="client.phone_number" id="tags"/>
+    <script>
+        $( function() {
+            var availableTags = ${model.stringsNumbers};
+            $( "#tags" ).autocomplete({
+                source: availableTags
+            });
+        } );
+    </script>
     <br><br>
-    email <form:input path="email_address"/>
-    <br><br>
-    Block status <form:select path="clientNumberBlockStatus">
-    <form:option value="true" label="Ready to work"/>
-    <form:option value="false" label="Couldn't work. It's blocked"/>
-</form:select>
-    <br><br>
-    <c:set var="role" value="null"/>
-    <c:choose>
-        <c:when test="${client.clientNumberBlockStatus} == false">
-            <c:set var="role" value="control"/>
-        </c:when>
-    </c:choose>
+    email <form:input path="client.email_address"/>
 
     <br><br>
     <input type="submit", value="Confirm"/>
 </form:form>
 </body>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 </html>

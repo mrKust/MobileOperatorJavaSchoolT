@@ -10,21 +10,23 @@
 <br>
 <form:form action="/common/saveTariff" modelAttribute="model">
 
-    <form:hidden path="object.id"/>
+    <form:hidden path="tariff.id"/>
 
-    Name <form:input path="object.tariff_name"/>
+    Name <form:input path="tariff.tariff_name"/>
     <br><br>
-    Price <form:input path="object.price"/>
+    Price <form:input path="tariff.price"/>
     <br><br>
     <table>
         <c:forEach var="option" items="${optionsList}">
-            <tr id=${option.id}><td>${option.optionsName}</td><td><form:checkbox path="strings" value="${option.id}" name="list"/></td>
-            </tr>
+            <c:if test="${option.availableOptionToConnectOrNot==true}">
+                <tr id=${option.id}><td>${option.optionsName}</td><td><form:checkbox path="stringsOptions" value="${option.id}" name="list"/></td>
+                </tr>
+            </c:if>
         </c:forEach>
     </table>
 
     <br>
-    This tariff <form:select path="object.availableToConnectOrNotStatus">
+    This tariff <form:select path="tariff.availableToConnectOrNotStatus">
     <form:option value="true" label="Ready to connect"/>
     <form:option value="false" label="Couldn't be connected"/>
 </form:select>

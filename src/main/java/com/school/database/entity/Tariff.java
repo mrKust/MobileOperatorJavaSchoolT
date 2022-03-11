@@ -1,5 +1,8 @@
 package com.school.database.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ public class Tariff {
     @Column(name = "price")
     private int price;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @JoinTable(
             name = "tariff_options",

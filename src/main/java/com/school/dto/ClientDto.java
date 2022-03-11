@@ -1,38 +1,51 @@
 package com.school.dto;
 
 import com.school.database.entity.Client;
-import com.school.database.entity.Tariff;
+import com.school.database.entity.Number;
+
+import org.json.simple.JSONArray;
 
 import java.util.List;
 
 public class ClientDto {
 
-    private Client object;
+    private Client client;
 
-    private String[] strings;
+    private String operationType;
 
-    public Client getObject() {
-        return object;
+    private String stringsNumbers;
+
+    public String getOperationType() {
+        return operationType;
     }
 
-    public void setObject(Client object) {
-        this.object = object;
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
     }
 
-    public String[] getStrings() {
-        return strings;
+    public String getStringsNumbers() {
+        return stringsNumbers;
     }
 
-    public void setStrings(String[] strings) {
-        this.strings = strings;
+    public void setStringsNumbers(String stringsNumbers) {
+        this.stringsNumbers = stringsNumbers;
     }
 
-    public Tariff findTariffObjectById(List<Tariff> tariffList) {
-        int tariffId = Integer.parseInt(strings[0]);
-        for (Tariff tmp : tariffList) {
-            if (tmp.getId() == tariffId)
-                return tmp;
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public String wrapAvailableNumbersInJsonString(List<Number> allNumbers) {
+        JSONArray jsonArray = new JSONArray();
+        for (Number tmp : allNumbers) {
+            if (tmp.isAvailableToConnectStatus())
+                jsonArray.add(tmp.getPhoneNumber());
         }
-        return null;
+
+        return jsonArray.toJSONString();
     }
 }

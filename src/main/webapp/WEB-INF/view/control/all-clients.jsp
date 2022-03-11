@@ -14,7 +14,7 @@
         <th>Client's surname</th>
         <th>Mobile number</th>
         <th>email</th>
-        <th>Block status</th>
+        <th>Ready to work status</th>
         <th>Operations</th>
 
         <c:forEach var="clients" items="${allClients}">
@@ -27,24 +27,41 @@
             <c:param name="clientId" value="${clients.id}"/>
         </c:url>
 
+        <c:url var="controlLockButton" value="/common/lockClient">
+            <c:param name="clientId" value="${clients.id}"/>
+        </c:url>
+
+        <c:url var="controlUnlockButton" value="/common/unlockClient">
+            <c:param name="clientId" value="${clients.id}"/>
+        </c:url>
+
     <tr>
         <td>${clients.first_name}</td>
         <td>${clients.surname}</td>
         <td>${clients.phone_number}</td>
         <td>${clients.email_address}</td>
-        <td>${clients.clientNumberBlockStatus}</td>
+        <td>${clients.clientNumberReadyToWorkStatus}</td>
         <td>
             <security:authorize access="hasRole('control')">
                 <input type="button" value="Update"
                     onclick="window.location.href = '${controlUpdateButton}'"/>
                 <input type="button" value="Delete"
                     onclick="window.location.href = '${deleteButton}'"/>
+                <c:choose>
+                    <c:when test="${clients.clientNumberReadyToWorkStatus==true}">
+                        <input type="button" value="Lock"
+                               onclick="window.location.href = '${controlLockButton}'"/>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="button" value="Unlock"
+                               onclick="window.location.href = '${controlUnlockButton}'"/>
+                    </c:otherwise>
+                </c:choose>
             </security:authorize>
         </td>
     </tr>
 
     </c:forEach>
-    </tr>
 </table>
 
 <br>

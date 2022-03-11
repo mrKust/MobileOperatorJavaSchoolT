@@ -10,21 +10,25 @@
 <br>
 <form:form action="/common/saveContract" modelAttribute="model">
 
-    <form:hidden path="object.id"/>
+    <form:hidden path="contract.id"/>
+    <form:hidden path="operationType"/>
 
     <br><br>
-    Client <form:select path="stringsClients">
+    Client <select name="stringsClients">
     <c:forEach var="client" items="${clientsList}">
-        <form:option value="${client.id}" label="${client.phone_number} ${client.surname} ${client.email_address}"/>
+        <option value="${client.id}" label="${client.phone_number} ${client.surname} ${client.email_address}">
     </c:forEach>
-</form:select>
+</select>
 
     <br><br>
-    Client's tariff <form:select path="stringsTariff">
+    Client's tariff <select name="stringsTariff">
     <c:forEach var="tariff" items="${tariffsList}">
-        <form:option value="${tariff.id}" label="${tariff.tariff_name}"/>
+        <c:if test="${tariff.availableToConnectOrNotStatus eq true}">
+        <option value="${tariff.id}" label="${tariff.tariff_name}">
+        </c:if>
+
     </c:forEach>
-</form:select>
+</select>
 
     <br><br>
     <input type="submit", value="Confirm"/>

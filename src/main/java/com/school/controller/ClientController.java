@@ -1,7 +1,7 @@
 package com.school.controller;
 
 import com.school.database.entity.Client;
-import com.school.database.entity.Tariff;
+import com.school.database.entity.Number;
 import com.school.dto.ClientDto;
 import com.school.service.ServiceMVC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,9 @@ public class ClientController {
     @Autowired
     private ServiceMVC<Client> clientServiceMVC;
 
+    @Autowired
+    private ServiceMVC<Number> numberServiceMVC;
+
     @RequestMapping("/control/allClients")
     public String showAllClients(Model model) {
 
@@ -31,18 +34,27 @@ public class ClientController {
     }
 
     @RequestMapping("/control/addNewClient")
-    public String addNewClient(Model model, Autentifi) {
+    public String addNewClient(Model model) {
 
-        String role = request.getAuthType();
-        Client client = new Client();
-        model.addAttribute("client", client);
+        ClientDto tmp = new ClientDto();
+        tmp.setClient(new Client());
+        tmp.setOperationType("add");
+        tmp.getClient().setClientNumberReadyToWorkStatus(true);
+        List<Number> allNumbers = numberServiceMVC.getAll();
+        tmp.setStringsNumbers(tmp.wrapAvailableNumbersInJsonString(allNumbers));
+        model.addAttribute("model", tmp);
         return "control/add-client-info-control-form";
     }
 
     @RequestMapping("/common/saveClient")
-    public String saveClient(@ModelAttribute("client") Client client, HttpServletRequest request) {
+    public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request) {
 
-        clientServiceMVC.save(client);
+        if ( (clientDto.getOperationType() != null) && (clientDto.getOperationType().equals("add")) ) {
+            numberServiceMVC.getByName(clientDto.getClient()
+                    .getPhone_number()).setAvailableToConnectStatus(false);
+        }
+
+        clientServiceMVC.save(clientDto.getClient());
         if (request.isUserInRole("ROLE_control"))
             return "redirect:/control/allClients";
 
@@ -52,15 +64,46 @@ public class ClientController {
     @RequestMapping("/control/updateClient")
     public String controlUpdateClient(@RequestParam("clientId") int id, Model model) {
 
-        Client client = clientServiceMVC.get(id);
-        model.addAttribute("clients", client);
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(clientServiceMVC.get(id));
+        clientDto.setOperationType("update");
+        model.addAttribute("model", clientDto);
 
         return "control/update-client-info-control-form";
+    }
+
+    @RequestMapping("/common/lockClient")
+    public String controlLockClient(@RequestParam("clientId") int id, Model model, HttpServletRequest request) {
+
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(clientServiceMVC.get(id));
+        clientDto.getClient().setClientNumberReadyToWorkStatus(false);
+        if (request.isUserInRole("ROLE_control")) {
+            clientDto.getClient().setRoleOfUserWhoBlockedNumber("control");
+        } else {
+            clientDto.getClient().setRoleOfUserWhoBlockedNumber("client");
+        }
+        model.addAttribute("model", clientDto);
+
+        return this.saveClient(clientDto, request);
+    }
+
+    @RequestMapping("/common/unlockClient")
+    public String controlUnlockClient(@RequestParam("clientId") int id, Model model, HttpServletRequest request) {
+
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(clientServiceMVC.get(id));
+        clientDto.getClient().setClientNumberReadyToWorkStatus(true);
+        clientDto.getClient().setRoleOfUserWhoBlockedNumber(null);
+        model.addAttribute("model", clientDto);
+        return this.saveClient(clientDto, request);
     }
 
     @RequestMapping("/control/deleteClient")
     public String deleteClient(@RequestParam("clientId") int id ) {
 
+        Client client = clientServiceMVC.get(id);
+        numberServiceMVC.getByName(client.getPhone_number()).setAvailableToConnectStatus(true);
         clientServiceMVC.delete(id);
 
         return "redirect:/control/allClients";
@@ -69,8 +112,10 @@ public class ClientController {
     @RequestMapping("/client/updateClient")
     public String clientUpdateClient(Principal principal, Model model) {
 
-        Client client = clientServiceMVC.getByName(principal.getName());
-        model.addAttribute("clients", client);
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(clientServiceMVC.getByName(principal.getName()));
+        clientDto.setOperationType("update");
+        model.addAttribute("model", clientDto);
 
         return "client/update-client-info-client-form";
 
