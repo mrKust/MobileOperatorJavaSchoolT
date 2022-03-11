@@ -18,11 +18,14 @@ import java.util.List;
 @Controller
 public class ClientController {
 
-    @Autowired
-    private ServiceMVC<Client> clientServiceMVC;
+    private final ServiceMVC<Client> clientServiceMVC;
 
-    @Autowired
-    private ServiceMVC<Number> numberServiceMVC;
+    private final ServiceMVC<Number> numberServiceMVC;
+
+    ClientController(ServiceMVC<Client> clientServiceMVC, ServiceMVC<Number> numberServiceMVC) {
+        this.clientServiceMVC = clientServiceMVC;
+        this.numberServiceMVC = numberServiceMVC;
+    }
 
     @RequestMapping("/control/allClients")
     public String showAllClients(Model model) {
@@ -51,7 +54,7 @@ public class ClientController {
 
         if ( (clientDto.getOperationType() != null) && (clientDto.getOperationType().equals("add")) ) {
             numberServiceMVC.getByName(clientDto.getClient()
-                    .getPhone_number()).setAvailableToConnectStatus(false);
+                    .getPhoneNumber()).setAvailableToConnectStatus(false);
         }
 
         clientServiceMVC.save(clientDto.getClient());
@@ -103,7 +106,7 @@ public class ClientController {
     public String deleteClient(@RequestParam("clientId") int id ) {
 
         Client client = clientServiceMVC.get(id);
-        numberServiceMVC.getByName(client.getPhone_number()).setAvailableToConnectStatus(true);
+        numberServiceMVC.getByName(client.getPhoneNumber()).setAvailableToConnectStatus(true);
         clientServiceMVC.delete(id);
 
         return "redirect:/control/allClients";
@@ -119,5 +122,28 @@ public class ClientController {
 
         return "client/update-client-info-client-form";
 
+    }
+
+    @RequestMapping("/control/inputNumberToSearch")
+    public String getSearchData(Model model) {
+
+        ClientDto clientDto = new ClientDto();
+        clientDto.setStringsNumbers(clientDto.wrapUsedNumbersInJsonString(numberServiceMVC.getAll()));
+        model.addAttribute("model", clientDto);
+        return "control/input-number-for-search";
+    }
+
+    @RequestMapping("/control/searchByPhoneNumber")
+    public String searchClientByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model) {
+
+        List<Client> clients = clientServiceMVC.getAll();
+        int resultId = -1;
+        for(Client tmp : clients) {
+            if (tmp.getPhoneNumber().equals(phoneNumber))
+                resultId = tmp.getId();
+        }
+        if (resultId != -1) {
+            return this.controlUpdateClient(resultId, model);
+        } else return this.addNewClient(model);
     }
 }

@@ -22,8 +22,8 @@ public class ClientDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Client tmp = (Client) clientService.getByName(s);
         return Optional.ofNullable(tmp)
-                .map(client-> User.withUsername(client.getEmail_address())
-                        .password(client.getPassword_log_in())
+                .map(client-> User.withUsername(client.getEmailAddress())
+                        .password(client.getPasswordLogIn())
                         .roles(client.getUserRole())
                         .build())
                 .orElseThrow(()-> new UsernameNotFoundException("User not found"));

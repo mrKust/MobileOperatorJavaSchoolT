@@ -18,16 +18,16 @@
 
     <form:hidden path="client.id"/>
     <form:hidden path="client.userRole"/>
-    <form:hidden path="client.password_log_in"/>
+    <form:hidden path="client.passwordLogIn"/>
     <form:hidden path="client.roleOfUserWhoBlockedNumber"/>
     <form:hidden path="client.clientNumberReadyToWorkStatus"/>
     <form:hidden path="operationType"/>
 
-    Name <form:input path="client.first_name"/>
+    Name <form:input path="client.firstName"/>
     <br><br>
     Surname <form:input path="client.surname"/>
     <br><br>
-    Date of birth: <form:input type="text" path="client.date_of_birth"/>
+    Date of birth: <form:input type="text" path="client.dateOfBirth"/>
     <script>
         id="selectedDtaeVal"
         $(function() {
@@ -43,11 +43,11 @@
         });
     </script>
     <br><br>
-    Passport_number <form:input path="client.passport_number"/>
+    Passport_number <form:input path="client.passportNumber"/>
     <br><br>
     Address <form:input path="client.address"/>
     <br><br>
-    Phone number <form:input path="client.phone_number" id="tags"/>
+    Phone number <form:input path="client.phoneNumber" id="tags"/>
     <script>
         $( function() {
             var availableTags = ${model.stringsNumbers};
@@ -57,7 +57,7 @@
         } );
     </script>
     <br><br>
-    email <form:input path="client.email_address"/>
+    email <form:input path="client.emailAddress"/>
 
     <br><br>
     <input type="submit", value="Confirm"/>

@@ -12,7 +12,7 @@
 
     <form:hidden path="tariff.id"/>
 
-    Name <form:input path="tariff.tariff_name"/>
+    Name <form:input path="tariff.tariffName"/>
     <br><br>
     Price <form:input path="tariff.price"/>
     <br><br>

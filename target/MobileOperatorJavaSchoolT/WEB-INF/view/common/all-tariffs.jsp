@@ -30,7 +30,7 @@
         </c:url>
 
             <tr>
-                <td>${tariffs.tariff_name}</td>
+                <td>${tariffs.tariffName}</td>
                 <td>${tariffs.price}</td>
                 <td>${tariffs.availableToConnectOrNotStatus}</td>
                 <td>

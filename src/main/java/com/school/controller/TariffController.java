@@ -16,11 +16,14 @@ import java.util.List;
 @Controller
 public class TariffController {
 
-    @Autowired
-    private ServiceMVC<Tariff> tariffServiceMVC;
+    private final ServiceMVC<Tariff> tariffServiceMVC;
 
-    @Autowired
-    private ServiceMVC<Options> optionsServiceMVC;
+    private final ServiceMVC<Options> optionsServiceMVC;
+
+    TariffController(ServiceMVC<Tariff> tariffServiceMVC, ServiceMVC<Options> optionsServiceMVC) {
+        this.tariffServiceMVC = tariffServiceMVC;
+        this.optionsServiceMVC = optionsServiceMVC;
+    }
 
     @RequestMapping("/common/allTariffs")
     public String showAllTariff(Model model) {

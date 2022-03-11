@@ -2,6 +2,7 @@ package com.school.controller;
 
 import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
+import com.school.database.entity.Number;
 import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.ContractDto;
@@ -18,14 +19,18 @@ import java.util.List;
 @Controller
 public class ContractController {
 
-    @Autowired
-    private ServiceMVC<Contract> contractServiceMVC;
+    private final ServiceMVC<Contract> contractServiceMVC;
 
-    @Autowired
-    private ServiceMVC<Tariff> tariffServiceMVC;
+    private final ServiceMVC<Tariff> tariffServiceMVC;
 
-    @Autowired
-    private ServiceMVC<Client> clientServiceMVC;
+    private final ServiceMVC<Client> clientServiceMVC;
+
+    ContractController(ServiceMVC<Contract> contractServiceMVC, ServiceMVC<Client> clientServiceMVC, ServiceMVC<Tariff> tariffServiceMVC) {
+        this.contractServiceMVC = contractServiceMVC;
+        this.tariffServiceMVC = tariffServiceMVC;
+        this.clientServiceMVC = clientServiceMVC;
+
+    }
 
     @RequestMapping("/control/allContracts")
     public String showAllContracts(Model model) {

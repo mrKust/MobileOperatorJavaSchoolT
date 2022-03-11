@@ -12,8 +12,11 @@ import java.util.List;
 @Service
 public class TariffServiceImpl  implements ServiceMVC<Tariff>{
 
-    @Autowired
-    private Dao<Tariff> tariffDao;
+    private final Dao<Tariff> tariffDao;
+
+    TariffServiceImpl(Dao<Tariff> tariffDao) {
+        this.tariffDao = tariffDao;
+    }
 
     @Override
     @Transactional

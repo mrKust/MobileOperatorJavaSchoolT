@@ -12,8 +12,11 @@ import java.util.List;
 @Service
 public class ContractServiceImpl implements ServiceMVC<Contract>{
 
-    @Autowired
-    private Dao<Contract> contractDao;
+    private final Dao<Contract> contractDao;
+
+    ContractServiceImpl(Dao<Contract> contractDao) {
+        this.contractDao = contractDao;
+    }
 
     @Override
     @Transactional

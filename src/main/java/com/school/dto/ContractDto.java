@@ -4,71 +4,39 @@ import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
 import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 public class ContractDto {
 
+    @Getter
+    @Setter
     private Contract contract;
 
+    @Getter
+    @Setter
     private String[] stringsTariff;
 
+    @Getter
+    @Setter
     private String[] stringsClients;
 
+    @Getter
+    @Setter
     private String[] stringsOptions;
 
+    @Getter
+    @Setter
     private String[] connectedOptions;
 
+    @Getter
+    @Setter
     private String operationType;
-
-    public String getOperationType() {
-        return operationType;
-    }
-
-    public void setOperationType(String operationType) {
-        this.operationType = operationType;
-    }
-
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
-
-    public String[] getStringsTariff() {
-        return stringsTariff;
-    }
-
-    public void setStringsTariff(String[] stringsTariff) {
-        this.stringsTariff = stringsTariff;
-    }
-
-    public String[] getStringsClients() {
-        return stringsClients;
-    }
-
-    public void setStringsClients(String[] stringsClients) {
-        this.stringsClients = stringsClients;
-    }
-
-    public String[] getStringsOptions() {
-        return stringsOptions;
-    }
-
-    public void setStringsOptions(String[] stringsOptions) {
-        this.stringsOptions = stringsOptions;
-    }
-
-    public String[] getConnectedOptions() {
-        return connectedOptions;
-    }
-
-    public void setConnectedOptions(String[] connectedOptions) {
-        this.connectedOptions = connectedOptions;
-    }
 
     public Tariff wrapStringsToTariff(List<Tariff> allTariffs) {
 

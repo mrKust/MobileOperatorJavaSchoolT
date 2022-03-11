@@ -12,8 +12,11 @@ import java.util.List;
 @Service
 public class OptionsServiceImpl implements ServiceMVC<Options>{
 
-    @Autowired
-    private Dao<Options> optionsDao;
+    private final Dao<Options> optionsDao;
+
+    OptionsServiceImpl(Dao<Options> optionsDao) {
+        this.optionsDao = optionsDao;
+    }
 
     @Override
     @Transactional

@@ -12,7 +12,7 @@
 
     <form:hidden path="id"/>
 
-    Name <form:input path="tariff_name" readonly="true"/>
+    Name <form:input path="tariffName" readonly="true"/>
     <br><br>
     Price <form:input path="price" readonly="true"/>
     <br><br>

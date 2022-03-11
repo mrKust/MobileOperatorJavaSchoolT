@@ -14,8 +14,11 @@ import java.util.List;
 @Controller
 public class OptionsController {
 
-    @Autowired
-    private ServiceMVC<Options> optionsServiceMVC;
+    private final ServiceMVC<Options> optionsServiceMVC;
+
+    OptionsController(ServiceMVC<Options> optionsServiceMVC) {
+        this.optionsServiceMVC = optionsServiceMVC;
+    }
 
     @RequestMapping("/common/allOptions")
     public String showAllOptions(Model model) {

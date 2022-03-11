@@ -36,10 +36,10 @@
         </c:url>
 
     <tr>
-        <td>${clients.first_name}</td>
+        <td>${clients.firstName}</td>
         <td>${clients.surname}</td>
-        <td>${clients.phone_number}</td>
-        <td>${clients.email_address}</td>
+        <td>${clients.phoneNumber}</td>
+        <td>${clients.emailAddress}</td>
         <td>${clients.clientNumberReadyToWorkStatus}</td>
         <td>
             <security:authorize access="hasRole('control')">

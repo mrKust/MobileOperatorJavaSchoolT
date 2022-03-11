@@ -19,22 +19,22 @@
 
         <form:hidden path="client.id"/>
         <form:hidden path="client.userRole"/>
-        <form:hidden path="client.password_log_in"/>
+        <form:hidden path="client.passwordLogIn"/>
         <form:hidden path="operationType"/>
 
-        Name <form:input path="client.first_name" readonly="true"/>
+        Name <form:input path="client.firstName" readonly="true"/>
         <br><br>
         Surname <form:input path="client.surname" readonly="true"/>
         <br><br>
-        Date of birth: <form:input type="text" path="client.date_of_birth" readonly="true"/>
+        Date of birth: <form:input type="text" path="client.dateOfBirth" readonly="true"/>
         <br><br>
-        Passport_number <form:input path="client.passport_number" readonly="true"/>
+        Passport_number <form:input path="client.passportNumber" readonly="true"/>
         <br><br>
         Address <form:input path="client.address" readonly="true"/>
         <br><br>
-        Phone number <form:input path="client.phone_number" readonly="true"/>
+        Phone number <form:input path="client.phoneNumber" readonly="true"/>
         <br><br>
-        email <form:input path="client.email_address" readonly="true"/>
+        email <form:input path="client.emailAddress" readonly="true"/>
         <br><br>
         Ready to work status <form:input path="client.clientNumberReadyToWorkStatus" readonly="true"/>
         Role of user who blocked number <form:input path="client.roleOfUserWhoBlockedNumber" readonly="true"/>

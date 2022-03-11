@@ -32,7 +32,7 @@ public class ClientDaoImpl implements Dao<Client> {
         Client client = null;
         Session session = sessionFactory.getCurrentSession();
 
-        Query query = session.createQuery("from Client where email_address=:email");
+        Query query = session.createQuery("from Client where emailAddress=:email");
         query.setParameter("email", email);
 
         client = (Client) query.getSingleResult();

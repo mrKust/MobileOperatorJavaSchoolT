@@ -32,7 +32,7 @@ public class TariffDaoImpl implements Dao<Tariff> {
         Tariff tariff = null;
         Session session = sessionFactory.getCurrentSession();
 
-        Query query = session.createQuery("from Tariff where tariff_name=:name");
+        Query query = session.createQuery("from Tariff where tariffName=:name");
         query.setParameter("name", name);
 
         tariff = (Tariff) query.getSingleResult();

@@ -16,7 +16,7 @@
     <br><br>
     Client <select name="stringsClients">
     <c:forEach var="client" items="${clientsList}">
-        <option value="${client.id}" label="${client.phone_number} ${client.surname} ${client.email_address}">
+        <option value="${client.id}" label="${client.phoneNumber} ${client.surname} ${client.emailAddress}">
     </c:forEach>
 </select>
 
@@ -24,7 +24,7 @@
     Client's tariff <select name="stringsTariff">
     <c:forEach var="tariff" items="${tariffsList}">
         <c:if test="${tariff.availableToConnectOrNotStatus eq true}">
-        <option value="${tariff.id}" label="${tariff.tariff_name}">
+        <option value="${tariff.id}" label="${tariff.tariffName}">
         </c:if>
 
     </c:forEach>
