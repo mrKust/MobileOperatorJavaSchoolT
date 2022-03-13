@@ -14,8 +14,11 @@ import java.util.List;
 @Repository
 public class ClientDaoImpl implements Dao<Client> {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    ClientDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Client get(int id) {

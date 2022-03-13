@@ -13,8 +13,11 @@ import java.util.List;
 @Repository
 public class NumberDaoImpl implements Dao<Number> {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    NumberDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Number get(int id) {

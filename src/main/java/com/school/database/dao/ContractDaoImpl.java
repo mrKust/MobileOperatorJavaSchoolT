@@ -14,8 +14,11 @@ import java.util.List;
 public class ContractDaoImpl implements Dao<Contract> {
 
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    ContractDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Contract get(int id) {

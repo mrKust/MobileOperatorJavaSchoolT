@@ -1,8 +1,6 @@
 package com.school.database.dao;
 
-import com.school.database.dao.Dao;
 import com.school.database.entity.Tariff;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,11 @@ import java.util.List;
 @Repository
 public class TariffDaoImpl implements Dao<Tariff> {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    TariffDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Tariff get(int id) {

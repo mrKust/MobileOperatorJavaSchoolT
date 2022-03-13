@@ -12,8 +12,11 @@ import java.util.List;
 @Repository
 public class OptionsDaoImpl implements Dao<Options> {
 
-    @Autowired
     private SessionFactory sessionFactory;
+
+    OptionsDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Options get(int id) {
