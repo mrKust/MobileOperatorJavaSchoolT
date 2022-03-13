@@ -8,17 +8,20 @@
 <jsp:include page="../common/header.jsp"/>
 <h2>Option info</h2>
 <br>
-<form:form action="/common/saveOption" modelAttribute="options">
+<form:form action="/common/saveOption" modelAttribute="model">
 
-    <form:hidden path="id"/>
+    <form:hidden path="options.id"/>
+    <form:hidden path="options.optionType.id"/>
 
-     Name <form:input path="optionsName" readonly="true"/>
+    Name <form:input path="options.optionsName" readonly="true"/>
     <br><br>
-     Price <form:input path="price" readonly="true"/>
+    Price <form:input path="options.price" readonly="true"/>
     <br><br>
-     Cost to add <form:input path="costToAdd" readonly="true"/>
+    Cost to add <form:input path="options.costToAdd" readonly="true"/>
     <br><br>
-     Available to connect <form:input path="availableOptionToConnectOrNot" readonly="true"/>
+    Option category <form:input path="options.optionType.optionType" readonly="true"/>
+    <br><br>
+    Available to connect <form:input path="options.availableOptionToConnectOrNot" readonly="true"/>
     <br><br>
     <input type="submit", value="Confirm"/>
 </form:form>

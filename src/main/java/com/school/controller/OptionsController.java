@@ -1,6 +1,8 @@
 package com.school.controller;
 
+import com.school.database.entity.OptionType;
 import com.school.database.entity.Options;
+import com.school.dto.OptionsDto;
 import com.school.service.ServiceMVC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,11 +17,12 @@ import java.util.List;
 public class OptionsController {
 
     private final ServiceMVC<Options> optionsServiceMVC;
+    private final ServiceMVC<OptionType> optionTypeServiceMVC;
 
-    OptionsController(ServiceMVC<Options> optionsServiceMVC) {
+    OptionsController(ServiceMVC<Options> optionsServiceMVC, ServiceMVC<OptionType> optionTypeServiceMVC) {
         this.optionsServiceMVC = optionsServiceMVC;
+        this.optionTypeServiceMVC = optionTypeServiceMVC;
     }
-
     @RequestMapping("/common/allOptions")
     public String showAllOptions(Model model) {
 
@@ -32,15 +35,25 @@ public class OptionsController {
     @RequestMapping("/control/addNewOption")
     public String addNewOption(Model model) {
 
-        Options options = new Options();
-        model.addAttribute("options", options);
+        OptionsDto optionsDto = new OptionsDto();
+        optionsDto.setOptions(new Options());
+        model.addAttribute("optionsCategory", optionTypeServiceMVC.getAll());
+        model.addAttribute("model", optionsDto);
         return "control/add-option-info-control-form";
     }
 
     @RequestMapping("/common/saveOption")
-    public String saveOption(@ModelAttribute("options") Options option) {
+    public String saveOption(@ModelAttribute("model") OptionsDto optionsDto) {
 
-        optionsServiceMVC.save(option);
+        if (optionsDto.getStringOptionCategory() != null) {
+
+            String[] choosenOptionType = optionsDto.getStringOptionCategory();
+            OptionType optionType = optionTypeServiceMVC.get(
+                    Integer.parseInt(choosenOptionType[0]));
+            optionsDto.getOptions().setOptionType(optionType);
+        }
+
+        optionsServiceMVC.save(optionsDto.getOptions());
 
         return "redirect:/common/allOptions";
     }
@@ -48,8 +61,9 @@ public class OptionsController {
     @RequestMapping("/control/updateOption")
     public String controlUpdateOption(@RequestParam("optionId") int id, Model model) {
 
-        Options options = optionsServiceMVC.get(id);
-        model.addAttribute("options", options);
+        OptionsDto optionsDto = new OptionsDto();
+        optionsDto.setOptions(optionsServiceMVC.get(id));
+        model.addAttribute("model", optionsDto);
 
         return "control/update-option-info-control-form";
     }
@@ -65,8 +79,9 @@ public class OptionsController {
     @RequestMapping("/client/updateOption")
     public String clientUpdateOption(@RequestParam("optionId") int id, Model model) {
 
-        Options options = optionsServiceMVC.get(id);
-        model.addAttribute("options", options);
+        OptionsDto optionsDto = new OptionsDto();
+        optionsDto.setOptions(optionsServiceMVC.get(id));
+        model.addAttribute("model", optionsDto);
 
         return "client/option-info-client-form";
     }

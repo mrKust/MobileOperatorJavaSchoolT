@@ -60,6 +60,12 @@ public class Options {
     @Setter
     private boolean availableOptionToConnectOrNot;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "option_type_id")
+    @Getter
+    @Setter
+    private OptionType optionType;
+
     public Options(String optionsName, int price, int costToAdd, boolean availableOptionToConnectOrNot) {
         this.optionsName = optionsName;
         this.price = price;

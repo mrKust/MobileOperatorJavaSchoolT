@@ -15,52 +15,57 @@
         <th>Cost to add</th>
         <th>Available to Connect</th>
         <security:authorize access="hasRole('control')">
-            <th>Operations</th>
+        <th>Operations</th>
         </security:authorize>
 
         <c:forEach var="options" items="${allOptions}">
 
-            <c:url var="controlUpdateButton" value="/control/updateOption">
-                <c:param name="optionId" value="${options.id}"/>
-            </c:url>
+        <c:url var="controlUpdateButton" value="/control/updateOption">
+            <c:param name="optionId" value="${options.id}"/>
+        </c:url>
 
-            <c:url var="deleteButton" value="/control/deleteOption">
-                <c:param name="optionId" value="${options.id}"/>
-            </c:url>
+        <c:url var="deleteButton" value="/control/deleteOption">
+            <c:param name="optionId" value="${options.id}"/>
+        </c:url>
 
-            <c:url var="clientUpdateButton" value="/client/updateOption">
-                <c:param name="optionId" value="${options.id}"/>
-            </c:url>
+        <c:url var="clientUpdateButton" value="/client/updateOption">
+            <c:param name="optionId" value="${options.id}"/>
+        </c:url>
 
-            <tr>
-                <td>${options.optionsName}</td>
-                <td>${options.price}</td>
-                <td>${options.costToAdd}</td>
-                <td>${options.availableOptionToConnectOrNot}</td>
-                <td>
-                    <security:authorize access="hasRole('control')">
-                        <input type="button" value="Update"
-                            onclick="window.location.href = '${controlUpdateButton}'"/>
-                        <input type="button" value="Delete"
-                            onclick="window.location.href = '${deleteButton}'"/>
-                    </security:authorize>
-                    <security:authorize access="hasRole('client')">
-                        <input type="button" value="Show external info"
-                               onclick="window.location.href = '${clientUpdateButton}'"/>
-                    </security:authorize>
-                </td>
-            </tr>
+    <tr>
+        <td>${options.optionsName}</td>
+        <td>${options.price}</td>
+        <td>${options.costToAdd}</td>
+        <td>${options.availableOptionToConnectOrNot}</td>
+        <td>
+            <security:authorize access="hasRole('control')">
+                <input type="button" value="Update"
+                       onclick="window.location.href = '${controlUpdateButton}'"/>
+                <input type="button" value="Delete"
+                       onclick="window.location.href = '${deleteButton}'"/>
+            </security:authorize>
+            <security:authorize access="hasRole('client')">
+                <input type="button" value="Show external info"
+                       onclick="window.location.href = '${clientUpdateButton}'"/>
+            </security:authorize>
+        </td>
+    </tr>
 
-        </c:forEach>
+    </c:forEach>
     </tr>
 </table>
 
 <br>
 
 <security:authorize access="hasRole('control')">
-<input type="button" value="Add"
-    onclick="window.location.href = '/control/addNewOption'"/>
+    <input type="button" value="Add"
+           onclick="window.location.href = '/control/addNewOption'"/>
+    <input type="button" value="Add new option category"
+           onclick="window.location.href = '/control/addNewOptionCategory'"/>
+    <input type="button" value="Show all options categories"
+           onclick="window.location.href = '/control/allOptionCategories'"/>
 </security:authorize>
 
 </body>
 </html>
+
