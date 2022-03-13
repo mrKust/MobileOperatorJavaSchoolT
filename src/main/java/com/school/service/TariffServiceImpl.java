@@ -19,31 +19,26 @@ public class TariffServiceImpl  implements ServiceMVC<Tariff>{
     }
 
     @Override
-    @Transactional
     public List<Tariff> getAll() {
         return tariffDao.getAll();
     }
 
     @Override
-    @Transactional
     public void save(Tariff tariff) {
         tariffDao.save(tariff);
     }
 
     @Override
-    @Transactional
     public Tariff get(int id) {
         return tariffDao.get(id);
     }
 
     @Override
-    @Transactional
     public Tariff getByName(String name) {
         return tariffDao.getByName(name);
     }
 
     @Override
-    @Transactional
     public void delete(int id) {
         tariffDao.delete(id);
     }

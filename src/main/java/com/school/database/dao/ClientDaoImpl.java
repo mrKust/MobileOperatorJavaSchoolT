@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -22,36 +23,31 @@ public class ClientDaoImpl implements Dao<Client> {
 
     @Override
     public Client get(int id) {
-        Client client = null;
 
         Session session = sessionFactory.getCurrentSession();
-        client = session.get(Client.class, id);
+        return session.get(Client.class, id);
 
-        return client;
     }
 
     @Override
     public Client getByName(String email) {
-        Client client = null;
+
         Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("from Client where emailAddress=:email");
         query.setParameter("email", email);
 
-        client = (Client) query.getSingleResult();
+        return  (Client) query.getSingleResult();
 
-        return client;
     }
 
     @Override
     public List<Client> getAll() {
-        List<Client> result = null;
 
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from Client ", Client.class);
-        result = query.getResultList();
+        return query.getResultList();
 
-        return result;
     }
 
     @Override
@@ -62,35 +58,9 @@ public class ClientDaoImpl implements Dao<Client> {
 
     }
 
-    /*@Override
-    public void update(Client client, String[] params) {
-        try (Session session = sessionFactory.openSession()) {
-
-            if(client != null){
-                client.setFirst_name(params[0]);
-                client.setSurname(params[1]);
-                String[] date = params[2].split("-");
-                client.setDate_of_birth(new java.sql.Date(new GregorianCalendar
-                        (Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2])).getTime().getTime()));
-                client.setPassport_number(params[3]);
-                client.setAddress(params[4]);
-                client.setPhone_number(params[5]);
-                client.setEmail_address(params[6]);
-                client.setPassword_log_in(params[7]);
-                client.setClientNumberBlockStatus(Boolean.parseBoolean(params[8]));
-                client.setUserRole(params[9]);
-                client.setRoleOfUserWhoBlockedNumber(params[10]);
-                session.beginTransaction();
-                session.update(client);
-                session.getTransaction().commit();
-            }
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
-    }*/
-
    @Override
     public void delete(int clientId) {
+
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete from Client " +
                 "where id =:clientId");
