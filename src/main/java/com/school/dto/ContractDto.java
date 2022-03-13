@@ -1,15 +1,14 @@
 package com.school.dto;
 
-import com.school.database.entity.Client;
-import com.school.database.entity.Contract;
-import com.school.database.entity.Options;
-import com.school.database.entity.Tariff;
+import com.school.database.entity.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor
 public class ContractDto {
@@ -83,4 +82,20 @@ public class ContractDto {
         return result;
     }
 
+    public boolean checkChosenOptionForCorrect (List<Options> chosenOptions) {
+        Map<Integer, Integer> optionTypeCount = new HashMap<>();
+        for (Options tmp : chosenOptions) {
+            Integer count = optionTypeCount.get(tmp.getOptionType().getId());
+            optionTypeCount.put(tmp.getOptionType().getId(), count == null ? 1 : count + 1);
+
+        }
+
+        for (Map.Entry<Integer, Integer> entry : optionTypeCount.entrySet()) {
+            if (entry.getValue() > 1 )
+                return false;
+        }
+
+
+        return true;
+    }
 }

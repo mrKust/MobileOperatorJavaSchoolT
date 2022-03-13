@@ -8,13 +8,14 @@
 <jsp:include page="../common/header.jsp"/>
 <h2>Tariff info</h2>
 <br>
-<form:form action="/common/allTariffs" modelAttribute="tariffs">
+<form:form action="/common/allTariffs" modelAttribute="model">
 
-    <form:hidden path="id"/>
+    <form:hidden path="tariff.id"/>
+    <form:hidden path="operationType"/>
 
-    Name <form:input path="tariffName" readonly="true"/>
+    Name <form:input path="tariff.tariffName" readonly="true"/>
     <br><br>
-    Price <form:input path="price" readonly="true"/>
+    Price <form:input path="tariff.price" readonly="true"/>
     <br><br>
     Available options for this tariff
     <table>
@@ -25,7 +26,7 @@
         </c:forEach>
     </table>
     <br><br>
-    This tariff available for connect <form:input path="availableToConnectOrNotStatus" readonly="true"/>
+    This tariff available for connect <form:input path="tariff.availableToConnectOrNotStatus" readonly="true"/>
     <br><br>
     <input type="submit", value="Confirm"/>
 </form:form>

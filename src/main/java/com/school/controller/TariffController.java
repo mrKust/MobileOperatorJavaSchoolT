@@ -40,6 +40,7 @@ public class TariffController {
         List<Options> optionsList = optionsServiceMVC.getAll();
         TariffDto tmp = new TariffDto();
         tmp.setTariff(new Tariff());
+        tmp.setOperationType("add");
         model.addAttribute("optionsList", optionsList);
         model.addAttribute("model", tmp);
 
@@ -50,7 +51,10 @@ public class TariffController {
     public String saveTariff(@ModelAttribute("model") TariffDto tariffDto) {
 
         Tariff tariff = tariffDto.getTariff();
-        tariff.setOptions(tariffDto.wrapStringsToList(optionsServiceMVC.getAll()));
+        if (tariffDto.getOperationType().equals("update")) {
+
+            tariff.setOptions(tariffDto.wrapStringsToList(optionsServiceMVC.getAll()));
+        }
 
         tariffServiceMVC.save(tariff);
 
@@ -63,6 +67,7 @@ public class TariffController {
         List<Options> optionsList = optionsServiceMVC.getAll();
         TariffDto tmp = new TariffDto();
         tmp.setTariff(tariffServiceMVC.get(id));
+        tmp.setOperationType("update");
         List<Options> connectedOptionsList = tmp.getTariff().getOptions();
         model.addAttribute("connectedOptionsList", connectedOptionsList);
         model.addAttribute("optionsList", optionsList);
@@ -82,10 +87,12 @@ public class TariffController {
     @RequestMapping("/client/updateTariff")
     public String clientUpdateTariff(@RequestParam("tariffId") int id, Model model) {
 
-        Tariff tariff = tariffServiceMVC.get(id);
-        List<Options> availableOptions = tariff.getOptions();
+        TariffDto tariffDto = new TariffDto();
+        tariffDto.setTariff(tariffServiceMVC.get(id));
+        tariffDto.setOperationType("update");
+        List<Options> availableOptions = tariffDto.getTariff().getOptions();
         model.addAttribute("optionsList", availableOptions);
-        model.addAttribute("tariffs", tariff);
+        model.addAttribute("model", tariffDto);
 
         return "client/tariff-info-client-form";
     }

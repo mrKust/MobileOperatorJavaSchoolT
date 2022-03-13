@@ -56,7 +56,8 @@ public class ContractController {
     }
 
     @RequestMapping("/common/saveContract")
-    public String saveContract(@ModelAttribute("model") ContractDto contractDto, HttpServletRequest request) {
+    public String saveContract(@ModelAttribute("model") ContractDto contractDto, HttpServletRequest request, Model model, Principal principal) {
+
 
         Contract contract = contractDto.getContract();
         if (contractDto.getStringsTariff() != null) {
@@ -69,10 +70,22 @@ public class ContractController {
             contract.setContractClient(contractDto.wrapStringsToClient(clientServiceMVC.getAll()));
         }
 
-        if (contractDto.getStringsOptions() != null) {
-            contract.setConnectedOptions(contractDto.wrapStringsToConnectedOptions(contract.getContractTariff().getOptions()));
-        }  else if (contractDto.getOperationType().equals("update")) {
-            contract.setConnectedOptions(contractDto.wrapStringsToConnectedOptions(contract.getContractTariff().getOptions()));
+        List<Options> chosenOptions = contractDto.wrapStringsToConnectedOptions(contract.getContractTariff().getOptions());
+        if (contractDto.checkChosenOptionForCorrect(chosenOptions)) {
+            if (contractDto.getStringsOptions() != null) {
+                contract.setConnectedOptions(chosenOptions);
+            } else if (contractDto.getOperationType().equals("update")) {
+                contract.setConnectedOptions(contractDto.wrapStringsToConnectedOptions(chosenOptions));
+            }
+        } else {
+            if (request.isUserInRole("ROLE_control")) {
+                model.addAttribute("contractId", contractDto.getContract().getId());
+                return "redirect:/control/updateContract";
+            }
+            else {
+                model.addAttribute(principal);
+                return "redirect:/client/updateContract";
+            }
         }
 
         contractServiceMVC.save(contract);

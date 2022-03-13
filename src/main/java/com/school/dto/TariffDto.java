@@ -20,6 +20,10 @@ public class TariffDto {
     @Setter
     private String[] stringsOptions;
 
+    @Getter
+    @Setter
+    private String operationType;
+
     public List<Options> wrapStringsToList(List<Options> allOptions) {
         List<Options> result = new ArrayList<>();
 

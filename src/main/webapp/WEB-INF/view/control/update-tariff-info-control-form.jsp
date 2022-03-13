@@ -11,6 +11,7 @@
 <form:form action="/common/saveTariff" modelAttribute="model">
 
     <form:hidden path="tariff.id"/>
+    <form:hidden path="operationType"/>
 
     Name <form:input path="tariff.tariffName"/>
     <br><br>

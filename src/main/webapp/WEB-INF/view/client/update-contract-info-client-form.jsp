@@ -52,7 +52,7 @@
             <br><br>
             <table>
                 <c:forEach var="option" items="${availableForTariffOptionsList}">
-                    <tr id=${option.id}><td>${option.optionsName}</td>
+                    <tr id=${option.id}><td>Category: ${option.optionType.optionType} Name: ${option.optionsName}</td>
                         <td>
                             <c:set var="contains" value="false" />
                             <c:if test="${fn:length(connectedOptionsList)>0}">
