@@ -30,6 +30,7 @@
         <form:hidden path="client.id"/>
         <form:hidden path="client.userRole"/>
         <form:hidden path="operationType"/>
+        <form:hidden path="client.passwordLogIn"/>
 
         Name <form:input path="client.firstName"/>
         <br><br>
@@ -59,7 +60,7 @@
         <br><br>
         email <form:input path="client.emailAddress" readonly="true"/>
         <br><br>
-        password <form:input path="client.passwordLogIn"/>
+        password <form:input path="passwordString"/>
         <br><br>
         Ready to work status <form:input path="client.clientNumberReadyToWorkStatus" readonly="true"/>
         Role of the user who block number <form:input path="client.roleOfUserWhoBlockedNumber" readonly="true"/>

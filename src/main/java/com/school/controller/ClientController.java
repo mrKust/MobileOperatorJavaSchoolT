@@ -70,14 +70,22 @@ public class ClientController {
         if ( (clientDto.getOperationType() != null) && (clientDto.getOperationType().equals("add")) ) {
             String roleCast = clientDto.getClient().getUserRole().replace(",", "");
             clientDto.getClient().setUserRole(roleCast);
-            if (clientDto.getClient().getUserRole().equals("client"))
+            if (clientDto.getClient().getUserRole().equals("client")) {
                 number = numberServiceMVC.getByName(clientDto.getClient().getPhoneNumber());
                 number.setAvailableToConnectStatus(false);
                 numberServiceMVC.save(number);
+            }
+
+            String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getClient().getPasswordLogIn());
+            clientDto.getClient().setPasswordLogIn(encodedPassword);
         }
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getClient().getPasswordLogIn());
-        clientDto.getClient().setPasswordLogIn(encodedPassword);
+        if ((clientDto.getOperationType().equals("update")) && (clientDto.getPasswordString() != null)) {
+            String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getPasswordString());
+            if (!encodedPassword.equals(clientDto.getClient().getPasswordLogIn()))
+                clientDto.getClient().setPasswordLogIn(encodedPassword);
+        }
+
 
         clientServiceMVC.save(clientDto.getClient());
         if (request.isUserInRole("ROLE_control"))
@@ -145,6 +153,7 @@ public class ClientController {
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.getByName(principal.getName()));
         clientDto.setOperationType("update");
+        clientDto.setPasswordString(clientDto.getClient().getPasswordLogIn());
         model.addAttribute("model", clientDto);
 
         return "client/update-client-info-client-form";
