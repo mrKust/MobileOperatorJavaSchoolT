@@ -28,12 +28,6 @@
     </section>
 
 </main>
-
-<footer>
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-        Rick Astley
-    </a>
-
-</footer>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

@@ -34,5 +34,7 @@
 
 <input type="button" value="Add"
        onclick="window.location.href = '/control/addNewOptionCategory'"/>
+
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

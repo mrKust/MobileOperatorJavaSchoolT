@@ -7,6 +7,7 @@ import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.ContractDto;
 import com.school.service.ServiceMVC;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,8 @@ public class ContractController {
     private final ServiceMVC<Tariff> tariffServiceMVC;
 
     private final ServiceMVC<Client> clientServiceMVC;
+
+    private static final Logger LOG = Logger.getLogger(ContractController.class);
 
     ContractController(ServiceMVC<Contract> contractServiceMVC, ServiceMVC<Client> clientServiceMVC, ServiceMVC<Tariff> tariffServiceMVC) {
         this.contractServiceMVC = contractServiceMVC;
@@ -78,6 +81,7 @@ public class ContractController {
                 contract.setConnectedOptions(contractDto.wrapStringsToConnectedOptions(chosenOptions));
             }
         } else {
+            LOG.debug("User " + principal.getName() + " chose forbidden combination of options");
             if (request.isUserInRole("ROLE_control")) {
                 model.addAttribute("contractId", contractDto.getContract().getId());
                 return "redirect:/control/updateContract";
@@ -126,9 +130,18 @@ public class ContractController {
     @RequestMapping("/client/updateContract")
     public String clientUpdateContract(Principal principal, Model model) {
 
-        Contract contract = contractServiceMVC.get(
-                clientServiceMVC.getByName(principal.getName()).getContract().getId()
-        );
+        Contract contract = new Contract();
+
+        try {
+            contract = contractServiceMVC.get(
+                    clientServiceMVC.getByName(principal.getName()).getContract().getId()
+            );
+
+        } catch (NullPointerException exception) {
+            LOG.error("User " + principal.getName() + " try to get his contract, but contract " +
+                    "wasn't created");
+            return "redirect:/";
+        }
 
         List<Tariff> tariffList = tariffServiceMVC.getAll();
         ContractDto tmp = new ContractDto();

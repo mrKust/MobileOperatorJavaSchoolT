@@ -13,8 +13,12 @@
     </script>
 </head>
 <body>
+    <jsp:include page="../common/header.jsp"/>
+
     <form action="/control/searchByPhoneNumber">
         <input type="text" name="userPhoneNumber" id="tags"/>
         <input type="submit" value="Search" placeholder="input phone number"/>
     </form>
+
+    <jsp:include page="../common/footer.jsp"/>
 </body>

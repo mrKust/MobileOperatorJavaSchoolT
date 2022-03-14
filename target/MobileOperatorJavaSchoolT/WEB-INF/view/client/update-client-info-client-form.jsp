@@ -6,6 +6,8 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <title>Add new client</title>
@@ -27,7 +29,6 @@
 
         <form:hidden path="client.id"/>
         <form:hidden path="client.userRole"/>
-        <form:hidden path="client.passwordLogIn"/>
         <form:hidden path="operationType"/>
 
         Name <form:input path="client.firstName"/>
@@ -46,7 +47,7 @@
                     }
                 });
 
-                $( "#date_of_birth" ).datepicker();
+                $( "#client.dateOfBirth" ).datepicker();
             });
         </script>
         <br><br>
@@ -57,6 +58,8 @@
         Phone number <form:input path="client.phoneNumber" readonly="true"/>
         <br><br>
         email <form:input path="client.emailAddress" readonly="true"/>
+        <br><br>
+        password <form:input path="client.passwordLogIn"/>
         <br><br>
         Ready to work status <form:input path="client.clientNumberReadyToWorkStatus" readonly="true"/>
         Role of the user who block number <form:input path="client.roleOfUserWhoBlockedNumber" readonly="true"/>
@@ -78,6 +81,4 @@
         <input type="submit", value="Confirm"/>
     </form:form>
 </body>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </html>

@@ -39,5 +39,7 @@
 
 <input type="button" value="Add"
        onclick="window.location.href = '/control/addNewContract'"/>
+
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

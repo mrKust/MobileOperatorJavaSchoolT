@@ -101,5 +101,7 @@
     <input type="button" value="Confirm"
            onclick="window.location.href = '/control/allContracts'"/>
 </c:if>
+
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

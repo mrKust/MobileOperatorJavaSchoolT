@@ -44,4 +44,13 @@ public class ClientDto {
 
         return jsonArray.toJSONString();
     }
+
+    public boolean checkIsUserEmailUniqueOrNot(List<Client> allClients) {
+
+        for (Client tmp : allClients) {
+            if (tmp.getEmailAddress().equals(this.client.getEmailAddress()))
+                return false;
+        }
+        return true;
+    }
 }

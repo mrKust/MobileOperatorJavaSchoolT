@@ -4,7 +4,8 @@ import com.school.database.entity.Client;
 import com.school.database.entity.Number;
 import com.school.dto.ClientDto;
 import com.school.service.ServiceMVC;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.attribute.UserPrincipal;
 import java.security.Principal;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class ClientController {
     private final ServiceMVC<Client> clientServiceMVC;
 
     private final ServiceMVC<Number> numberServiceMVC;
+
+    private static final Logger LOG = Logger.getLogger(ClientController.class);
 
     ClientController(ServiceMVC<Client> clientServiceMVC, ServiceMVC<Number> numberServiceMVC) {
         this.clientServiceMVC = clientServiceMVC;
@@ -52,10 +56,28 @@ public class ClientController {
     @RequestMapping("/common/saveClient")
     public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request) {
 
-        if ( (clientDto.getOperationType() != null) && (clientDto.getOperationType().equals("add")) ) {
-            numberServiceMVC.getByName(clientDto.getClient()
-                    .getPhoneNumber()).setAvailableToConnectStatus(false);
+        if (clientDto.getOperationType().equals("add")) {
+
+            if (!clientDto.checkIsUserEmailUniqueOrNot(clientServiceMVC.getAll())) {
+                LOG.info("User try to add user with already defined " +
+                        "email address");
+                return "redirect:/control/addNewClient";
+            }
+
         }
+
+        Number number = null;
+        if ( (clientDto.getOperationType() != null) && (clientDto.getOperationType().equals("add")) ) {
+            String roleCast = clientDto.getClient().getUserRole().replace(",", "");
+            clientDto.getClient().setUserRole(roleCast);
+            if (clientDto.getClient().getUserRole().equals("client"))
+                number = numberServiceMVC.getByName(clientDto.getClient().getPhoneNumber());
+                number.setAvailableToConnectStatus(false);
+                numberServiceMVC.save(number);
+        }
+
+        String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getClient().getPasswordLogIn());
+        clientDto.getClient().setPasswordLogIn(encodedPassword);
 
         clientServiceMVC.save(clientDto.getClient());
         if (request.isUserInRole("ROLE_control"))
@@ -106,7 +128,12 @@ public class ClientController {
     public String deleteClient(@RequestParam("clientId") int id ) {
 
         Client client = clientServiceMVC.get(id);
-        numberServiceMVC.getByName(client.getPhoneNumber()).setAvailableToConnectStatus(true);
+        if (client.getUserRole().equals("client")) {
+            Number number = numberServiceMVC.getByName(client.getPhoneNumber());
+            number.setAvailableToConnectStatus(true);
+            numberServiceMVC.save(number);
+
+        }
         clientServiceMVC.delete(id);
 
         return "redirect:/control/allClients";

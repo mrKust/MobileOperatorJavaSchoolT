@@ -27,5 +27,7 @@
     <br><br>
     <input type="submit", value="Confirm"/>
 </form:form>
+
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

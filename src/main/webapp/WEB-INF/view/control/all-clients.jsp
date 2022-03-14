@@ -14,6 +14,7 @@
         <th>Client's surname</th>
         <th>Mobile number</th>
         <th>email</th>
+        <th>User's role</th>
         <th>Ready to work status</th>
         <th>Operations</th>
 
@@ -40,6 +41,7 @@
         <td>${clients.surname}</td>
         <td>${clients.phoneNumber}</td>
         <td>${clients.emailAddress}</td>
+        <td>${clients.userRole}</td>
         <td>${clients.clientNumberReadyToWorkStatus}</td>
         <td>
             <security:authorize access="hasRole('control')">
@@ -68,5 +70,7 @@
 
 <input type="button" value="Add"
        onclick="window.location.href = '/control/addNewClient'"/>
+
+<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>
