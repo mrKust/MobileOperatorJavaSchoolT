@@ -59,6 +59,10 @@ public class ContractDto {
     public List<Options> wrapStringsToConnectedOptions(List<Options> allOptions) {
         List<Options> connectedOptions = new ArrayList<>();
 
+        if (this.stringsOptions == null) {
+            return connectedOptions;
+        }
+
         for (Options tmp : allOptions) {
             for (int i = 0; i < this.stringsOptions.length; i++) {
                 if (Integer.parseInt(this.stringsOptions[i]) == tmp.getId()) {

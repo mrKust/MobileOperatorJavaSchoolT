@@ -2,7 +2,6 @@ package com.school.advice;
 
 import com.school.customException.BusinessLogicException;
 import org.apache.log4j.Logger;
-import org.hibernate.HibernateException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -17,8 +16,8 @@ public class exceptionAdvice {
         return e.getRedirectUrl();
     }
 
-    @ExceptionHandler(HibernateException.class)
-    public String handleHibernateException(HibernateException e) {
+    @ExceptionHandler(Exception.class)
+    public String handleHibernateException(Exception e) {
         LOG.error(e.getMessage());
         return "redirect:/";
     }

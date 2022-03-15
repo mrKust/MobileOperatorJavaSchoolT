@@ -1,5 +1,6 @@
 com\school\configuration\SecurityInitializer.class
 com\school\controller\TariffController.class
+com\school\advice\exceptionAdvice.class
 com\school\database\entity\Options.class
 com\school\controller\OptionTypeController.class
 com\school\database\dao\NumberDaoImpl.class
@@ -9,6 +10,7 @@ com\school\service\TariffServiceImpl.class
 com\school\database\entity\OptionType.class
 com\school\database\dao\ClientDaoImpl.class
 com\school\service\OptionsServiceImpl.class
+com\school\customException\BusinessLogicException.class
 com\school\dto\ContractDto.class
 com\school\database\dao\OptionsDaoImpl.class
 com\school\aspect\LoggingAspect.class

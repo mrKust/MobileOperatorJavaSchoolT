@@ -1,5 +1,7 @@
 D:\Projects\MobileOperatorJavaSchoolT\src\main\java\com\school\database\dao\ClientDaoImpl.java
 D:\Projects\MobileOperatorJavaSchoolT\src\main\java\com\school\database\dao\TariffDaoImpl.java
+D:\Projects\MobileOperatorJavaSchoolT\src\main\java\com\school\advice\exceptionAdvice.java
+D:\Projects\MobileOperatorJavaSchoolT\src\main\java\com\school\customException\BusinessLogicException.java
 D:\Projects\MobileOperatorJavaSchoolT\src\main\java\com\school\database\entity\Options.java
 D:\Projects\MobileOperatorJavaSchoolT\src\main\java\com\school\database\entity\OptionType.java
 D:\Projects\MobileOperatorJavaSchoolT\src\main\java\com\school\service\ClientDetailService.java

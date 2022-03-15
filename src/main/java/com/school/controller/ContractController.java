@@ -72,6 +72,7 @@ public class ContractController {
             contract.setContractClient(contractDto.wrapStringsToClient(clientServiceMVC.getAll()));
         }
 
+
         List<Options> chosenOptions = contractDto.wrapStringsToConnectedOptions(contract.getContractTariff().getOptions());
 
         if (!contractDto.checkChosenOptionForCorrect(chosenOptions)) {
