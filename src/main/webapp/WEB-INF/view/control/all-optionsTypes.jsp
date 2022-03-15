@@ -1,40 +1,48 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-<title>Options type list</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <title>Options type list</title>
+</head>
+
 <body>
-<jsp:include page="../common/header.jsp"/>
-<h2>All options types</h2>
-<br>
+    <jsp:include page="../common/header.jsp"/>
+    <h3>All options types</h3>
 
-<table>
-    <tr>
-        <th>Option category's id</th>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="optionsType" items="${allOptionsType}">
 
-        <c:forEach var="optionsType" items="${allOptionsType}">
+                <c:url var="deleteButton" value="/control/deleteOptionType">
+                    <c:param name="optionsTypeId" value="${optionsType.id}"/>
+                </c:url>
 
-        <c:url var="deleteButton" value="/control/deleteOptionType">
-            <c:param name="optionsTypeId" value="${optionsType.id}"/>
-        </c:url>
+                <tr>
+                    <th scope="row">${optionsType.optionType}</th>
+                    <td>
+                        <button type="button" class="btn btn-danger"
+                            onclick="window.location.href = '${deleteButton}'">Delete</button>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <br>
+        <button type="button" class="btn btn-primary"
+                onclick="window.location.href = '/control/addNewOptionCategory'">Add</button>
+    </div>
 
-    <tr>
-        <td>${optionsType.id}</td>
-        <td>${optionsType.optionType}</td>
-        <td>
-            <input type="button" value="Delete"
-                   onclick="window.location.href = '${deleteButton}'"/>
-        </td>
-    </tr>
-
-    </c:forEach>
-    </tr>
-</table>
-
-<br>
-
-<input type="button" value="Add"
-       onclick="window.location.href = '/control/addNewOptionCategory'"/>
-
-<jsp:include page="../common/footer.jsp"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

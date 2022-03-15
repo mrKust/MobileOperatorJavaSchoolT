@@ -110,6 +110,7 @@ public class ClientController {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(id));
+        clientDto.setOperationType("lock");
         clientDto.getClient().setClientNumberReadyToWorkStatus(false);
         if (request.isUserInRole("ROLE_control")) {
             clientDto.getClient().setRoleOfUserWhoBlockedNumber("control");
@@ -126,6 +127,7 @@ public class ClientController {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(id));
+        clientDto.setOperationType("unlock");
         clientDto.getClient().setClientNumberReadyToWorkStatus(true);
         clientDto.getClient().setRoleOfUserWhoBlockedNumber(null);
         model.addAttribute("model", clientDto);

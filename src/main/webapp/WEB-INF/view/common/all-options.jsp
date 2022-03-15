@@ -2,70 +2,78 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
-<title>Options List</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <title>Options List</title>
+</head>
+
 <body>
-<jsp:include page="header.jsp"/>
-<h2>All Options</h2>
-<br>
+    <jsp:include page="header.jsp"/>
+    <h3>All Options</h3>
 
-<table>
-    <tr>
-        <th>Option's name</th>
-        <th>Price</th>
-        <th>Cost to add</th>
-        <th>Available to Connect</th>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Option's name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Cost to add</th>
+                <th scope="col">Available to Connect</th>
+                <security:authorize access="hasRole('control')">
+                    <th scope="col">Operations</th>
+                </security:authorize>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="options" items="${allOptions}">
+
+                <c:url var="controlUpdateButton" value="/control/updateOption">
+                    <c:param name="optionId" value="${options.id}"/>
+                </c:url>
+
+                <c:url var="deleteButton" value="/control/deleteOption">
+                    <c:param name="optionId" value="${options.id}"/>
+                </c:url>
+
+                <c:url var="clientUpdateButton" value="/client/updateOption">
+                    <c:param name="optionId" value="${options.id}"/>
+                </c:url>
+                <tr>
+                    <th scope="row">${options.optionsName}</th>
+                    <td>${options.price}</td>
+                    <td>${options.costToAdd}</td>
+                    <td>${options.availableOptionToConnectOrNot}</td>
+                    <td>
+                        <security:authorize access="hasRole('control')">
+                            <button type="button" class="btn btn-secondary"
+                                    onclick="window.location.href = '${controlUpdateButton}'">Update</button>
+                            <button type="button" class="btn btn-danger"
+                                    onclick="window.location.href = '${deleteButton}'">Delete</button>
+                        </security:authorize>
+                        <security:authorize access="hasRole('client')">
+                            <button type="button" class="btn btn-info"
+                                    onclick="window.location.href = '${clientUpdateButton}'">Show external info</button>
+                        </security:authorize>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
         <security:authorize access="hasRole('control')">
-        <th>Operations</th>
+            <button type="button" class="btn btn-primary"
+                    onclick="window.location.href = '/control/addNewOption'">Add</button>
+            <button type="button" class="btn btn-secondary"
+                    onclick="window.location.href = '/control/addNewOptionCategory'">Add new option category</button>
+            <button type="button" class="btn btn-info"
+                    onclick="window.location.href = '/control/allOptionCategories'">Show all options categories</button>
         </security:authorize>
+    </div>
 
-        <c:forEach var="options" items="${allOptions}">
-
-        <c:url var="controlUpdateButton" value="/control/updateOption">
-            <c:param name="optionId" value="${options.id}"/>
-        </c:url>
-
-        <c:url var="deleteButton" value="/control/deleteOption">
-            <c:param name="optionId" value="${options.id}"/>
-        </c:url>
-
-        <c:url var="clientUpdateButton" value="/client/updateOption">
-            <c:param name="optionId" value="${options.id}"/>
-        </c:url>
-
-    <tr>
-        <td>${options.optionsName}</td>
-        <td>${options.price}</td>
-        <td>${options.costToAdd}</td>
-        <td>${options.availableOptionToConnectOrNot}</td>
-        <td>
-            <security:authorize access="hasRole('control')">
-                <input type="button" value="Update"
-                       onclick="window.location.href = '${controlUpdateButton}'"/>
-                <input type="button" value="Delete"
-                       onclick="window.location.href = '${deleteButton}'"/>
-            </security:authorize>
-            <security:authorize access="hasRole('client')">
-                <input type="button" value="Show external info"
-                       onclick="window.location.href = '${clientUpdateButton}'"/>
-            </security:authorize>
-        </td>
-    </tr>
-
-    </c:forEach>
-    </tr>
-</table>
-
-<br>
-
-<security:authorize access="hasRole('control')">
-    <input type="button" value="Add"
-           onclick="window.location.href = '/control/addNewOption'"/>
-    <input type="button" value="Add new option category"
-           onclick="window.location.href = '/control/addNewOptionCategory'"/>
-    <input type="button" value="Show all options categories"
-           onclick="window.location.href = '/control/allOptionCategories'"/>
-</security:authorize>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <jsp:include page="footer.jsp"/>
 </body>
 </html>
 
