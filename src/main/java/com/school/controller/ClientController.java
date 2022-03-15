@@ -1,5 +1,6 @@
 package com.school.controller;
 
+import com.school.customException.BusinessLogicException;
 import com.school.database.entity.Client;
 import com.school.database.entity.Number;
 import com.school.dto.ClientDto;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.file.attribute.UserPrincipal;
 import java.security.Principal;
 import java.util.List;
 
@@ -59,9 +59,8 @@ public class ClientController {
         if (clientDto.getOperationType().equals("add")) {
 
             if (!clientDto.checkIsUserEmailUniqueOrNot(clientServiceMVC.getAll())) {
-                LOG.info("User try to add user with already defined " +
-                        "email address");
-                return "redirect:/control/addNewClient";
+                throw new BusinessLogicException("User try to add user with already defined " +
+                        "email address", "redirect:/control/addNewClient");
             }
 
         }

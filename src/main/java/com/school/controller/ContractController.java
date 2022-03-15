@@ -1,14 +1,13 @@
 package com.school.controller;
 
+import com.school.customException.BusinessLogicException;
 import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
-import com.school.database.entity.Number;
 import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.ContractDto;
 import com.school.service.ServiceMVC;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -74,22 +73,27 @@ public class ContractController {
         }
 
         List<Options> chosenOptions = contractDto.wrapStringsToConnectedOptions(contract.getContractTariff().getOptions());
-        if (contractDto.checkChosenOptionForCorrect(chosenOptions)) {
-            if (contractDto.getStringsOptions() != null) {
-                contract.setConnectedOptions(chosenOptions);
-            } else if (contractDto.getOperationType().equals("update")) {
-                contract.setConnectedOptions(contractDto.wrapStringsToConnectedOptions(chosenOptions));
-            }
-        } else {
-            LOG.debug("User " + principal.getName() + " chose forbidden combination of options");
+
+        if (!contractDto.checkChosenOptionForCorrect(chosenOptions)) {
+
+            String exceptionMessage = "User " + principal.getName() + " chose forbidden combination of options";
             if (request.isUserInRole("ROLE_control")) {
-                model.addAttribute("contractId", contractDto.getContract().getId());
-                return "redirect:/control/updateContract";
+                throw new BusinessLogicException(exceptionMessage,
+                        "redirect:/control/updateContract?contractId=" +
+                                contractDto.getContract().getId());
             }
             else {
                 model.addAttribute(principal);
-                return "redirect:/client/updateContract";
+                throw new BusinessLogicException(exceptionMessage,
+                        "redirect:/client/updateContract?contractId=" +
+                                contractDto.getContract().getId());
             }
+        }
+
+        if (contractDto.getStringsOptions() != null) {
+            contract.setConnectedOptions(chosenOptions);
+        } else if (contractDto.getOperationType().equals("update")) {
+            contract.setConnectedOptions(contractDto.wrapStringsToConnectedOptions(chosenOptions));
         }
 
         contractServiceMVC.save(contract);
@@ -130,18 +134,15 @@ public class ContractController {
     @RequestMapping("/client/updateContract")
     public String clientUpdateContract(Principal principal, Model model) {
 
-        Contract contract = new Contract();
+        Client client = clientServiceMVC.getByName(principal.getName());
+        Contract contract = client.getContract();
 
-        try {
-            contract = contractServiceMVC.get(
-                    clientServiceMVC.getByName(principal.getName()).getContract().getId()
-            );
-
-        } catch (NullPointerException exception) {
-            LOG.error("User " + principal.getName() + " try to get his contract, but contract " +
-                    "wasn't created");
-            return "redirect:/";
+        if (contract == null) {
+            throw new BusinessLogicException("User " + principal.getName() +
+                    " try to get his contract, but contract " +
+                    "wasn't created", "redirect:/");
         }
+
 
         List<Tariff> tariffList = tariffServiceMVC.getAll();
         ContractDto tmp = new ContractDto();

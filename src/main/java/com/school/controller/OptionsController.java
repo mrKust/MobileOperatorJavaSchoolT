@@ -4,7 +4,6 @@ import com.school.database.entity.OptionType;
 import com.school.database.entity.Options;
 import com.school.dto.OptionsDto;
 import com.school.service.ServiceMVC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +22,7 @@ public class OptionsController {
         this.optionsServiceMVC = optionsServiceMVC;
         this.optionTypeServiceMVC = optionTypeServiceMVC;
     }
+
     @RequestMapping("/common/allOptions")
     public String showAllOptions(Model model) {
 
@@ -39,6 +39,7 @@ public class OptionsController {
         optionsDto.setOptions(new Options());
         model.addAttribute("optionsCategory", optionTypeServiceMVC.getAll());
         model.addAttribute("model", optionsDto);
+
         return "control/add-option-info-control-form";
     }
 

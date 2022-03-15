@@ -19,6 +19,7 @@
             <thead>
             <tr>
                 <th scope="col">Option's name</th>
+                <th scope="col">Category</th>
                 <th scope="col">Price</th>
                 <th scope="col">Cost to add</th>
                 <th scope="col">Available to Connect</th>
@@ -43,6 +44,7 @@
                 </c:url>
                 <tr>
                     <th scope="row">${options.optionsName}</th>
+                    <td>${options.optionType.optionType}</td>
                     <td>${options.price}</td>
                     <td>${options.costToAdd}</td>
                     <td>${options.availableOptionToConnectOrNot}</td>

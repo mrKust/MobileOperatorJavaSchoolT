@@ -61,7 +61,7 @@
             </tbody>
         </table>
         <security:authorize access="hasRole('control')">
-            <button type="button" value="Add"
+            <button type="button" class="btn btn-primary"
                     onclick="window.location.href = '/control/addNewTariff'">Add</button>
         </security:authorize>
     </div>

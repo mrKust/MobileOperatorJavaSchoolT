@@ -24,6 +24,7 @@ public class OptionTypeController {
 
     @RequestMapping("/control/allOptionCategories")
     public String showAllOptionsCategory(Model model) {
+
         List<OptionType> allOptionsType = optionTypeServiceMVC.getAll();
         model.addAttribute("allOptionsType", allOptionsType);
 
