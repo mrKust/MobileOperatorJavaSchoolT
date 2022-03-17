@@ -7,9 +7,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <title>Add new client</title>
 </head>
 
@@ -21,7 +20,6 @@
         <form:form action="/common/saveClient" modelAttribute="model">
 
             <form:hidden path="client.id"/>
-            <form:hidden path="client.userRole"/>
             <form:hidden path="client.roleOfUserWhoBlockedNumber"/>
             <form:hidden path="client.clientNumberReadyToWorkStatus"/>
             <form:hidden path="operationType"/>
@@ -32,23 +30,10 @@
                 <form:input aria-label="Last name" class="form-control" path="client.surname" placeholder="input Second name here"/>
             </div>
 
-            <%--datepicker place--%>
-
-            <%--Date of birth: <form:input type="text" path="client.dateOfBirth" />
-            <script>
-                id="selectedDtaeVal"
-                $(function() {
-                    $.datepicker.setDefaults({
-                        changeMonth: true,
-                        changeYear: true,
-                        onSelect:function(date, inst){
-                            $("#selectedDtaeVal").html(date);
-                        }
-                    });
-
-                    $( "#client.dateOfBirth" ).datepicker();
-                });
-            </script>--%>
+            <div class="mb-3">
+                <label for="client.dateOfBirth" class="form-label">Date of birth</label>
+                <form:input type="date" class="form-control" path="client.dateOfBirth" />
+            </div>
 
             <div class="mb-3">
                 <label for="client.passportNumber" class="form-label">Passport number</label>
@@ -62,15 +47,13 @@
 
             <div class="mb-3">
                 <label for="client.phoneNumber" class="form-label">Phone number</label>
-                <form:input class="form-control" path="client.phoneNumber" id="tags"/>
-                <script>
-                    $( function() {
-                        var availableTags = ${model.stringsNumbers};
-                        $( "#tags" ).autocomplete({
-                            source: availableTags
-                        });
-                    } );
-                </script>
+                <form:input class="form-control" type="text" path="client.phoneNumber" list="numbers"
+                            placeholder="Phone number"/>
+                <datalist id="numbers">
+                    <c:forEach var="num" items="${model.stringsNumbers}">
+                        <option value="${num}">
+                    </c:forEach>
+                </datalist>
             </div>
 
             <div class="mb-3">
@@ -105,7 +88,6 @@
         </form:form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

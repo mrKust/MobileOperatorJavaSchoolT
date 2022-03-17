@@ -48,17 +48,13 @@ public class ClientController {
         tmp.setOperationType("add");
         tmp.getClient().setClientNumberReadyToWorkStatus(true);
         List<Number> allNumbers = numberServiceMVC.getAll();
-        tmp.setStringsNumbers(tmp.wrapAvailableNumbersInJsonString(allNumbers));
+        tmp.setStringsNumbers(tmp.wrapAvailableNumbersInString(allNumbers));
         model.addAttribute("model", tmp);
         return "control/add-client-info-control-form";
     }
 
     @RequestMapping("/common/saveClient")
     public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request) {
-
-        if (!clientDto.getClient().getDateOfBirth().equals(clientDto.getBirthDateString())) {
-            clientDto.getClient().setDateOfBirth(clientDto.getBirthDateString());
-        }
 
         if (clientDto.getOperationType().equals("add")) {
 
@@ -158,7 +154,6 @@ public class ClientController {
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.getByName(principal.getName()));
         clientDto.setOperationType("update");
-        clientDto.setBirthDateString(clientDto.getBirthDateString());
         model.addAttribute("model", clientDto);
 
         return "client/update-client-info-client-form";
@@ -169,7 +164,7 @@ public class ClientController {
     public String getSearchData(Model model) {
 
         ClientDto clientDto = new ClientDto();
-        clientDto.setStringsNumbers(clientDto.wrapUsedNumbersInJsonString(numberServiceMVC.getAll()));
+        clientDto.setStringsNumbers(clientDto.wrapUsedNumbersInString(numberServiceMVC.getAll()));
         model.addAttribute("model", clientDto);
         return "control/input-number-for-search";
     }
