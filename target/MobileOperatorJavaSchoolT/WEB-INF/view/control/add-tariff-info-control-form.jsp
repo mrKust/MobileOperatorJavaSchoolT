@@ -1,39 +1,59 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-
 <html>
-<title>Tariff full info</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <title>Add new tariff</title>
+</head>
+
 <body>
-<jsp:include page="../common/header.jsp"/>
-<h2>Tariff info</h2>
-<br>
-<form:form action="/common/saveTariff" modelAttribute="model">
+    <jsp:include page="../common/header.jsp"/>
+    <h3>Add tariff info</h3>
 
-    <form:hidden path="tariff.id"/>
-    <form:hidden path="operationType"/>
+    <div class="container">
+        <form:form action="/common/saveTariff" modelAttribute="model">
 
-    Name <form:input path="tariff.tariffName"/>
-    <br><br>
-    Price <form:input path="tariff.price"/>
-    <br><br>
-    <table>
-        <c:forEach var="option" items="${optionsList}">
-            <c:if test="${option.availableOptionToConnectOrNot==true}">
-                <tr id=${option.id}><td>${option.optionsName}</td><td><form:checkbox path="stringsOptions" value="${option.id}" name="list"/></td>
-                </tr>
-            </c:if>
-        </c:forEach>
-    </table>
+            <form:hidden path="tariff.id"/>
+            <form:hidden path="operationType"/>
 
-    <br>
-    This tariff <form:select path="tariff.availableToConnectOrNotStatus">
-    <form:option value="true" label="Ready to connect"/>
-    <form:option value="false" label="Couldn't be connected"/>
-</form:select>
-    <br><br>
-    <input type="submit", value="Confirm"/>
-</form:form>
-<jsp:include page="../common/footer.jsp"/>
+            <div class="mb-3">
+                <label for="tariff.tariffName" class="form-label">Name</label>
+                <form:input class="form-control" path="tariff.tariffName" placeholder="input tariff name here"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="tariff.price" class="form-label">Price</label>
+                <form:input class="form-control" path="tariff.price" placeholder="input tariff price here"/>
+            </div>
+
+            <c:forEach var="option" items="${optionsList}">
+                <c:if test="${option.availableOptionToConnectOrNot==true}">
+                    <div class="form-check">
+                        <lable class="form-check-label">
+                            ${option.optionType.optionType} ${option.optionsName}
+                        </lable>
+                        <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
+                    </div>
+                </c:if>
+            </c:forEach>
+
+            <div class="form-check form-switch">
+                <label class="form-check-label">
+                    This tariff available to connect
+                </label>
+                <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus"/>
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="Confirm">
+
+        </form:form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

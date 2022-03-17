@@ -58,6 +58,7 @@
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
+
             <div class="form-check form-switch">
                 <label class="form-check-label">
                     This tariff available to connect

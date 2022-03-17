@@ -64,33 +64,6 @@
         </form:form>
     </div>
 
-    <%--<form:form action="/common/saveClient" modelAttribute="model">
-
-        <form:hidden path="client.id"/>
-        <form:hidden path="client.userRole"/>
-        <form:hidden path="client.passwordLogIn"/>
-        <form:hidden path="operationType"/>
-
-        Name <form:input path="client.firstName" readonly="true"/>
-        <br><br>
-        Surname <form:input path="client.surname" readonly="true"/>
-        <br><br>
-        Date of birth: <form:input type="text" path="client.dateOfBirth" readonly="true"/>
-        <br><br>
-        Passport_number <form:input path="client.passportNumber" readonly="true"/>
-        <br><br>
-        Address <form:input path="client.address" readonly="true"/>
-        <br><br>
-        Phone number <form:input path="client.phoneNumber" readonly="true"/>
-        <br><br>
-        email <form:input path="client.emailAddress" readonly="true"/>
-        <br><br>
-        Ready to work status <form:input path="client.clientNumberReadyToWorkStatus" readonly="true"/>
-        Role of user who blocked number <form:input path="client.roleOfUserWhoBlockedNumber" readonly="true"/>
-        <br><br>
-        <input type="submit", value="Confirm"/>
-    </form:form>--%>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <jsp:include page="../common/footer.jsp"/>
 </body>

@@ -2,75 +2,110 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-
 <html>
 <head>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <title>Add new client</title>
 </head>
 
-<title>Add new client</title>
-
 <body>
-<jsp:include page="../common/header.jsp"/>
-<h2>Client info</h2>
-<br>
-<form:form action="/common/saveClient" modelAttribute="model">
+    <jsp:include page="../common/header.jsp"/>
+    <h3>Add client info</h3>
 
-    <form:hidden path="client.id"/>
-    <form:hidden path="client.userRole"/>
-    <form:hidden path="client.roleOfUserWhoBlockedNumber"/>
-    <form:hidden path="client.clientNumberReadyToWorkStatus"/>
-    <form:hidden path="operationType"/>
+    <div class="container">
+        <form:form action="/common/saveClient" modelAttribute="model">
 
-    Name <form:input path="client.firstName"/>
-    <br><br>
-    Surname <form:input path="client.surname"/>
-    <br><br>
-    Date of birth: <form:input type="text" path="client.dateOfBirth" />
-    <script>
-        id="selectedDtaeVal"
-        $(function() {
-            $.datepicker.setDefaults({
-                changeMonth: true,
-                changeYear: true,
-                onSelect:function(date, inst){
-                    $("#selectedDtaeVal").html(date);
-                }
-            });
+            <form:hidden path="client.id"/>
+            <form:hidden path="client.userRole"/>
+            <form:hidden path="client.roleOfUserWhoBlockedNumber"/>
+            <form:hidden path="client.clientNumberReadyToWorkStatus"/>
+            <form:hidden path="operationType"/>
 
-            $( "#client.dateOfBirth" ).datepicker();
-        });
-    </script>
-    <br><br>
-    Passport_number <form:input path="client.passportNumber"/>
-    <br><br>
-    Address <form:input path="client.address"/>
-    <br><br>
-    Phone number <form:input path="client.phoneNumber" id="tags"/>
-    <script>
-        $( function() {
-            var availableTags = ${model.stringsNumbers};
-            $( "#tags" ).autocomplete({
-                source: availableTags
-            });
-        } );
-    </script>
-    <br><br>
-    email <form:input path="client.emailAddress"/>
-    <br><br>
-    password <form:input path="client.passwordLogIn"/>
-    <br><br>
-    User role <form:select path="client.userRole">
-    <form:option value="client" label="Client"/>
-    <form:option value="control" label="Control"/>
-</form:select>
+            <div class="input-group">
+                <span class="input-group-text">First and last name</span>
+                <form:input aria-label="First name" class="form-control" path="client.firstName" placeholder="input First name here"/>
+                <form:input aria-label="Last name" class="form-control" path="client.surname" placeholder="input Second name here"/>
+            </div>
 
-    <br><br>
-    <input type="submit", value="Confirm"/>
-</form:form>
+            <%--datepicker place--%>
+
+            <%--Date of birth: <form:input type="text" path="client.dateOfBirth" />
+            <script>
+                id="selectedDtaeVal"
+                $(function() {
+                    $.datepicker.setDefaults({
+                        changeMonth: true,
+                        changeYear: true,
+                        onSelect:function(date, inst){
+                            $("#selectedDtaeVal").html(date);
+                        }
+                    });
+
+                    $( "#client.dateOfBirth" ).datepicker();
+                });
+            </script>--%>
+
+            <div class="mb-3">
+                <label for="client.passportNumber" class="form-label">Passport number</label>
+                <form:input class="form-control" path="client.passportNumber"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="client.address" class="form-label">Home address</label>
+                <form:input class="form-control" path="client.address"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="client.phoneNumber" class="form-label">Phone number</label>
+                <form:input class="form-control" path="client.phoneNumber" id="tags"/>
+                <script>
+                    $( function() {
+                        var availableTags = ${model.stringsNumbers};
+                        $( "#tags" ).autocomplete({
+                            source: availableTags
+                        });
+                    } );
+                </script>
+            </div>
+
+            <div class="mb-3">
+                <label for="client.emailAddress" class="form-label">Email address</label>
+                <form:input type="email" class="form-control" path="client.emailAddress"/>
+            </div>
+
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="client.passwordLogIn" class="form-label">Password</label>
+                </div>
+                <div class="col-auto">
+                    <form:input type="password" class="form-control" path="client.passwordLogIn" aria-describedby="passwordHelpInline"/>
+                </div>
+                <div class="col-auto">
+                    <span id="passwordHelpInline" class="form-text">
+                        Must be less than 255 characters long.
+                    </span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Select role</label>
+                <form:select class="form-select" path="client.userRole">
+                    <form:option value="client" label="Client"/>
+                    <form:option value="control" label="Control"/>
+                </form:select>
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="Confirm">
+
+        </form:form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

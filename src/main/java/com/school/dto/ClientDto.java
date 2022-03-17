@@ -29,6 +29,10 @@ public class ClientDto {
     @Setter
     private String passwordString;
 
+    @Getter
+    @Setter
+    private String birthDateString;
+
     public String wrapAvailableNumbersInJsonString(List<Number> allNumbers) {
         JSONArray jsonArray = new JSONArray();
         for (Number tmp : allNumbers) {

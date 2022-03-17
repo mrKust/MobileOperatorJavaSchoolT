@@ -56,6 +56,10 @@ public class ClientController {
     @RequestMapping("/common/saveClient")
     public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request) {
 
+        if (!clientDto.getClient().getDateOfBirth().equals(clientDto.getBirthDateString())) {
+            clientDto.getClient().setDateOfBirth(clientDto.getBirthDateString());
+        }
+
         if (clientDto.getOperationType().equals("add")) {
 
             if (!clientDto.checkIsUserEmailUniqueOrNot(clientServiceMVC.getAll())) {
@@ -154,7 +158,7 @@ public class ClientController {
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.getByName(principal.getName()));
         clientDto.setOperationType("update");
-        clientDto.setPasswordString(clientDto.getClient().getPasswordLogIn());
+        clientDto.setBirthDateString(clientDto.getBirthDateString());
         model.addAttribute("model", clientDto);
 
         return "client/update-client-info-client-form";
