@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.aspectj.lang.annotation.Aspect;
 
@@ -14,16 +13,14 @@ public class LoggingAspect {
 
     private static final Logger LOG = Logger.getLogger(LoggingAspect.class);
 
-    @Around("execution(* com.school.database.dao.*.*(..))")
-    public Object aroundAllDaoMethodsAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
-        String methodName = methodSignature.getName();
+    @Around("execution(* com.school.controller.*.*(..))")
+    public Object aroundAllControllerMethodsAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-        LOG.trace("Begin of " + methodName);
+        LOG.info("Begin method " + proceedingJoinPoint.getSignature().getName());
 
         Object targetMethodResult = proceedingJoinPoint.proceed();
 
-        LOG.trace("End of " + methodName);
+        LOG.info("End method " + proceedingJoinPoint.getSignature().getName());
 
         return targetMethodResult;
     }

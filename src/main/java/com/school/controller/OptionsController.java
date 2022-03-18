@@ -24,7 +24,8 @@ public class OptionsController {
     }
 
     @RequestMapping("/common/allOptions")
-    public String showAllOptions(Model model) {
+    public String showAllOptions(Model model,
+                                 @ModelAttribute("errorMessage") String errorMessage) {
 
         List<Options> allOptions = optionsServiceMVC.getAll();
         model.addAttribute("allOptions", allOptions);
@@ -33,7 +34,8 @@ public class OptionsController {
     }
 
     @RequestMapping("/control/addNewOption")
-    public String addNewOption(Model model) {
+    public String addNewOption(Model model,
+                               @ModelAttribute("errorMessage") String errorMessage) {
 
         OptionsDto optionsDto = new OptionsDto();
         optionsDto.setOptions(new Options());
@@ -44,13 +46,14 @@ public class OptionsController {
     }
 
     @RequestMapping("/common/saveOption")
-    public String saveOption(@ModelAttribute("model") OptionsDto optionsDto) {
+    public String saveOption(@ModelAttribute("model") OptionsDto optionsDto,
+                             @ModelAttribute("errorMessage") String errorMessage) {
 
         if (optionsDto.getStringOptionCategory() != null) {
 
-            String[] choosenOptionType = optionsDto.getStringOptionCategory();
+            String[] chosenOptionType = optionsDto.getStringOptionCategory();
             OptionType optionType = optionTypeServiceMVC.get(
-                    Integer.parseInt(choosenOptionType[0]));
+                    Integer.parseInt(chosenOptionType[0]));
             optionsDto.getOptions().setOptionType(optionType);
         }
 
@@ -60,7 +63,8 @@ public class OptionsController {
     }
 
     @RequestMapping("/control/updateOption")
-    public String controlUpdateOption(@RequestParam("optionId") int id, Model model) {
+    public String controlUpdateOption(@RequestParam("optionId") int id, Model model,
+                                      @ModelAttribute("errorMessage") String errorMessage) {
 
         OptionsDto optionsDto = new OptionsDto();
         optionsDto.setOptions(optionsServiceMVC.get(id));
@@ -70,7 +74,8 @@ public class OptionsController {
     }
 
     @RequestMapping("/control/deleteOption")
-    public String deleteOption(@RequestParam("optionId") int id ) {
+    public String deleteOption(@RequestParam("optionId") int id,
+                               @ModelAttribute("errorMessage") String errorMessage) {
 
         optionsServiceMVC.delete(id);
 
@@ -78,7 +83,8 @@ public class OptionsController {
     }
 
     @RequestMapping("/client/updateOption")
-    public String clientUpdateOption(@RequestParam("optionId") int id, Model model) {
+    public String clientUpdateOption(@RequestParam("optionId") int id, Model model,
+                                     @ModelAttribute("errorMessage") String errorMessage) {
 
         OptionsDto optionsDto = new OptionsDto();
         optionsDto.setOptions(optionsServiceMVC.get(id));

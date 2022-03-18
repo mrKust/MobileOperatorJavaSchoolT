@@ -17,6 +17,11 @@
     <h3>Contract info</h3>
 
     <div class="container">
+
+        <jsp:include page="../common/error-text.jsp">
+            <jsp:param name="errorMessage" value="${errorMessage}"/>
+        </jsp:include>
+
         <form:form action="/common/saveContract" modelAttribute="model">
 
             <form:hidden path="contract.id"/>
@@ -24,7 +29,6 @@
             <form:hidden path="contract.contractClient.dateOfBirth"/>
             <form:hidden path="contract.contractClient.passportNumber"/>
             <form:hidden path="contract.contractClient.address"/>
-            <form:hidden path="contract.contractClient.passwordLogIn"/>
             <form:hidden path="contract.contractClient.clientNumberReadyToWorkStatus"/>
             <form:hidden path="contract.contractClient.userRole"/>
             <form:hidden path="contract.contractClient.roleOfUserWhoBlockedNumber"/>
@@ -35,27 +39,24 @@
 
             <div class="mb-3">
                 <label for="contract.contractClient.phoneNumber" class="form-label">Client's phone</label>
-                <form:input class="form-control" path="contract.contractClient.phoneNumber" readonly="true"/>
+                <form:input class="form-control" path="contract.contractClient.phoneNumber"
+                            type="tel" readonly="true" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"/>
             </div>
 
-            <div class="mb-3">
-                <label for="contract.contractClient.firstName" class="form-label">First name</label>
-                <form:input class="form-control" path="contract.contractClient.firstName" readonly="true"/>
-            </div>
-
-            <div class="mb-3">
-                <label for="contract.contractClient.surname" class="form-label">Surname</label>
-                <form:input class="form-control" path="contract.contractClient.surname" readonly="true"/>
+            <div class="input-group">
+                <span class="input-group-text">First and last name</span>
+                <form:input aria-label="First name" type="text" class="form-control" path="contract.contractClient.firstName" readonly="true"/>
+                <form:input aria-label="Last name" type="text" class="form-control" path="contract.contractClient.surname" readonly="true"/>
             </div>
 
             <div class="mb-3">
                 <label for="contract.contractClient.emailAddress" class="form-label">E-mail address</label>
-                <form:input class="form-control" path="contract.contractClient.emailAddress" readonly="true"/>
+                <form:input class="form-control" type="email" path="contract.contractClient.emailAddress" readonly="true"/>
             </div>
 
             <div class="mb-3">
                 <label for="contract.contractTariff.tariffName" class="form-label">Client's current tariff</label>
-                <form:input class="form-control" path="contract.contractTariff.tariffName" readonly="true"/>
+                <form:input class="form-control" type="text" path="contract.contractTariff.tariffName" readonly="true"/>
             </div>
 
             <div class="mb-3">

@@ -16,6 +16,11 @@
     <h3>Option info</h3>
 
     <div class="container">
+
+        <jsp:include page="../common/error-text.jsp">
+            <jsp:param name="errorMessage" value="${errorMessage}"/>
+        </jsp:include>
+
         <form:form action="/common/saveOption" modelAttribute="model">
 
             <form:hidden path="options.id"/>
@@ -23,22 +28,22 @@
 
             <div class="mb-3">
                 <label for="options.optionsName" class="form-label">Name</label>
-                <form:input class="form-control" path="options.optionsName" placeholder="input option's name here"/>
+                <form:input class="form-control" type="text" path="options.optionsName" placeholder="input option's name here"/>
             </div>
 
             <div class="mb-3">
                 <label for="options.price" class="form-label">Price</label>
-                <form:input class="form-control" path="options.price" placeholder="input option's price here"/>
+                <form:input class="form-control" type="number" min="0" path="options.price" placeholder="input option's price here"/>
             </div>
 
             <div class="mb-3">
                 <label for="options.costToAdd" class="form-label">Cost to connect</label>
-                <form:input class="form-control" path="options.costToAdd" placeholder="input option's cost to connect here"/>
+                <form:input class="form-control" type="number" min="0" path="options.costToAdd" placeholder="input option's cost to connect here"/>
             </div>
 
             <div class="mb-3">
                 <label for="options.optionType.optionType" class="form-label">Price</label>
-                <form:input class="form-control" path="options.optionType.optionType" readonly="true"/>
+                <form:input class="form-control" type="text" path="options.optionType.optionType" readonly="true"/>
             </div>
 
             <div class="form-check form-switch">

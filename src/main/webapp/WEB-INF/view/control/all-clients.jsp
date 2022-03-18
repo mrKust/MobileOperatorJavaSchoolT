@@ -16,6 +16,11 @@
     <h3>All Clients</h3>
 
     <div class="container">
+
+        <jsp:include page="../common/error-text.jsp">
+            <jsp:param name="errorMessage" value="${errorMessage}"/>
+        </jsp:include>
+
         <table class="table table-striped">
             <thead>
                 <th scope="col">Client's name</th>
@@ -77,6 +82,8 @@
         </table>
         <button type="button" class="btn btn-primary"
                 onclick="window.location.href = '/control/addNewClient'">Add</button>
+        <button type="button" class="btn btn-secondary"
+                onclick="window.location.href = '/control/addNewPhoneNumber'">Add new phone number</button>
     </div>
 
     <jsp:include page="../common/footer.jsp"/>

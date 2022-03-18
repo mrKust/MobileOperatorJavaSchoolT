@@ -15,6 +15,11 @@
     <h3>All Contracts</h3>
 
     <div class="container">
+
+        <jsp:include page="../common/error-text.jsp">
+            <jsp:param name="errorMessage" value="${errorMessage}"/>
+        </jsp:include>
+
         <table class="table table-striped">
             <thead>
                 <th scope="col">Client's phone number</th>

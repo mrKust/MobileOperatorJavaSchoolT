@@ -4,8 +4,8 @@ import com.school.customException.BusinessLogicException;
 import com.school.database.entity.Client;
 import com.school.database.entity.Number;
 import com.school.dto.ClientDto;
+import com.school.dto.NumberDto;
 import com.school.service.ServiceMVC;
-import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,15 +24,13 @@ public class ClientController {
 
     private final ServiceMVC<Number> numberServiceMVC;
 
-    private static final Logger LOG = Logger.getLogger(ClientController.class);
-
     ClientController(ServiceMVC<Client> clientServiceMVC, ServiceMVC<Number> numberServiceMVC) {
         this.clientServiceMVC = clientServiceMVC;
         this.numberServiceMVC = numberServiceMVC;
     }
 
     @RequestMapping("/control/allClients")
-    public String showAllClients(Model model) {
+    public String showAllClients(Model model, @ModelAttribute("errorMessage") String errorMessage) {
 
         List<Client> allClients = clientServiceMVC.getAll();
         model.addAttribute("allClients", allClients);
@@ -41,7 +39,8 @@ public class ClientController {
     }
 
     @RequestMapping("/control/addNewClient")
-    public String addNewClient(Model model) {
+    public String addNewClient(Model model,
+                               @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto tmp = new ClientDto();
         tmp.setClient(new Client());
@@ -54,7 +53,8 @@ public class ClientController {
     }
 
     @RequestMapping("/common/saveClient")
-    public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request) {
+    public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request,
+                             @ModelAttribute("errorMessage") String errorMessage) {
 
         if (clientDto.getClient().getPasswordLogIn() == null)
             if ( ( (clientDto.getPasswordString() != null) && (clientDto.getPasswordString2() != null) ) &&
@@ -64,7 +64,8 @@ public class ClientController {
                     clientDto.getClient().setPasswordLogIn(encodedPassword);
                 } else {
                     throw new BusinessLogicException("User's new password doesn't match",
-                            "redirect:/client/changePasswordClient?clientId=" + clientDto.getClient().getId());
+                            "redirect:/client/changePasswordClient?clientId=" + clientDto.getClient().getId(),
+                            "Input passwords doesn't match");
                 }
             } else {
 
@@ -75,7 +76,8 @@ public class ClientController {
 
             if (!clientDto.checkIsUserEmailUniqueOrNot(clientServiceMVC.getAll())) {
                 throw new BusinessLogicException("User try to add user with already defined " +
-                        "email address", "redirect:/control/addNewClient");
+                        "email address", "redirect:/control/addNewClient",
+                        "User with this email already in system");
             }
 
         }
@@ -109,7 +111,8 @@ public class ClientController {
     }
 
     @RequestMapping("/control/updateClient")
-    public String controlUpdateClient(@RequestParam("clientId") int id, Model model) {
+    public String controlUpdateClient(@RequestParam("clientId") int id, Model model,
+                                      @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(id));
@@ -120,7 +123,8 @@ public class ClientController {
     }
 
     @RequestMapping("/common/lockClient")
-    public String controlLockClient(@RequestParam("clientId") int id, Model model, HttpServletRequest request) {
+    public String controlLockClient(@RequestParam("clientId") int id, Model model,
+                                    HttpServletRequest request, @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(id));
@@ -133,11 +137,12 @@ public class ClientController {
         }
         model.addAttribute("model", clientDto);
 
-        return this.saveClient(clientDto, request);
+        return this.saveClient(clientDto, request, errorMessage);
     }
 
     @RequestMapping("/common/unlockClient")
-    public String controlUnlockClient(@RequestParam("clientId") int id, Model model, HttpServletRequest request) {
+    public String controlUnlockClient(@RequestParam("clientId") int id, Model model,
+                                      HttpServletRequest request, @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(id));
@@ -145,11 +150,12 @@ public class ClientController {
         clientDto.getClient().setClientNumberReadyToWorkStatus(true);
         clientDto.getClient().setRoleOfUserWhoBlockedNumber(null);
         model.addAttribute("model", clientDto);
-        return this.saveClient(clientDto, request);
+        return this.saveClient(clientDto, request, errorMessage);
     }
 
     @RequestMapping("/control/deleteClient")
-    public String deleteClient(@RequestParam("clientId") int id ) {
+    public String deleteClient(@RequestParam("clientId") int id,
+                               @ModelAttribute("errorMessage") String errorMessage) {
 
         Client client = clientServiceMVC.get(id);
         if (client.getUserRole().equals("client")) {
@@ -164,7 +170,8 @@ public class ClientController {
     }
 
     @RequestMapping("/client/updateClient")
-    public String clientUpdateClient(Principal principal, Model model) {
+    public String clientUpdateClient(Principal principal, Model model,
+                                     @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.getByName(principal.getName()));
@@ -176,7 +183,7 @@ public class ClientController {
     }
 
     @RequestMapping("/control/inputNumberToSearch")
-    public String getSearchData(Model model) {
+    public String getSearchData(Model model, @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setStringsNumbers(clientDto.wrapUsedNumbersInString(numberServiceMVC.getAll()));
@@ -185,7 +192,8 @@ public class ClientController {
     }
 
     @RequestMapping("/control/searchByPhoneNumber")
-    public String searchClientByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model) {
+    public String searchClientByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model,
+                                            @ModelAttribute("errorMessage") String errorMessage) {
 
         List<Client> clients = clientServiceMVC.getAll();
         int resultId = -1;
@@ -194,12 +202,12 @@ public class ClientController {
                 resultId = tmp.getId();
         }
         if (resultId != -1) {
-            return this.controlUpdateClient(resultId, model);
-        } else return this.addNewClient(model);
+            return this.controlUpdateClient(resultId, model, errorMessage);
+        } else return this.addNewClient(model, errorMessage);
     }
 
     @RequestMapping("/client/changePasswordClient")
-    public String changePassword(@RequestParam("clientId") int clientId, Model model) {
+    public String changePassword(@RequestParam("clientId") int clientId, Model model, @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(clientId));

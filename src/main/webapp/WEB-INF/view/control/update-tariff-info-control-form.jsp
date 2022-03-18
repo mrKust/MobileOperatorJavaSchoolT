@@ -16,6 +16,11 @@
     <h3>Tariff info</h3>
 
     <div class="container">
+
+        <jsp:include page="../common/error-text.jsp">
+            <jsp:param name="errorMessage" value="${errorMessage}"/>
+        </jsp:include>
+
         <form:form action="/common/saveTariff" modelAttribute="model">
 
             <form:hidden path="tariff.id"/>
@@ -23,12 +28,12 @@
 
             <div class="mb-3">
                 <label for="tariff.tariffName" class="form-label">Name</label>
-                <form:input class="form-control" path="tariff.tariffName" placeholder="input tariff name here"/>
+                <form:input class="form-control" type="text" path="tariff.tariffName" placeholder="input tariff name here"/>
             </div>
 
             <div class="mb-3">
                 <label for="tariff.price" class="form-label">Price</label>
-                <form:input class="form-control" path="tariff.price" placeholder="input tariff price here"/>
+                <form:input class="form-control" type="number" min="0" path="tariff.price" placeholder="input tariff price here"/>
             </div>
 
             <c:forEach var="option" items="${optionsList}">

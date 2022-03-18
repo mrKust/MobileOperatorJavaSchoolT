@@ -18,6 +18,11 @@
     <h3>Create new password</h3>
 
     <div class="container">
+
+        <jsp:include page="../common/error-text.jsp">
+            <jsp:param name="errorMessage" value="${errorMessage}"/>
+        </jsp:include>
+
         <form:form action="/common/saveClient" modelAttribute="model">
 
             <form:hidden path="client.id"/>

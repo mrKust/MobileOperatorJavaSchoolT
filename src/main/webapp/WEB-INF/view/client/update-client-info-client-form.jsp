@@ -30,6 +30,11 @@
     </c:url>
 
     <div class="container">
+
+        <jsp:include page="../common/error-text.jsp">
+            <jsp:param name="errorMessage" value="${errorMessage}"/>
+        </jsp:include>
+
         <form:form action="/common/saveClient" modelAttribute="model">
 
             <form:hidden path="client.id"/>
@@ -39,8 +44,8 @@
 
             <div class="input-group">
                 <span class="input-group-text">First and last name</span>
-                <form:input aria-label="First name" class="form-control" path="client.firstName" readonly="true"/>
-                <form:input aria-label="Last name" class="form-control" path="client.surname" readonly="true"/>
+                <form:input aria-label="First name" type="text" class="form-control" path="client.firstName" readonly="true"/>
+                <form:input aria-label="Last name" type="text" class="form-control" path="client.surname" readonly="true"/>
             </div>
 
             <div class="mb-3">
@@ -50,22 +55,23 @@
 
             <div class="mb-3">
                 <label for="client.passportNumber" class="form-label">Passport number</label>
-                <form:input class="form-control" path="client.passportNumber"/>
+                <form:input class="form-control" type="text" path="client.passportNumber"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.address" class="form-label">Home address</label>
-                <form:input class="form-control" path="client.address"/>
+                <form:input class="form-control" type="text" path="client.address"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.phoneNumber" class="form-label">Phone number</label>
-                <form:input class="form-control" path="client.phoneNumber" readonly="true"/>
+                <form:input class="form-control" type="tel" path="client.phoneNumber" readonly="true"
+                            pattern="[0-9]{11}"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.emailAddress" class="form-label">E-mail</label>
-                <form:input class="form-control" path="client.emailAddress" readonly="true"/>
+                <form:input class="form-control" type="email" path="client.emailAddress" readonly="true"/>
             </div>
 
             <div class="mb-3">
@@ -76,8 +82,8 @@
 
             <div class="input-group">
                 <span class="input-group-text">Current user's available status & Who blocked number</span>
-                <form:input class="form-control" path="client.clientNumberReadyToWorkStatus" readonly="true"/>
-                <form:input class="form-control" path="client.roleOfUserWhoBlockedNumber" readonly="true"/>
+                <form:input class="form-control" type="text" path="client.clientNumberReadyToWorkStatus" readonly="true"/>
+                <form:input class="form-control" type="text" path="client.roleOfUserWhoBlockedNumber" readonly="true"/>
             </div>
 
             <c:choose>

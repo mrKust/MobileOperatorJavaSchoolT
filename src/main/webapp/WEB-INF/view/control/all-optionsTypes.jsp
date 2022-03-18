@@ -15,6 +15,11 @@
     <h3>All options types</h3>
 
     <div class="container">
+
+        <jsp:include page="../common/error-text.jsp">
+            <jsp:param name="errorMessage" value="${errorMessage}"/>
+        </jsp:include>
+
         <table class="table table-striped">
             <thead>
             <tr>

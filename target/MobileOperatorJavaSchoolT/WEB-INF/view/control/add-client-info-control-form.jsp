@@ -26,8 +26,8 @@
 
             <div class="input-group">
                 <span class="input-group-text">First and last name</span>
-                <form:input aria-label="First name" class="form-control" path="client.firstName" placeholder="input First name here"/>
-                <form:input aria-label="Last name" class="form-control" path="client.surname" placeholder="input Second name here"/>
+                <form:input aria-label="First name" type="text" class="form-control" path="client.firstName" placeholder="input First name here"/>
+                <form:input aria-label="Last name" type="text" class="form-control" path="client.surname" placeholder="input Second name here"/>
             </div>
 
             <div class="mb-3">
@@ -37,18 +37,18 @@
 
             <div class="mb-3">
                 <label for="client.passportNumber" class="form-label">Passport number</label>
-                <form:input class="form-control" path="client.passportNumber"/>
+                <form:input class="form-control" type="text" path="client.passportNumber"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.address" class="form-label">Home address</label>
-                <form:input class="form-control" path="client.address"/>
+                <form:input class="form-control" type="text" path="client.address"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.phoneNumber" class="form-label">Phone number</label>
-                <form:input class="form-control" type="text" path="client.phoneNumber" list="numbers"
-                            placeholder="Phone number"/>
+                <form:input class="form-control" type="tel" path="client.phoneNumber" list="numbers"
+                            placeholder="Phone number: 8XXXXXXXXXX" pattern="[0-9]{11}"/>
                 <datalist id="numbers">
                     <c:forEach var="num" items="${model.stringsNumbers}">
                         <option value="${num}">

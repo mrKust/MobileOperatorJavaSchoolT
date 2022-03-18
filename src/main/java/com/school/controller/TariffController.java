@@ -25,7 +25,8 @@ public class TariffController {
     }
 
     @RequestMapping("/common/allTariffs")
-    public String showAllTariff(Model model) {
+    public String showAllTariff(Model model,
+                                @ModelAttribute("errorMessage") String errorMessage) {
 
         List<Tariff> tariffs = tariffServiceMVC.getAll();
         model.addAttribute("allTariffs", tariffs);
@@ -34,7 +35,8 @@ public class TariffController {
     }
 
     @RequestMapping("/control/addNewTariff")
-    public String addNewTariff(Model model) {
+    public String addNewTariff(Model model,
+                               @ModelAttribute("errorMessage") String errorMessage) {
 
         List<Options> optionsList = optionsServiceMVC.getAll();
         TariffDto tmp = new TariffDto();
@@ -47,7 +49,8 @@ public class TariffController {
     }
 
     @RequestMapping("/common/saveTariff")
-    public String saveTariff(@ModelAttribute("model") TariffDto tariffDto) {
+    public String saveTariff(@ModelAttribute("model") TariffDto tariffDto,
+                             @ModelAttribute("errorMessage") String errorMessage) {
 
         Tariff tariff = tariffDto.getTariff();
         if (tariffDto.getOperationType().equals("update")) {
@@ -61,7 +64,8 @@ public class TariffController {
     }
 
     @RequestMapping("/control/updateTariff")
-    public String controlUpdateTariff(@RequestParam("tariffId") int id, Model model) {
+    public String controlUpdateTariff(@RequestParam("tariffId") int id, Model model,
+                                      @ModelAttribute("errorMessage") String errorMessage) {
 
         List<Options> optionsList = optionsServiceMVC.getAll();
         TariffDto tmp = new TariffDto();
@@ -76,7 +80,8 @@ public class TariffController {
     }
 
     @RequestMapping("/control/deleteTariff")
-    public String deleteTariff(@RequestParam("tariffId") int id ) {
+    public String deleteTariff(@RequestParam("tariffId") int id,
+                               @ModelAttribute("errorMessage") String errorMessage) {
 
         tariffServiceMVC.delete(id);
 
@@ -84,7 +89,8 @@ public class TariffController {
     }
 
     @RequestMapping("/client/updateTariff")
-    public String clientUpdateTariff(@RequestParam("tariffId") int id, Model model) {
+    public String clientUpdateTariff(@RequestParam("tariffId") int id, Model model,
+                                     @ModelAttribute("errorMessage") String errorMessage) {
 
         TariffDto tariffDto = new TariffDto();
         tariffDto.setTariff(tariffServiceMVC.get(id));

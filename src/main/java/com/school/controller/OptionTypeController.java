@@ -23,7 +23,8 @@ public class OptionTypeController {
     }
 
     @RequestMapping("/control/allOptionCategories")
-    public String showAllOptionsCategory(Model model) {
+    public String showAllOptionsCategory(Model model,
+                                         @ModelAttribute("errorMessage") String errorMessage) {
 
         List<OptionType> allOptionsType = optionTypeServiceMVC.getAll();
         model.addAttribute("allOptionsType", allOptionsType);
@@ -32,7 +33,8 @@ public class OptionTypeController {
     }
 
     @RequestMapping("/control/addNewOptionCategory")
-    public String controlAddNewOptionCategory(Model model) {
+    public String controlAddNewOptionCategory(Model model,
+                                              @ModelAttribute("errorMessage") String errorMessage) {
 
         OptionType optionsType = new OptionType();
         model.addAttribute("optionsType", optionsType);
@@ -41,7 +43,8 @@ public class OptionTypeController {
     }
 
     @RequestMapping("/control/saveOptionType")
-    public String saveOptionType(@ModelAttribute("optionsType") OptionType optionsType) {
+    public String saveOptionType(@ModelAttribute("optionsType") OptionType optionsType,
+                                 @ModelAttribute("errorMessage") String errorMessage) {
 
         optionTypeServiceMVC.save(optionsType);
 
@@ -49,7 +52,8 @@ public class OptionTypeController {
     }
 
     @RequestMapping("/control/deleteOptionType")
-    public String deleteOptionType(@RequestParam("optionsTypeId") int optionsTypeId) {
+    public String deleteOptionType(@RequestParam("optionsTypeId") int optionsTypeId,
+                                   @ModelAttribute("errorMessage") String errorMessage) {
 
         OptionType optionsType = optionTypeServiceMVC.get(optionsTypeId);
         List<Options> allOptions = optionsServiceMVC.getAll();

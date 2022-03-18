@@ -7,7 +7,6 @@ import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.ContractDto;
 import com.school.service.ServiceMVC;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +24,6 @@ public class ContractController {
 
     private final ServiceMVC<Client> clientServiceMVC;
 
-    private static final Logger LOG = Logger.getLogger(ContractController.class);
-
     ContractController(ServiceMVC<Contract> contractServiceMVC, ServiceMVC<Client> clientServiceMVC, ServiceMVC<Tariff> tariffServiceMVC) {
         this.contractServiceMVC = contractServiceMVC;
         this.tariffServiceMVC = tariffServiceMVC;
@@ -35,7 +32,7 @@ public class ContractController {
     }
 
     @RequestMapping("/control/allContracts")
-    public String showAllContracts(Model model) {
+    public String showAllContracts(Model model, @ModelAttribute("errorMessage") String errorMessage) {
 
         List<Contract> allContracts = contractServiceMVC.getAll();
         model.addAttribute("allContracts", allContracts);
@@ -44,7 +41,7 @@ public class ContractController {
     }
 
     @RequestMapping("/control/addNewContract")
-    public String addNewContract(Model model) {
+    public String addNewContract(Model model, @ModelAttribute("errorMessage") String errorMessage) {
 
         List<Tariff> tariffList = tariffServiceMVC.getAll();
         List<Client> clientList = clientServiceMVC.getAll();
@@ -58,7 +55,9 @@ public class ContractController {
     }
 
     @RequestMapping("/common/saveContract")
-    public String saveContract(@ModelAttribute("model") ContractDto contractDto, HttpServletRequest request, Model model, Principal principal) {
+    public String saveContract(@ModelAttribute("model") ContractDto contractDto,
+                               HttpServletRequest request, Model model, Principal principal,
+                               @ModelAttribute("errorMessage") String errorMessage) {
 
 
         Contract contract = contractDto.getContract();
@@ -81,13 +80,15 @@ public class ContractController {
             if (request.isUserInRole("ROLE_control")) {
                 throw new BusinessLogicException(exceptionMessage,
                         "redirect:/control/updateContract?contractId=" +
-                                contractDto.getContract().getId());
+                                contractDto.getContract().getId(),
+                        "You must choose one option from every category");
             }
             else {
                 model.addAttribute(principal);
                 throw new BusinessLogicException(exceptionMessage,
                         "redirect:/client/updateContract?contractId=" +
-                                contractDto.getContract().getId());
+                                contractDto.getContract().getId(),
+                        "You must choose one option from every category");
             }
         }
 
@@ -105,7 +106,8 @@ public class ContractController {
     }
 
     @RequestMapping("/control/updateContract")
-    public String controlUpdateContract(@RequestParam("contractId") int id, Model model) {
+    public String controlUpdateContract(@RequestParam("contractId") int id, Model model,
+                                        @ModelAttribute("errorMessage") String errorMessage) {
 
         List<Tariff> tariffList = tariffServiceMVC.getAll();
         ContractDto tmp = new ContractDto();
@@ -125,7 +127,8 @@ public class ContractController {
     }
 
     @RequestMapping("/control/deleteContract")
-    public String deleteContract(@RequestParam("contractId") int id ) {
+    public String deleteContract(@RequestParam("contractId") int id,
+                                 @ModelAttribute("errorMessage") String errorMessage) {
 
         contractServiceMVC.delete(id);
 
@@ -133,7 +136,8 @@ public class ContractController {
     }
 
     @RequestMapping("/client/updateContract")
-    public String clientUpdateContract(Principal principal, Model model) {
+    public String clientUpdateContract(Principal principal, Model model,
+                                       @ModelAttribute("errorMessage") String errorMessage) {
 
         Client client = clientServiceMVC.getByName(principal.getName());
         Contract contract = client.getContract();
@@ -141,7 +145,8 @@ public class ContractController {
         if (contract == null) {
             throw new BusinessLogicException("User " + principal.getName() +
                     " try to get his contract, but contract " +
-                    "wasn't created", "redirect:/");
+                    "wasn't created", "redirect:/",
+                    "You haven't contract yet. Contact to administration");
         }
 
 

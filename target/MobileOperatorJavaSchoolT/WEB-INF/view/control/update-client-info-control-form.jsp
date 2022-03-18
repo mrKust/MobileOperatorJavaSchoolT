@@ -17,6 +17,11 @@
     <h3>Client info</h3>
 
     <div class="container">
+
+        <jsp:include page="../common/error-text.jsp">
+            <jsp:param name="errorMessage" value="${errorMessage}"/>
+        </jsp:include>
+
         <form:form action="/common/saveClient" modelAttribute="model">
             <form:hidden path="client.id"/>
             <form:hidden path="client.userRole"/>
@@ -24,8 +29,8 @@
 
             <div class="input-group">
                 <span class="input-group-text">First and last name</span>
-                <form:input aria-label="First name" class="form-control" path="client.firstName" readonly="true"/>
-                <form:input aria-label="Last name" class="form-control" path="client.surname" readonly="true"/>
+                <form:input aria-label="First name" type="text" class="form-control" path="client.firstName" readonly="true"/>
+                <form:input aria-label="Last name" type="text" class="form-control" path="client.surname" readonly="true"/>
             </div>
 
             <div class="mb-3">
@@ -35,27 +40,28 @@
 
             <div class="mb-3">
                 <label for="client.passportNumber" class="form-label">Passport number</label>
-                <form:input class="form-control" path="client.passportNumber" readonly="true"/>
+                <form:input class="form-control" type="text" path="client.passportNumber" readonly="true"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.address" class="form-label">Home address</label>
-                <form:input class="form-control" path="client.address" readonly="true"/>
+                <form:input class="form-control" type="text" path="client.address" readonly="true"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.phoneNumber" class="form-label">Phone number</label>
-                <form:input class="form-control" path="client.phoneNumber" readonly="true"/>
+                <form:input class="form-control" type="tel" path="client.phoneNumber" readonly="true"
+                            pattern="[0-9]{11}"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.emailAddress" class="form-label">E-mail</label>
-                <form:input class="form-control" path="client.emailAddress" readonly="true"/>
+                <form:input class="form-control" type="email" path="client.emailAddress" readonly="true"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.contract.contractTariff.tariffName" class="form-label">Current connected tariff</label>
-                <form:input class="form-control" path="client.contract.contractTariff.tariffName" readonly="true"/>
+                <form:input class="form-control" type="text" path="client.contract.contractTariff.tariffName" readonly="true"/>
             </div>
 
             <div class="mb-3">
@@ -73,7 +79,7 @@
 
             <div class="mb-3">
                 <label for="client.clientNumberReadyToWorkStatus" class="form-label">This client available</label>
-                <form:input class="form-control" path="client.clientNumberReadyToWorkStatus" readonly="true"/>
+                <form:input class="form-control" type="text" path="client.clientNumberReadyToWorkStatus" readonly="true"/>
             </div>
 
             <input type="submit" class="btn btn-primary" value="Confirm"/>

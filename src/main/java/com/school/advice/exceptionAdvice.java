@@ -1,9 +1,11 @@
 package com.school.advice;
 
 import com.school.customException.BusinessLogicException;
-import org.apache.log4j.Logger;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.apache.log4j.Logger;
+
 
 @ControllerAdvice
 public class exceptionAdvice {
@@ -11,8 +13,9 @@ public class exceptionAdvice {
     private static final Logger LOG = Logger.getLogger(exceptionAdvice.class);
 
     @ExceptionHandler(BusinessLogicException.class)
-    public String handleBusinessException(BusinessLogicException e) {
+    public String handleBusinessException(BusinessLogicException e, Model model) {
         LOG.error(e.getMessage());
+        model.addAttribute("errorMessage", e.getErrorMessageForUser());
         return e.getRedirectUrl();
     }
 
