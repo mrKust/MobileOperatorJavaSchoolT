@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <link rel="stylesheet1" href="../style.css">
+    <link rel="stylesheet1" href="../css/style.css">
     <title>Update my info</title>
 </head>
 
@@ -25,13 +25,17 @@
         <c:param name="clientId" value="${model.client.id}"/>
     </c:url>
 
+    <c:url var="clientChangePassword" value="/client/changePasswordClient">
+        <c:param name="clientId" value="${model.client.id}"/>
+    </c:url>
+
     <div class="container">
         <form:form action="/common/saveClient" modelAttribute="model">
 
             <form:hidden path="client.id"/>
             <form:hidden path="client.userRole"/>
             <form:hidden path="operationType"/>
-            <form:hidden path="client.passwordLogIn"/>
+
 
             <div class="input-group">
                 <span class="input-group-text">First and last name</span>
@@ -62,6 +66,12 @@
             <div class="mb-3">
                 <label for="client.emailAddress" class="form-label">E-mail</label>
                 <form:input class="form-control" path="client.emailAddress" readonly="true"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="client.emailAddress" class="form-label">Password</label>
+                <button type="button" class="btn btn-warning"
+                        onclick="window.location.href= '${clientChangePassword}'">Set new password</button>
             </div>
 
             <div class="input-group">

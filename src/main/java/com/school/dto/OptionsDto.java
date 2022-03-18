@@ -6,14 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@Getter
+@Setter
 public class OptionsDto {
 
-    @Getter
-    @Setter
     private Options options;
 
-    @Getter
-    @Setter
     private String[] stringOptionCategory;
 
 }

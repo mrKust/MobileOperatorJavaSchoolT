@@ -56,6 +56,21 @@ public class ClientController {
     @RequestMapping("/common/saveClient")
     public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request) {
 
+        if (clientDto.getClient().getPasswordLogIn() == null)
+            if ( ( (clientDto.getPasswordString() != null) && (clientDto.getPasswordString2() != null) ) &&
+                ((!clientDto.getPasswordString().equals("")) && (!clientDto.getPasswordString2().equals(""))) ){
+                if (clientDto.getPasswordString().equals(clientDto.getPasswordString2())) {
+                    String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getPasswordString());
+                    clientDto.getClient().setPasswordLogIn(encodedPassword);
+                } else {
+                    throw new BusinessLogicException("User's new password doesn't match",
+                            "redirect:/client/changePasswordClient?clientId=" + clientDto.getClient().getId());
+                }
+            } else {
+
+                clientDto.getClient().setPasswordLogIn(clientServiceMVC.get(clientDto.getClient().getId()).getPasswordLogIn());
+            }
+
         if (clientDto.getOperationType().equals("add")) {
 
             if (!clientDto.checkIsUserEmailUniqueOrNot(clientServiceMVC.getAll())) {
@@ -181,5 +196,17 @@ public class ClientController {
         if (resultId != -1) {
             return this.controlUpdateClient(resultId, model);
         } else return this.addNewClient(model);
+    }
+
+    @RequestMapping("/client/changePasswordClient")
+    public String changePassword(@RequestParam("clientId") int clientId, Model model) {
+
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(clientServiceMVC.get(clientId));
+
+        model.addAttribute("model", clientDto);
+
+        return "client/change-password-client";
+
     }
 }

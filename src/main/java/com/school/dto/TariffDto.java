@@ -10,18 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@Getter
+@Setter
 public class TariffDto {
 
-    @Getter
-    @Setter
     private Tariff tariff;
 
-    @Getter
-    @Setter
     private String[] stringsOptions;
 
-    @Getter
-    @Setter
     private String operationType;
 
     public List<Options> wrapStringsToList(List<Options> allOptions) {

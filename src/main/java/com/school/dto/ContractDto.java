@@ -11,30 +11,20 @@ import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor
+@Getter
+@Setter
 public class ContractDto {
 
-    @Getter
-    @Setter
     private Contract contract;
 
-    @Getter
-    @Setter
     private String[] stringsTariff;
 
-    @Getter
-    @Setter
     private String[] stringsClients;
 
-    @Getter
-    @Setter
     private String[] stringsOptions;
 
-    @Getter
-    @Setter
     private String[] connectedOptions;
 
-    @Getter
-    @Setter
     private String operationType;
 
     public Tariff wrapStringsToTariff(List<Tariff> allTariffs) {

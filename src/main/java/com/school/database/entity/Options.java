@@ -11,28 +11,22 @@ import java.util.List;
 @Entity
 @Table(name = "options")
 @NoArgsConstructor
+@Getter
+@Setter
 public class Options {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @Getter
-    @Setter
     private int id;
 
     @Column(name = "options_name")
-    @Getter
-    @Setter
     private String optionsName;
 
     @Column(name = "price")
-    @Getter
-    @Setter
     private int price;
 
     @Column(name = "cost_to_add")
-    @Getter
-    @Setter
     private int costToAdd;
 
     @ManyToMany
@@ -41,8 +35,6 @@ public class Options {
             joinColumns = @JoinColumn(name = "options_id"),
             inverseJoinColumns = @JoinColumn(name = "tariff_id")
     )
-    @Getter
-    @Setter
     private List<Tariff> availableForTariffs;
 
     @ManyToMany
@@ -51,19 +43,13 @@ public class Options {
             joinColumns = @JoinColumn(name = "options_id"),
             inverseJoinColumns = @JoinColumn(name = "contract_id")
     )
-    @Getter
-    @Setter
     private List<Contract> connectedToContracts;
 
     @Column(name = "available_for_connect_status")
-    @Getter
-    @Setter
     private boolean availableOptionToConnectOrNot;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "option_type_id")
-    @Getter
-    @Setter
     private OptionType optionType;
 
     public Options(String optionsName, int price, int costToAdd, boolean availableOptionToConnectOrNot) {

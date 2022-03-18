@@ -12,23 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@Getter
+@Setter
 public class ClientDto {
 
-    @Getter
-    @Setter
     private Client client;
 
-    @Getter
-    @Setter
     private String operationType;
 
-    @Getter
-    @Setter
     private String[] stringsNumbers;
 
-    @Getter
-    @Setter
     private String passwordString;
+
+    private String passwordString2;
 
     public String wrapAvailableNumbersInJsonString(List<Number> allNumbers) {
         JSONArray jsonArray = new JSONArray();

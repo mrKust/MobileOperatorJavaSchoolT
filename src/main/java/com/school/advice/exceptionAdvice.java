@@ -19,7 +19,7 @@ public class exceptionAdvice {
     @ExceptionHandler(Exception.class)
     public String handleHibernateException(Exception e) {
         LOG.error(e.getMessage());
-        return "redirect:/";
+        return "redirect:/common/errorPage?errorMes=" + e.getMessage();
     }
 
 

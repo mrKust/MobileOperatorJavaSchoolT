@@ -11,30 +11,24 @@ import java.util.List;
 @Entity
 @Table(name = "contract")
 @NoArgsConstructor
+@Getter
+@Setter
 public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @Getter
-    @Setter
     private int id;
 
     @Column(name = "phone_number")
-    @Getter
-    @Setter
     private String phoneNumber;
 
     @OneToOne
     @JoinColumn(name = "tariff_id")
-    @Getter
-    @Setter
     private Tariff contractTariff;
 
     @OneToOne
     @JoinColumn(name = "client_id")
-    @Getter
-    @Setter
     private Client contractClient;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -43,8 +37,6 @@ public class Contract {
             joinColumns = @JoinColumn(name = "contract_id"),
             inverseJoinColumns = @JoinColumn(name = "options_id")
     )
-    @Getter
-    @Setter
     private List<Options> ConnectedOptions;
 
     public Contract(String phoneNumber) {
