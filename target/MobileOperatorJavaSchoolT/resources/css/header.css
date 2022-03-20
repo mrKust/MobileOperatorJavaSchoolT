@@ -1,0 +1,18 @@
+:root {
+    --color1: #808000;
+    --color2: #006400;
+}
+
+header {
+    background: var(--color1);
+    background: -moz-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: -webkit-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: linear-gradient(45deg,   var(--color1) 0%,  var(--color2) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= var(--color1),
+    endColorstr= var(--color2),GradientType=1 );
+
+}
+
+#mainText section {
+    padding-top: 10px;
+}
