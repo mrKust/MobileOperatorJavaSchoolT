@@ -3,6 +3,10 @@
     --color2: #006400;
 }
 
-main, body {
+main {
     background: #41f105;
+}
+
+#startPage {
+    text-align: center;
 }

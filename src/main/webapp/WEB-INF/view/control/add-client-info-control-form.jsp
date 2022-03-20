@@ -58,7 +58,8 @@
 
             <div class="mb-3">
                 <label for="client.emailAddress" class="form-label">Email address</label>
-                <form:input type="email" class="form-control" path="client.emailAddress"/>
+                <form:input type="email" class="form-control" path="client.emailAddress"
+                            autocomplete="new-email"/>
             </div>
 
             <div class="row g-3 align-items-center">
@@ -66,7 +67,8 @@
                     <label for="client.passwordLogIn" class="form-label">Password</label>
                 </div>
                 <div class="col-auto">
-                    <form:input type="password" class="form-control" path="client.passwordLogIn" aria-describedby="passwordHelpInline"/>
+                    <form:input type="password" class="form-control" path="client.passwordLogIn"
+                                autocomplete="new-password" aria-describedby="passwordHelpInline"/>
                 </div>
                 <div class="col-auto">
                     <span id="passwordHelpInline" class="form-text">

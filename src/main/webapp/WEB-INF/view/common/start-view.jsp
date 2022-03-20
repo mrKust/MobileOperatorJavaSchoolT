@@ -12,7 +12,10 @@
 <body>
 <jsp:include page="header.jsp"/>
 <main>
-
+    <div class="container" id="startPage">
+        <h3>Welcome ${user.firstName} ${user.surname}</h3>
+        <h3>Your role in system: ${user.userRole}</h3>
+    </div>
 </main>
 <jsp:include page="footer.jsp"/>
 </body>
