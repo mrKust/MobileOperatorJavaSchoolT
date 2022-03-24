@@ -14,109 +14,110 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>Contract info</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
+            <h3>Contract info</h3>
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <form:form action="/common/saveContract" modelAttribute="model">
+            <form:form action="/common/saveContract" modelAttribute="model">
 
-            <form:hidden path="contract.id"/>
-            <form:hidden path="contract.contractClient.id"/>
-            <form:hidden path="contract.contractClient.dateOfBirth"/>
-            <form:hidden path="contract.contractClient.passportNumber"/>
-            <form:hidden path="contract.contractClient.address"/>
-            <form:hidden path="contract.contractClient.userRole"/>
-            <form:hidden path="contract.contractClient.roleOfUserWhoBlockedNumber"/>
-            <form:hidden path="contract.contractClient.contract"/>
-            <form:hidden path="contract.phoneNumber"/>
-            <form:hidden path="connectedOptions"/>
-            <form:hidden path="operationType"/>
-            <form:hidden path="contract.contractClient.phoneNumber"/>
-            <form:hidden path="contract.contractClient.firstName"/>
-            <form:hidden path="contract.contractClient.surname"/>
-            <form:hidden path="contract.contractClient.emailAddress"/>
+                <form:hidden path="contract.id"/>
+                <form:hidden path="contract.contractClient.id"/>
+                <form:hidden path="contract.contractClient.dateOfBirth"/>
+                <form:hidden path="contract.contractClient.passportNumber"/>
+                <form:hidden path="contract.contractClient.address"/>
+                <form:hidden path="contract.contractClient.userRole"/>
+                <form:hidden path="contract.contractClient.roleOfUserWhoBlockedNumber"/>
+                <form:hidden path="contract.contractClient.contract"/>
+                <form:hidden path="contract.phoneNumber"/>
+                <form:hidden path="connectedOptions"/>
+                <form:hidden path="operationType"/>
+                <form:hidden path="contract.contractClient.phoneNumber"/>
+                <form:hidden path="contract.contractClient.firstName"/>
+                <form:hidden path="contract.contractClient.surname"/>
+                <form:hidden path="contract.contractClient.emailAddress"/>
 
-            <div class="input-group">
-                <span class="input-group-text">Current tariff and Available to switch tariff</span>
-                <form:input class="form-control" type="text" path="contract.contractTariff.tariffName" readonly="true"/>
-                <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
-                    <select class="form-select" name="stringsTariff">
-                    <c:forEach var="tariff" items="${tariffsList}">
-                        <c:choose>
-                            <c:when test="${tariff.id eq connectedTariff.id}">
-                                <option value="${tariff.id}" selected>${tariff.tariffName}</option>
-                            </c:when>
-                            <c:otherwise>
-                                <c:if test="${tariff.availableToConnectOrNotStatus eq true}">
-                                    <option value="${tariff.id}">${tariff.tariffName}</option>
-                                </c:if>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </select>
-                </c:if>
-            </div>
-
-            <c:choose>
-                <c:when test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
-                    <c:forEach var="option" items="${availableForTariffOptionsList}">
-                        <c:set var="contains" value="false" />
-                        <c:if test="${fn:length(connectedOptionsList)>0}">
-                            <c:forEach var="item" items="${connectedOptionsList}">
-                                <c:if test="${item.id eq option.id}">
-                                    <c:set var="contains" value="true" />
-                                </c:if>
+                <div class="input-group">
+                    <span class="input-group-text">Current tariff and Available to switch tariff</span>
+                    <form:input class="form-control" type="text" path="contract.contractTariff.tariffName" readonly="true"/>
+                    <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
+                        <select class="form-select" name="stringsTariff">
+                            <c:forEach var="tariff" items="${tariffsList}">
+                                <c:choose>
+                                    <c:when test="${tariff.id eq connectedTariff.id}">
+                                        <option value="${tariff.id}" selected>${tariff.tariffName}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${tariff.availableToConnectOrNotStatus eq true}">
+                                            <option value="${tariff.id}">${tariff.tariffName}</option>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:forEach>
-                        </c:if>
-                        <c:choose>
-                            <c:when test="${contains==true}">
-                                <div class="mb-3">
-                                    <label class="form-check-label">${option.optionType.optionType} ${option.optionsName}</label>
-                                    <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list" checked="checked"/>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="mb-3">
-                                    <label class="form-check-label">${option.optionType.optionType} ${option.optionsName}</label>
-                                    <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <div class="mb-3">
-                        <label class="form-check-label">Connected options</label>
-                    </div>
-                    <c:forEach var="option" items="${connectedOptionsList}">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="connectedOption" disabled>
-                            <label class="form-check-label" for="connectedOption">
-                                    ${option.optionType.optionType} ${option.optionsName}
-                            </label>
-                            <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list" checked="checked" disabled="true"/>
+                        </select>
+                    </c:if>
+                </div>
+
+                <c:choose>
+                    <c:when test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
+                        <c:forEach var="option" items="${availableForTariffOptionsList}">
+                            <c:set var="contains" value="false" />
+                            <c:if test="${fn:length(connectedOptionsList)>0}">
+                                <c:forEach var="item" items="${connectedOptionsList}">
+                                    <c:if test="${item.id eq option.id}">
+                                        <c:set var="contains" value="true" />
+                                    </c:if>
+                                </c:forEach>
+                            </c:if>
+                            <c:choose>
+                                <c:when test="${contains==true}">
+                                    <div class="mb-3">
+                                        <label class="form-check-label">${option.optionType.optionType} ${option.optionsName}</label>
+                                        <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list" checked="checked"/>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="mb-3">
+                                        <label class="form-check-label">${option.optionType.optionType} ${option.optionsName}</label>
+                                        <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="mb-3">
+                            <label class="form-check-label">Connected options</label>
                         </div>
-                    </c:forEach>
-                </c:otherwise>
-            </c:choose>
+                        <c:forEach var="option" items="${connectedOptionsList}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="connectedOption" disabled>
+                                <label class="form-check-label" for="connectedOption">
+                                        ${option.optionType.optionType} ${option.optionsName}
+                                </label>
+                                <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list" checked="checked" disabled="true"/>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
 
-            <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
-                <input type="submit" class="btn btn-primary" value="Confirm"/>
-            </c:if>
+                <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
+                    <input type="submit" class="btn btn-primary" value="Confirm"/>
+                </c:if>
 
-            <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus ne true}">
-                <button type="button" class="btn btn-primary"
-                        onclick="window.location.href = '/client/updateContract'">Confirm</button>
-            </c:if>
-
-        </form:form>
-
-
-    </div>
+                <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus ne true}">
+                    <button type="button" class="btn btn-primary"
+                            onclick="window.location.href = '/client/updateContract'">Confirm</button>
+                </c:if>
+            </form:form>
+        </div>
+    </main>
 
     <jsp:include page="../common/footer.jsp"/>
 </body>

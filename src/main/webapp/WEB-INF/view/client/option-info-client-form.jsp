@@ -13,58 +13,59 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>Option info</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
+            <h3>Option info</h3>
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <form:form action="/common/saveOption" modelAttribute="model">
+            <form:form action="/common/saveOption" modelAttribute="model">
 
-            <form:hidden path="options.id"/>
-            <form:hidden path="options.optionType.id"/>
+                <form:hidden path="options.id"/>
+                <form:hidden path="options.optionType.id"/>
 
-            <div class="mb-3">
-                <label for="options.optionsName" class="form-label">Name</label>
-                <form:input class="form-control" type="text" path="options.optionsName" readonly="true"/>
-            </div>
+                <div class="mb-3">
+                    <label for="options.optionsName" class="form-label">Name</label>
+                    <form:input class="form-control" type="text" path="options.optionsName" readonly="true"/>
+                </div>
 
-            <div class="mb-3">
-                <label for="options.price" class="form-label">Price</label>
-                <form:input class="form-control" type="number" min="0" path="options.price"
-                            readonly="true"/>
-            </div>
+                <div class="mb-3">
+                    <label for="options.price" class="form-label">Price</label>
+                    <form:input class="form-control" type="number" min="0" path="options.price"
+                                readonly="true"/>
+                </div>
 
-            <div class="mb-3">
-                <label for="options.costToAdd" class="form-label">Cost to connect</label>
-                <form:input class="form-control" type="number" min="0" path="options.costToAdd"
-                            readonly="true"/>
-            </div>
+                <div class="mb-3">
+                    <label for="options.costToAdd" class="form-label">Cost to connect</label>
+                    <form:input class="form-control" type="number" min="0" path="options.costToAdd"
+                                readonly="true"/>
+                </div>
 
-            <div class="mb-3">
-                <label for="options.optionType.optionType" class="form-label">Price</label>
-                <form:input class="form-control" type="text" path="options.optionType.optionType" readonly="true"/>
-            </div>
+                <div class="mb-3">
+                    <label for="options.optionType.optionType" class="form-label">Price</label>
+                    <form:input class="form-control" type="text" path="options.optionType.optionType" readonly="true"/>
+                </div>
 
-            <div class="form-check form-switch">
-                <label class="form-check-label">
-                    This option available to connect
-                </label>
-                <c:if test="${model.options.availableOptionToConnectOrNot eq true}">
-                    <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot" checked="checked"/>
-                </c:if>
-                <c:if test="${model.options.availableOptionToConnectOrNot ne true}">
-                    <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot"/>
-                </c:if>
-            </div>
-            <input type="submit" class="btn btn-primary" value="Confirm">
-
-        </form:form>
-
-    </div>
-
+                <div class="form-check form-switch">
+                    <label class="form-check-label">
+                        This option available to connect
+                    </label>
+                    <c:if test="${model.options.availableOptionToConnectOrNot eq true}">
+                        <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot" checked="checked"/>
+                    </c:if>
+                    <c:if test="${model.options.availableOptionToConnectOrNot ne true}">
+                        <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot"/>
+                    </c:if>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Confirm">
+            </form:form>
+        </div>
+    </main>
     <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

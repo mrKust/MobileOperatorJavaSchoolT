@@ -1,6 +1,6 @@
 :root {
-    --color1: #808000;
-    --color2: #006400;
+    --color1: #7FFF00;
+    --color2: #ADFF2F;
 }
 
 footer {
@@ -11,11 +11,13 @@ footer {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= var(--color1),
     endColorstr= var(--color2),GradientType=1 );
     text-align: center ;
+    padding-bottom: 20px;
 
 }
 
 strong.text {
-    color: cyan;
-    -webkit-text-stroke: 0.15px white;
+    font-size: larger;
+    color: white;
+    -webkit-text-stroke: 1px black;
 
 }

@@ -12,48 +12,52 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>All Contracts</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <h3>All Contracts</h3>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <table class="table table-striped">
-            <thead>
+            <table class="table table-striped">
+                <thead>
                 <th scope="col">Client's phone number</th>
                 <th scope="col">Client's email</th>
                 <th scope="col">Current tariff</th>
-            </thead>
-            <tbody>
-            <c:forEach var="contracts" items="${allContracts}">
+                </thead>
+                <tbody>
+                <c:forEach var="contracts" items="${allContracts}">
 
-                <c:url var="controlUpdateButton" value="/control/updateContract">
-                    <c:param name="contractId" value="${contracts.id}"/>
-                </c:url>
+                    <c:url var="controlUpdateButton" value="/control/updateContract">
+                        <c:param name="contractId" value="${contracts.id}"/>
+                    </c:url>
 
-                <c:url var="deleteButton" value="/control/deleteContract">
-                    <c:param name="contractId" value="${contracts.id}"/>
-                </c:url>
+                    <c:url var="deleteButton" value="/control/deleteContract">
+                        <c:param name="contractId" value="${contracts.id}"/>
+                    </c:url>
 
-                <tr>
-                    <th scope="row">${contracts.contractClient.phoneNumber}</th>
-                    <td>${contracts.contractClient.emailAddress}</td>
-                    <td>${contracts.contractTariff.tariffName}</td>
-                    <td>
-                        <button type="button" class="btn btn-secondary"
-                                onclick="window.location.href = '${controlUpdateButton}'">Update</button>
-                        <button type="button" class="btn btn-danger"
-                                onclick="window.location.href = '${deleteButton}'">Delete</button>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <button type="button" class="btn btn-primary"
-                onclick="window.location.href = '/control/addNewContract'">Add</button>
-    </div>
+                    <tr>
+                        <th scope="row">${contracts.contractClient.phoneNumber}</th>
+                        <td>${contracts.contractClient.emailAddress}</td>
+                        <td>${contracts.contractTariff.tariffName}</td>
+                        <td>
+                            <button type="button" class="btn btn-secondary"
+                                    onclick="window.location.href = '${controlUpdateButton}'">Update</button>
+                            <button type="button" class="btn btn-danger"
+                                    onclick="window.location.href = '${deleteButton}'">Delete</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary"
+                    onclick="window.location.href = '/control/addNewContract'">Add</button>
+        </div>
+    </main>
 
     <jsp:include page="../common/footer.jsp"/>
 </body>

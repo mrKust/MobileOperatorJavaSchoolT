@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,27 +13,35 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>New option type</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
+            <h3>New option type</h3>
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <form:form action="/control/saveOptionType" modelAttribute="optionsType">
+            <jsp:include page="../common/error-text.jsp">
+                <jsp:param name="errorMessage" value="${errorMessage}"/>
+            </jsp:include>
 
-            <form:hidden path="id"/>
+            <form:form action="/control/saveOptionType" modelAttribute="optionsType">
 
-            <div class="mb-3">
-                <label for="optionType" class="form-label">Name for category</label>
-                <form:input class="form-control" type="text" path="optionType" placeholder="input name for option category here"/>
-            </div>
+                <form:hidden path="id"/>
 
-            <input type="submit" class="btn btn-primary" value="Confirm"/>
-        </form:form>
+                <div class="mb-3">
+                    <label for="optionType" class="form-label">Name for category</label>
+                    <form:input class="form-control" type="text" path="optionType" placeholder="input name for option category here"/>
+                </div>
 
-    </div>
+                <input type="submit" class="btn btn-primary" value="Confirm"/>
+            </form:form>
+
+        </div>
+    </main>
 
     <jsp:include page="../common/footer.jsp"/>
 </body>

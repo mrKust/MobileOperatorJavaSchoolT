@@ -12,65 +12,69 @@
     </head>
 
     <body>
-        <header>
-            <security:authorize access="hasRole('client')">
+        <security:authorize access="hasRole('client')">
+            <header>
                 <div class="container">
-                    <div class="row">
-                        <div class="col-2">
-                            <a href="/">Main page</a>
-                        </div>
-                        <div class="col-2">
-                            <a href="/common/allOptions" class="link-info">Options list</a>
-                        </div>
-                        <div class="col-2">
-                            <a href="/common/allTariffs" class="link-info">Tariffs list</a>
-                        </div>
-                        <div class="col-2">
-                            <a href="/client/updateClient" class="link-primary">My user info</a>
-                        </div>
-                        <div class="col-2">
-                            <a href="/client/updateContract" class="link-primary">My contract</a>
-                        </div>
-                        <div class="col-2">
-                            <a href="/logout" class="link-danger">Logout</a></nav>
-                        </div>
-                    </div>
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link" aria-current="page">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/common/allOptions" class="nav-link">Options list</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/common/allTariffs" class="nav-link">Tariffs list</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/client/updateClient" class="nav-link">My user info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/client/updateContract" class="nav-link">My contract</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/logout" class="nav-link link-danger">Logout</a>
+                        </li>
+                    </ul>
                 </div>
-            </security:authorize>
+                <br>
+                <h2>E-care project
+                    <small class="text-muted">you're goddamn right</small>
+                </h2>
+            </header>
+        </security:authorize>
 
-            <security:authorize access="hasRole('control')">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-2">
-                            <a href="/">Main page</a>
-                        </div>
-                        <div class="col-2">
-                            <a href="/common/allOptions" class="link-info">Options list</a>
-                        </div>
-                        <div class="col-2">
-                            <a href="/common/allTariffs" class="link-info">Tariffs list</a>
-                        </div>
-                        <div class="col-2">
-                            <a href="/control/allClients" class="link-primary">Clients list</a>
-                        </div>
-                        <div class="col-2">
-                             <a href="/control/allContracts" class="link-primary">Contracts list</a>
-                        </div>
-                        <div class="col-1">
-                            <a href="/control/inputNumberToSearch" class="link-info">Search</a>
-                        </div>
-                        <div class="col-1">
-                            <a href="/logout" class="link-danger">Logout</a></nav>
-                        </div>
-                    </div>
+        <security:authorize access="hasRole('control')">
+            <header>
+                <div class="container d-flex justify-content-center py-3">
+                    <ul id="menu" class="nav nav-pills">
+                        <li>
+                            <a href="/" class="nav-link" aria-current="page">Home</a>
+                        </li>
+                        <li>
+                            <a href="/common/allOptions" class="nav-link">Options list</a>
+                        </li>
+                        <li>
+                            <a href="/common/allTariffs" class="nav-link">Tariffs list</a>
+                        </li>
+                        <li>
+                            <a href="/control/allClients" class="nav-link">Clients list</a>
+                        </li>
+                        <li>
+                            <a href="/control/allContracts" class="nav-link">Contracts list</a>
+                        </li>
+                        <li>
+                            <a href="/control/inputNumberToSearch" class="nav-link">Search</a>
+                        </li>
+                        <li>
+                            <a href="/logout" class="nav-link link-danger">Logout</a>
+                        </li>
+                    </ul>
                 </div>
-
+                <br>
+                <h2>E-care project
+                    <small class="text-muted">you're goddamn right</small>
+                </h2>
+            </header>
             </security:authorize>
-
-            <h2>E-care project
-                <small class="text-muted">you're goddamn right</small>
-            </h2>
-
-        </header>
-</body>
+    </body>
 </html>

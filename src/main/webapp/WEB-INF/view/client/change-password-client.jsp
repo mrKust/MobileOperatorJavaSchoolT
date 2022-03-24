@@ -15,50 +15,53 @@
 <body>
 
     <jsp:include page="../common/header.jsp"/>
-    <h3>Create new password</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
+            <h3>Create new password</h3>
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <form:form action="/common/saveClient" modelAttribute="model">
+            <form:form action="/common/saveClient" modelAttribute="model">
 
-            <form:hidden path="client.id"/>
-            <form:hidden path="client.userRole"/>
-            <form:hidden path="client.firstName"/>
-            <form:hidden path="client.surname"/>
-            <form:hidden path="client.dateOfBirth"/>
-            <form:hidden path="client.passportNumber"/>
-            <form:hidden path="client.address"/>
-            <form:hidden path="client.phoneNumber"/>
-            <form:hidden path="client.emailAddress"/>
-            <form:hidden path="client.clientNumberReadyToWorkStatus"/>
-            <form:hidden path="operationType"/>
+                <form:hidden path="client.id"/>
+                <form:hidden path="client.userRole"/>
+                <form:hidden path="client.firstName"/>
+                <form:hidden path="client.surname"/>
+                <form:hidden path="client.dateOfBirth"/>
+                <form:hidden path="client.passportNumber"/>
+                <form:hidden path="client.address"/>
+                <form:hidden path="client.phoneNumber"/>
+                <form:hidden path="client.emailAddress"/>
+                <form:hidden path="client.clientNumberReadyToWorkStatus"/>
+                <form:hidden path="operationType"/>
 
 
-            <div class="input-group">
-                <span class="input-group-text">Input new password and repeat it</span>
-                <form:input type="password" aria-label="Password" class="form-control"
-                            path="passwordString" aria-described="passwordHelper"
-                            placeholder="Input new password here"/>
-                <form:input type="password" aria-label="Repeat password" class="form-control"
-                            path="passwordString2" aria-described="passwordHelper"
-                            placeholder="Repeat new password here"/>
-            </div>
-            <div class="col-auto">
+                <div class="input-group">
+                    <span class="input-group-text">Input new password and repeat it</span>
+                    <form:input type="password" aria-label="Password" class="form-control"
+                                path="passwordString" aria-described="passwordHelper"
+                                placeholder="Input new password here"/>
+                    <form:input type="password" aria-label="Repeat password" class="form-control"
+                                path="passwordString2" aria-described="passwordHelper"
+                                placeholder="Repeat new password here"/>
+                </div>
+                <div class="col-auto">
                     <span id="passwordHelp" class="form-text">
                         Must be less than 255 characters long.
                     </span>
-            </div>
+                </div>
 
 
-        <input type="submit" class="btn btn-primary" value="Confirm"/>
+                <input type="submit" class="btn btn-primary" value="Confirm"/>
 
-    </form:form>
-
-</div>
+            </form:form>
+        </div>
+    </main>
 
 <jsp:include page="../common/footer.jsp"/>
 

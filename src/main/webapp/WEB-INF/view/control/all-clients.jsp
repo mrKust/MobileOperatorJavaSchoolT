@@ -13,16 +13,19 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>All Clients</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <h3>All Clients</h3>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <table class="table table-striped">
-            <thead>
+            <table class="table table-striped">
+                <thead>
                 <th scope="col">Client's name</th>
                 <th scope="col">Client's surname</th>
                 <th scope="col">Mobile number</th>
@@ -30,61 +33,62 @@
                 <th scope="col">User's role</th>
                 <th scope="col">Ready to work status</th>
                 <th scope="col">Operations</th>
-            </thead>
-            <tbody>
-            <c:forEach var="clients" items="${allClients}">
+                </thead>
+                <tbody>
+                <c:forEach var="clients" items="${allClients}">
 
-                <c:url var="controlUpdateButton" value="/control/updateClient">
-                    <c:param name="clientId" value="${clients.id}"/>
-                </c:url>
+                    <c:url var="controlUpdateButton" value="/control/updateClient">
+                        <c:param name="clientId" value="${clients.id}"/>
+                    </c:url>
 
-                <c:url var="deleteButton" value="/control/deleteClient">
-                    <c:param name="clientId" value="${clients.id}"/>
-                </c:url>
+                    <c:url var="deleteButton" value="/control/deleteClient">
+                        <c:param name="clientId" value="${clients.id}"/>
+                    </c:url>
 
-                <c:url var="controlLockButton" value="/common/lockClient">
-                    <c:param name="clientId" value="${clients.id}"/>
-                </c:url>
+                    <c:url var="controlLockButton" value="/common/lockClient">
+                        <c:param name="clientId" value="${clients.id}"/>
+                    </c:url>
 
-                <c:url var="controlUnlockButton" value="/common/unlockClient">
-                    <c:param name="clientId" value="${clients.id}"/>
-                </c:url>
+                    <c:url var="controlUnlockButton" value="/common/unlockClient">
+                        <c:param name="clientId" value="${clients.id}"/>
+                    </c:url>
 
-                <tr>
-                    <th scope="row">${clients.surname}</th>
-                    <td>${clients.firstName}</td>
-                    <td>${clients.phoneNumber}</td>
-                    <td>${clients.emailAddress}</td>
-                    <td>${clients.userRole}</td>
-                    <td>${clients.clientNumberReadyToWorkStatus}</td>
-                    <td>
-                        <security:authorize access="hasRole('control')">
-                            <button type="button" class="btn btn-secondary"
-                                    onclick="window.location.href = '${controlUpdateButton}'">Update</button>
-                            <button type="button" class="btn btn-danger"
-                                    onclick="window.location.href = '${deleteButton}'">Delete</button>
-                            <c:choose>
-                                <c:when test="${clients.clientNumberReadyToWorkStatus==true}">
-                                    <button type="button" class="btn btn-warning"
-                                            onclick="window.location.href = '${controlLockButton}'">Lock</button>
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" class="btn btn-warning"
-                                            onclick="window.location.href = '${controlUnlockButton}'">Unlock</button>
-                                </c:otherwise>
-                            </c:choose>
-                        </security:authorize>
-                    </td>
-                </tr>
+                    <tr>
+                        <th scope="row">${clients.surname}</th>
+                        <td>${clients.firstName}</td>
+                        <td>${clients.phoneNumber}</td>
+                        <td>${clients.emailAddress}</td>
+                        <td>${clients.userRole}</td>
+                        <td>${clients.clientNumberReadyToWorkStatus}</td>
+                        <td>
+                            <security:authorize access="hasRole('control')">
+                                <button type="button" class="btn btn-secondary"
+                                        onclick="window.location.href = '${controlUpdateButton}'">Update</button>
+                                <button type="button" class="btn btn-danger"
+                                        onclick="window.location.href = '${deleteButton}'">Delete</button>
+                                <c:choose>
+                                    <c:when test="${clients.clientNumberReadyToWorkStatus==true}">
+                                        <button type="button" class="btn btn-warning"
+                                                onclick="window.location.href = '${controlLockButton}'">Lock</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-warning"
+                                                onclick="window.location.href = '${controlUnlockButton}'">Unlock</button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </security:authorize>
+                        </td>
+                    </tr>
 
-            </c:forEach>
-            </tbody>
-        </table>
-        <button type="button" class="btn btn-primary"
-                onclick="window.location.href = '/control/addNewClient'">Add</button>
-        <button type="button" class="btn btn-secondary"
-                onclick="window.location.href = '/control/addNewPhoneNumber'">Add new phone number</button>
-    </div>
+                </c:forEach>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary"
+                    onclick="window.location.href = '/control/addNewClient'">Add</button>
+            <button type="button" class="btn btn-secondary"
+                    onclick="window.location.href = '/control/addNewPhoneNumber'">Add new phone number</button>
+        </div>
+    </main>
 
     <jsp:include page="../common/footer.jsp"/>
 </body>

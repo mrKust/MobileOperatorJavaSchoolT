@@ -13,45 +13,50 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>New phone number</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
+            <h3>New phone number</h3>
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <form:form action="/control/savePhoneNumber" modelAttribute="phoneNumber">
+            <form:form action="/control/savePhoneNumber" modelAttribute="phoneNumber">
 
-            <form:hidden path="id"/>
-            <form:hidden path="availableToConnectStatus"/>
+                <form:hidden path="id"/>
+                <form:hidden path="availableToConnectStatus"/>
 
-            <div class="mb-3">
-                <label for="phoneNumber" class="form-label">Number</label>
-                <form:input class="form-control" type="tel" path="phoneNumber" list="numbers"
-                        placeholder="Phone number: 8XXXXXXXXXX" pattern="[0-9]{11}"/>
-            </div>
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Number</label>
+                    <form:input class="form-control" type="tel" path="phoneNumber" list="numbers"
+                                placeholder="Phone number: 8XXXXXXXXXX" pattern="[0-9]{11}"/>
+                </div>
 
-            <input type="submit" class="btn btn-primary" value="Confirm"/>
-         </form:form>
+                <input type="submit" class="btn btn-primary" value="Confirm"/>
+            </form:form>
 
-        <table class="table table-striped">
-            <thead>
-            <th scope="col">Phone number</th>
-            <th scope="col">Available status</th>
-            </thead>
-            <tbody>
-            <c:forEach var="number" items="${allNumbers}">
+            <table class="table table-striped">
+                <thead>
+                <th scope="col">Phone number</th>
+                <th scope="col">Available status</th>
+                </thead>
+                <tbody>
+                <c:forEach var="number" items="${allNumbers}">
 
-                <tr>
-                    <th scope="row">${number.phoneNumber}</th>
-                    <td>${number.availableToConnectStatus}</td>
-                </tr>
+                    <tr>
+                        <th scope="row">${number.phoneNumber}</th>
+                        <td>${number.availableToConnectStatus}</td>
+                    </tr>
 
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
     <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

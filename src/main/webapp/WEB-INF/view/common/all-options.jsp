@@ -13,72 +13,78 @@
 
 <body>
     <jsp:include page="header.jsp"/>
-    <h3>All Options</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
+            <h3>All Options</h3>
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Option's name</th>
-                <th scope="col">Category</th>
-                <th scope="col">Price</th>
-                <th scope="col">Cost to add</th>
-                <th scope="col">Available to Connect</th>
-                <security:authorize access="hasRole('control')">
-                    <th scope="col">Operations</th>
-                </security:authorize>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="options" items="${allOptions}">
-
-                <c:url var="controlUpdateButton" value="/control/updateOption">
-                    <c:param name="optionId" value="${options.id}"/>
-                </c:url>
-
-                <c:url var="deleteButton" value="/control/deleteOption">
-                    <c:param name="optionId" value="${options.id}"/>
-                </c:url>
-
-                <c:url var="clientUpdateButton" value="/client/updateOption">
-                    <c:param name="optionId" value="${options.id}"/>
-                </c:url>
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <th scope="row">${options.optionsName}</th>
-                    <td>${options.optionType.optionType}</td>
-                    <td>${options.price}</td>
-                    <td>${options.costToAdd}</td>
-                    <td>${options.availableOptionToConnectOrNot}</td>
-                    <td>
-                        <security:authorize access="hasRole('control')">
-                            <button type="button" class="btn btn-secondary"
-                                    onclick="window.location.href = '${controlUpdateButton}'">Update</button>
-                            <button type="button" class="btn btn-danger"
-                                    onclick="window.location.href = '${deleteButton}'">Delete</button>
-                        </security:authorize>
-                        <security:authorize access="hasRole('client')">
-                            <button type="button" class="btn btn-info"
-                                    onclick="window.location.href = '${clientUpdateButton}'">Show external info</button>
-                        </security:authorize>
-                    </td>
+                    <th scope="col">Option's name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Cost to add</th>
+                    <security:authorize access="hasRole('control')">
+                        <th scope="col">Available to Connect</th>
+                    </security:authorize>
+                    <th scope="col">Operations</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <security:authorize access="hasRole('control')">
-            <button type="button" class="btn btn-primary"
-                    onclick="window.location.href = '/control/addNewOption'">Add</button>
-            <button type="button" class="btn btn-secondary"
-                    onclick="window.location.href = '/control/addNewOptionCategory'">Add new option category</button>
-            <button type="button" class="btn btn-info"
-                    onclick="window.location.href = '/control/allOptionCategories'">Show all options categories</button>
-        </security:authorize>
-    </div>
+                </thead>
+                <tbody>
+                <c:forEach var="options" items="${allOptions}">
+
+                    <c:url var="controlUpdateButton" value="/control/updateOption">
+                        <c:param name="optionId" value="${options.id}"/>
+                    </c:url>
+
+                    <c:url var="deleteButton" value="/control/deleteOption">
+                        <c:param name="optionId" value="${options.id}"/>
+                    </c:url>
+
+                    <c:url var="clientUpdateButton" value="/client/updateOption">
+                        <c:param name="optionId" value="${options.id}"/>
+                    </c:url>
+                    <tr>
+                        <th scope="row">${options.optionsName}</th>
+                        <td>${options.optionType.optionType}</td>
+                        <td>${options.price}</td>
+                        <td>${options.costToAdd}</td>
+                        <security:authorize access="hasRole('control')">
+                            <td>${options.availableOptionToConnectOrNot}</td>
+                        </security:authorize>
+                        <td>
+                            <security:authorize access="hasRole('control')">
+                                <button type="button" class="btn btn-secondary"
+                                        onclick="window.location.href = '${controlUpdateButton}'">Update</button>
+                                <button type="button" class="btn btn-danger"
+                                        onclick="window.location.href = '${deleteButton}'">Delete</button>
+                            </security:authorize>
+                            <security:authorize access="hasRole('client')">
+                                <button type="button" class="btn btn-info"
+                                        onclick="window.location.href = '${clientUpdateButton}'">Show external info</button>
+                            </security:authorize>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <security:authorize access="hasRole('control')">
+                <button type="button" class="btn btn-primary"
+                        onclick="window.location.href = '/control/addNewOption'">Add</button>
+                <button type="button" class="btn btn-secondary"
+                        onclick="window.location.href = '/control/addNewOptionCategory'">Add new option category</button>
+                <button type="button" class="btn btn-info"
+                        onclick="window.location.href = '/control/allOptionCategories'">Show all options categories</button>
+            </security:authorize>
+        </div>
+    </main>
 
     <jsp:include page="footer.jsp"/>
 </body>

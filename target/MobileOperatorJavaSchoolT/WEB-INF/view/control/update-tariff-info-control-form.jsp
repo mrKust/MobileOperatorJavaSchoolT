@@ -13,74 +13,79 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>Tariff info</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <h3>Tariff info</h3>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <form:form action="/common/saveTariff" modelAttribute="model">
+            <form:form action="/common/saveTariff" modelAttribute="model">
 
-            <form:hidden path="tariff.id"/>
-            <form:hidden path="operationType"/>
+                <form:hidden path="tariff.id"/>
+                <form:hidden path="operationType"/>
 
-            <div class="mb-3">
-                <label for="tariff.tariffName" class="form-label">Name</label>
-                <form:input class="form-control" type="text" path="tariff.tariffName" placeholder="input tariff name here"/>
-            </div>
+                <div class="mb-3">
+                    <label for="tariff.tariffName" class="form-label">Name</label>
+                    <form:input class="form-control" type="text" path="tariff.tariffName" placeholder="input tariff name here"/>
+                </div>
 
-            <div class="mb-3">
-                <label for="tariff.price" class="form-label">Price</label>
-                <form:input class="form-control" type="number" min="0" path="tariff.price" placeholder="input tariff price here"/>
-            </div>
+                <div class="mb-3">
+                    <label for="tariff.price" class="form-label">Price</label>
+                    <form:input class="form-control" type="number" min="0" path="tariff.price" placeholder="input tariff price here"/>
+                </div>
 
-            <c:forEach var="option" items="${optionsList}">
-                <c:set var="contains" value="false" />
-                <c:forEach var="item" items="${connectedOptionsList}">
-                    <c:if test="${item.id eq option.id}">
-                        <c:set var="contains" value="true" />
-                    </c:if>
-                </c:forEach>
-                <c:choose>
-                    <c:when test="${contains==true}">
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                    ${option.optionType.optionType} ${option.optionsName}
-                            </label>
-                            <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list" checked="checked"/>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <c:if test="${option.availableOptionToConnectOrNot==true}">
+                <c:forEach var="option" items="${optionsList}">
+                    <c:set var="contains" value="false" />
+                    <c:forEach var="item" items="${connectedOptionsList}">
+                        <c:if test="${item.id eq option.id}">
+                            <c:set var="contains" value="true" />
+                        </c:if>
+                    </c:forEach>
+                    <c:choose>
+                        <c:when test="${contains==true}">
                             <div class="form-check">
                                 <label class="form-check-label">
                                         ${option.optionType.optionType} ${option.optionsName}
                                 </label>
-                                <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
+                                <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list" checked="checked"/>
                             </div>
-                        </c:if>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <c:if test="${option.availableOptionToConnectOrNot==true}">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                            ${option.optionType.optionType} ${option.optionsName}
+                                    </label>
+                                    <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
+                                </div>
+                            </c:if>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
 
-            <div class="form-check form-switch">
-                <label class="form-check-label">
-                    This tariff available to connect
-                </label>
-                <c:if test="${model.tariff.availableToConnectOrNotStatus eq true}">
-                    <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" checked="checked"/>
-                </c:if>
-                <c:if test="${model.tariff.availableToConnectOrNotStatus ne true}">
-                    <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus"/>
-                </c:if>
+                <div class="form-check form-switch">
+                    <label class="form-check-label">
+                        This tariff available to connect
+                    </label>
+                    <c:if test="${model.tariff.availableToConnectOrNotStatus eq true}">
+                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" checked="checked"/>
+                    </c:if>
+                    <c:if test="${model.tariff.availableToConnectOrNotStatus ne true}">
+                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus"/>
+                    </c:if>
 
-            </div>
-            <input type="submit" class="btn btn-primary" value="Confirm">
+                </div>
+                <input type="submit" class="btn btn-primary" value="Confirm">
 
-        </form:form>
-    </div>
+            </form:form>
+        </div>
+    </main>
+
     <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

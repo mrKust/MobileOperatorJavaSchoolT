@@ -13,36 +13,39 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>Tariff info</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
+            <h3>Tariff info</h3>
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <form:form action="/common/allTariffs" modelAttribute="model">
+            <form:form action="/common/allTariffs" modelAttribute="model">
 
-            <form:hidden path="tariff.id"/>
-            <form:hidden path="operationType"/>
+                <form:hidden path="tariff.id"/>
+                <form:hidden path="operationType"/>
 
-            <div class="mb-3">
-                <label for="tariff.tariffName" class="form-label">Name</label>
-                <form:input class="form-control" type="text" path="tariff.tariffName" readonly="true"/>
-            </div>
+                <div class="mb-3">
+                    <label for="tariff.tariffName" class="form-label">Name</label>
+                    <form:input class="form-control" type="text" path="tariff.tariffName" readonly="true"/>
+                </div>
 
-            <div class="mb-3">
-                <label for="tariff.price" class="form-label">Price</label>
-                <form:input class="form-control" type="text" path="tariff.price" readonly="true"/>
-            </div>
+                <div class="mb-3">
+                    <label for="tariff.price" class="form-label">Price</label>
+                    <form:input class="form-control" type="text" path="tariff.price" readonly="true"/>
+                </div>
 
-            <table class="table">
-                <label class="form-label">Available options</label>
-                <thead>
+                <table class="table">
+                    <label class="form-label">Available options</label>
+                    <thead>
                     <th scope="col">Category</th>
                     <th scope="col">Name</th>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <c:forEach var="option" items="${optionsList}">
                         <c:if test="${option.availableOptionToConnectOrNot==true}">
                             <tr>
@@ -51,20 +54,18 @@
                             </tr>
                         </c:if>
                     </c:forEach>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            <div class="mb-3">
-                <label for="tariff.price" class="form-label">This tariff available for connect</label>
-                <form:input class="form-control" type="text" path="tariff.availableToConnectOrNotStatus" readonly="true"/>
-            </div>
+                <div class="mb-3">
+                    <label for="tariff.price" class="form-label">This tariff available for connect</label>
+                    <form:input class="form-control" type="text" path="tariff.availableToConnectOrNotStatus" readonly="true"/>
+                </div>
 
-            <input type="submit" class="btn btn-primary" value="Confirm">
-
-
-        </form:form>
-    </div>
-
+                <input type="submit" class="btn btn-primary" value="Confirm">
+            </form:form>
+        </div>
+    </main>
     <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

@@ -13,40 +13,49 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>Contract info</h3>
 
-    <div class="container">
-        <form:form action="/common/saveContract" modelAttribute="model">
+    <main>
+        <div class="container">
+            <h3>Contract info</h3>
 
-            <form:hidden path="contract.id"/>
-            <form:hidden path="operationType"/>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-            <div class="mb-3">
-                <label class="form-label">Select client</label>
-                <select class="form-select" name="stringsClients">
-                    <c:forEach var="client" items="${clientsList}">
-                        <c:if test="${ ( (client.contract eq null) && (client.userRole.equals('client')) ) }">
-                            <option value="${client.id}">${client.phoneNumber} ${client.surname} ${client.emailAddress}</option>
-                        </c:if>
-                    </c:forEach>
-                </select>
-            </div>
+            <form:form action="/common/saveContract" modelAttribute="model">
 
-            <div class="mb-3">
-                <label class="form-label">Select tariff</label>
-                <select class="form-select" name="stringsTariff">
-                    <c:forEach var="tariff" items="${tariffsList}">
-                        <c:if test="${tariff.availableToConnectOrNotStatus eq true}">
-                            <option value="${tariff.id}">${tariff.tariffName}</option>
-                        </c:if>
-                    </c:forEach>
-                </select>
-            </div>
+                <form:hidden path="contract.id"/>
+                <form:hidden path="operationType"/>
 
-            <input type="submit" class="btn btn-primary" value="Confirm">
+                <div class="mb-3">
+                    <label class="form-label">Select client</label>
+                    <select class="form-select" name="stringsClients">
+                        <c:forEach var="client" items="${clientsList}">
+                            <c:if test="${ ( (client.contract eq null) && (client.userRole.equals('client')) ) }">
+                                <option value="${client.id}">${client.phoneNumber} ${client.surname} ${client.emailAddress}</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
+                </div>
 
-        </form:form>
-    </div>
+                <div class="mb-3">
+                    <label class="form-label">Select tariff</label>
+                    <select class="form-select" name="stringsTariff">
+                        <c:forEach var="tariff" items="${tariffsList}">
+                            <c:if test="${tariff.availableToConnectOrNotStatus eq true}">
+                                <option value="${tariff.id}">${tariff.tariffName}</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <input type="submit" class="btn btn-primary" value="Confirm">
+
+            </form:form>
+        </div>
+    </main>
 
     <jsp:include page="../common/footer.jsp"/>
 </body>

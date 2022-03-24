@@ -13,25 +13,29 @@
 <body>
     <jsp:include page="../common/header.jsp"/>
 
-    <div class="container">
+    <main>
+        <div class="container">
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <form action="/control/searchByPhoneNumber">
-            <label class="form-label">Input number to find the user</label>
-            <input class="form-control" type="tel" list="numbers" name="userPhoneNumber"
-                   placeholder="Phone number: 8XXXXXXXXXX" pattern="[0-9]{11}">
-            <datalist id="numbers">
-                <c:forEach var="number" items="${model.stringsNumbers}">
+            <form action="/control/searchByPhoneNumber">
+                <label class="form-label">Input number to find the user</label>
+                <input class="form-control" type="tel" list="numbers" name="userPhoneNumber"
+                       placeholder="Phone number: 8XXXXXXXXXX" pattern="[0-9]{11}">
+                <datalist id="numbers">
+                    <c:forEach var="number" items="${model.stringsNumbers}">
                     <option value="${number}">
-                </c:forEach>
-            </datalist>
+                        </c:forEach>
+                </datalist>
 
-            <input type="submit" class="btn btn-primary" value="Search">
-        </form>
-    </div>
+                <input type="submit" class="btn btn-primary" value="Search">
+            </form>
+        </div>
+    </main>
 
     <jsp:include page="../common/footer.jsp"/>
 </body>

@@ -12,41 +12,45 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>All options types</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <h3>All options types</h3>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Type</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="optionsType" items="${allOptionsType}">
-
-                <c:url var="deleteButton" value="/control/deleteOptionType">
-                    <c:param name="optionsTypeId" value="${optionsType.id}"/>
-                </c:url>
-
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <th scope="row">${optionsType.optionType}</th>
-                    <td>
-                        <button type="button" class="btn btn-danger"
-                            onclick="window.location.href = '${deleteButton}'">Delete</button>
-                    </td>
+                    <th scope="col">Type</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <br>
-        <button type="button" class="btn btn-primary"
-                onclick="window.location.href = '/control/addNewOptionCategory'">Add</button>
-    </div>
+                </thead>
+                <tbody>
+                <c:forEach var="optionsType" items="${allOptionsType}">
+
+                    <c:url var="deleteButton" value="/control/deleteOptionType">
+                        <c:param name="optionsTypeId" value="${optionsType.id}"/>
+                    </c:url>
+
+                    <tr>
+                        <th scope="row">${optionsType.optionType}</th>
+                        <td>
+                            <button type="button" class="btn btn-danger"
+                                    onclick="window.location.href = '${deleteButton}'">Delete</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <br>
+            <button type="button" class="btn btn-primary"
+                    onclick="window.location.href = '/control/addNewOptionCategory'">Add</button>
+        </div>
+    </main>
 
     <jsp:include page="../common/footer.jsp"/>
 </body>

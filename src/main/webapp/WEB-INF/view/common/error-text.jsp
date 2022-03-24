@@ -9,7 +9,9 @@
 </head>
 <body>
     <div class="container">
-        <p class="h4 text-danger">${errorMessage}</p>
+        <div class="alert alert-danger" role="alert">
+            ${errorMessage}
+        </div>
     </div>
 </body>
 </html>

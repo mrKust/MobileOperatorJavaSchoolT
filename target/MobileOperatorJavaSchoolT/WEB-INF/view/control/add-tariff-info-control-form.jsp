@@ -13,51 +13,55 @@
 
 <body>
     <jsp:include page="../common/header.jsp"/>
-    <h3>Add tariff info</h3>
 
-    <div class="container">
+    <main>
+        <div class="container">
+            <h3>Add tariff info</h3>
 
-        <jsp:include page="../common/error-text.jsp">
-            <jsp:param name="errorMessage" value="${errorMessage}"/>
-        </jsp:include>
+            <c:if test="${errorMessage ne ''}">
+                <jsp:include page="../common/error-text.jsp">
+                    <jsp:param name="errorMessage" value="${errorMessage}"/>
+                </jsp:include>
+            </c:if>
 
-        <form:form action="/common/saveTariff" modelAttribute="model">
+            <form:form action="/common/saveTariff" modelAttribute="model">
 
-            <form:hidden path="tariff.id"/>
-            <form:hidden path="operationType"/>
+                <form:hidden path="tariff.id"/>
+                <form:hidden path="operationType"/>
 
-            <div class="mb-3">
-                <label for="tariff.tariffName" class="form-label">Name</label>
-                <form:input class="form-control" type="text" path="tariff.tariffName" placeholder="input tariff name here"/>
-            </div>
+                <div class="mb-3">
+                    <label for="tariff.tariffName" class="form-label">Name</label>
+                    <form:input class="form-control" type="text" path="tariff.tariffName" placeholder="input tariff name here"/>
+                </div>
 
-            <div class="mb-3">
-                <label for="tariff.price" class="form-label">Price</label>
-                <form:input class="form-control" type="number" min="0" path="tariff.price" placeholder="input tariff price here"/>
-            </div>
+                <div class="mb-3">
+                    <label for="tariff.price" class="form-label">Price</label>
+                    <form:input class="form-control" type="number" min="0" path="tariff.price" placeholder="input tariff price here"/>
+                </div>
 
-            <c:forEach var="option" items="${optionsList}">
-                <c:if test="${option.availableOptionToConnectOrNot==true}">
-                    <div class="form-check">
-                        <lable class="form-check-label">
-                            ${option.optionType.optionType} ${option.optionsName}
-                        </lable>
-                        <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
-                    </div>
-                </c:if>
-            </c:forEach>
+                <c:forEach var="option" items="${optionsList}">
+                    <c:if test="${option.availableOptionToConnectOrNot==true}">
+                        <div class="form-check">
+                            <lable class="form-check-label">
+                                    ${option.optionType.optionType} ${option.optionsName}
+                            </lable>
+                            <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
+                        </div>
+                    </c:if>
+                </c:forEach>
 
-            <div class="form-check form-switch">
-                <label class="form-check-label">
-                    This tariff available to connect
-                </label>
-                <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus"/>
-            </div>
+                <div class="form-check form-switch">
+                    <label class="form-check-label">
+                        This tariff available to connect
+                    </label>
+                    <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus"/>
+                </div>
 
-            <input type="submit" class="btn btn-primary" value="Confirm">
+                <input type="submit" class="btn btn-primary" value="Confirm">
 
-        </form:form>
-    </div>
+            </form:form>
+        </div>
+    </main>
 
     <jsp:include page="../common/footer.jsp"/>
 </body>

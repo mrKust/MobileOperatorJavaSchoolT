@@ -12,13 +12,8 @@
     <body>
         <footer>
             <div class="container">
-                <strong class="text">Dmitry Vasilyev</strong>
-                <br><br>
-                <strong class="text">dimvas2010@yandex.ru</strong>
-                <br><br>
-                <strong class="text">2022</strong>
-                <br><br>
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="text">Rick Astley</a>
+                <strong class="text">Support email: dimvas2010@yandex.ru</strong>
+                <strong class="text">Support number 89115394615</strong>
             </div>
 
         </footer>
