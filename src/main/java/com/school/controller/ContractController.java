@@ -6,7 +6,8 @@ import com.school.database.entity.Contract;
 import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.ContractDto;
-import com.school.service.ServiceMVC;
+import com.school.service.contracts.ServiceMVC;
+import com.school.service.contracts.TariffService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +21,11 @@ public class ContractController {
 
     private final ServiceMVC<Contract> contractServiceMVC;
 
-    private final ServiceMVC<Tariff> tariffServiceMVC;
+    private final TariffService tariffServiceMVC;
 
     private final ServiceMVC<Client> clientServiceMVC;
 
-    ContractController(ServiceMVC<Contract> contractServiceMVC, ServiceMVC<Client> clientServiceMVC, ServiceMVC<Tariff> tariffServiceMVC) {
+    ContractController(ServiceMVC<Contract> contractServiceMVC, ServiceMVC<Client> clientServiceMVC, TariffService tariffServiceMVC) {
         this.contractServiceMVC = contractServiceMVC;
         this.tariffServiceMVC = tariffServiceMVC;
         this.clientServiceMVC = clientServiceMVC;
@@ -143,10 +144,9 @@ public class ContractController {
         Contract contract = client.getContract();
 
         if (contract == null) {
-            throw new BusinessLogicException("User " + principal.getName() +
+            throw new NullPointerException("User " + principal.getName() +
                     " try to get his contract, but contract " +
-                    "wasn't created", "redirect:/",
-                    "You haven't contract yet. Contact to administration");
+                    "wasn't created / You haven't contract yet. Contact to administration");
         }
 
 

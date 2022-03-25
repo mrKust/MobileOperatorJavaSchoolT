@@ -25,7 +25,7 @@ public class LoggingAspect {
         return targetMethodResult;
     }
 
-    @After("execution(* com.school.service.ClientDetailService.loadUserByUsername(..))")
+    @After("execution(* com.school.service.security.ClientDetailService.loadUserByUsername(..))")
     public void afterLoginAdvice() {
         LOG.info("User logged in system ");
 

@@ -4,7 +4,8 @@ import com.school.customException.BusinessLogicException;
 import com.school.database.entity.Client;
 import com.school.database.entity.Number;
 import com.school.dto.ClientDto;
-import com.school.service.ServiceMVC;
+import com.school.service.contracts.NumberService;
+import com.school.service.contracts.ServiceMVC;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +22,9 @@ public class ClientController {
 
     private final ServiceMVC<Client> clientServiceMVC;
 
-    private final ServiceMVC<Number> numberServiceMVC;
+    private final NumberService numberServiceMVC;
 
-    ClientController(ServiceMVC<Client> clientServiceMVC, ServiceMVC<Number> numberServiceMVC) {
+    ClientController(ServiceMVC<Client> clientServiceMVC, NumberService numberServiceMVC) {
         this.clientServiceMVC = clientServiceMVC;
         this.numberServiceMVC = numberServiceMVC;
     }
@@ -45,8 +46,8 @@ public class ClientController {
         tmp.setClient(new Client());
         tmp.setOperationType("add");
         tmp.getClient().setClientNumberReadyToWorkStatus(true);
-        List<Number> allNumbers = numberServiceMVC.getAll();
-        tmp.setStringsNumbers(tmp.wrapAvailableNumbersInString(allNumbers));
+        List<Number> allAvailableNumbers = numberServiceMVC.getAllUnused();
+        tmp.setStringsNumbers(tmp.wrapAvailableNumbersInString(allAvailableNumbers));
         model.addAttribute("model", tmp);
         return "control/add-client-info-control-form";
     }
@@ -88,7 +89,7 @@ public class ClientController {
             if (clientDto.getClient().getUserRole().equals("client")) {
                 number = numberServiceMVC.getByName(clientDto.getClient().getPhoneNumber());
                 number.setAvailableToConnectStatus(false);
-                numberServiceMVC.save(number);
+                numberServiceMVC.update(number);
             }
 
             String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getClient().getPasswordLogIn());
@@ -160,7 +161,7 @@ public class ClientController {
         if (client.getUserRole().equals("client")) {
             Number number = numberServiceMVC.getByName(client.getPhoneNumber());
             number.setAvailableToConnectStatus(true);
-            numberServiceMVC.save(number);
+            numberServiceMVC.update(number);
 
         }
         clientServiceMVC.delete(id);
@@ -185,7 +186,7 @@ public class ClientController {
     public String getSearchData(Model model, @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
-        clientDto.setStringsNumbers(clientDto.wrapUsedNumbersInString(numberServiceMVC.getAll()));
+        clientDto.setStringsNumbers(clientDto.wrapUsedNumbersInString(numberServiceMVC.getAllUsed()));
         model.addAttribute("model", clientDto);
         return "control/input-number-for-search";
     }

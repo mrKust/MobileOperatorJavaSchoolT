@@ -1,5 +1,6 @@
 package com.school.configuration;
 
+import com.school.advice.securityAdvice;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -23,6 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new securityAdvice();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
@@ -35,7 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/client/**").hasRole("client")
                 .antMatchers("/control/**").hasRole("control")
                 .antMatchers("/").authenticated()
-                .and().formLogin();
+                .and().formLogin()
+                .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler());
     }
 
 }

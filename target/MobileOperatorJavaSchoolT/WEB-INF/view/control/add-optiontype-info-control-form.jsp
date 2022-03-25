@@ -24,10 +24,6 @@
                 </jsp:include>
             </c:if>
 
-            <jsp:include page="../common/error-text.jsp">
-                <jsp:param name="errorMessage" value="${errorMessage}"/>
-            </jsp:include>
-
             <form:form action="/control/saveOptionType" modelAttribute="optionsType">
 
                 <form:hidden path="id"/>

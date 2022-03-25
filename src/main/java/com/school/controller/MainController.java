@@ -1,7 +1,7 @@
 package com.school.controller;
 
 import com.school.database.entity.Client;
-import com.school.service.ServiceMVC;
+import com.school.service.contracts.ServiceMVC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -2,8 +2,9 @@ package com.school.controller;
 
 import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
-import com.school.service.ServiceMVC;
+import com.school.service.contracts.OptionsService;
 import com.school.dto.TariffDto;
+import com.school.service.contracts.TariffService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,11 +16,11 @@ import java.util.List;
 @Controller
 public class TariffController {
 
-    private final ServiceMVC<Tariff> tariffServiceMVC;
+    private final TariffService tariffServiceMVC;
 
-    private final ServiceMVC<Options> optionsServiceMVC;
+    private final OptionsService optionsServiceMVC;
 
-    TariffController(ServiceMVC<Tariff> tariffServiceMVC, ServiceMVC<Options> optionsServiceMVC) {
+    TariffController(TariffService tariffServiceMVC, OptionsService optionsServiceMVC) {
         this.tariffServiceMVC = tariffServiceMVC;
         this.optionsServiceMVC = optionsServiceMVC;
     }
@@ -52,13 +53,7 @@ public class TariffController {
     public String saveTariff(@ModelAttribute("model") TariffDto tariffDto,
                              @ModelAttribute("errorMessage") String errorMessage) {
 
-        Tariff tariff = tariffDto.getTariff();
-        if (tariffDto.getOperationType().equals("update")) {
-
-            tariff.setOptions(tariffDto.wrapStringsToList(optionsServiceMVC.getAll()));
-        }
-
-        tariffServiceMVC.save(tariff);
+        tariffServiceMVC.save(tariffDto);
 
         return "redirect:/common/allTariffs";
     }

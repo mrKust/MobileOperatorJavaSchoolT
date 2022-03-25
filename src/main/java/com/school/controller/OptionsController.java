@@ -1,9 +1,9 @@
 package com.school.controller;
 
-import com.school.database.entity.OptionType;
 import com.school.database.entity.Options;
 import com.school.dto.OptionsDto;
-import com.school.service.ServiceMVC;
+import com.school.service.contracts.OptionTypeService;
+import com.school.service.contracts.OptionsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,10 +15,10 @@ import java.util.List;
 @Controller
 public class OptionsController {
 
-    private final ServiceMVC<Options> optionsServiceMVC;
-    private final ServiceMVC<OptionType> optionTypeServiceMVC;
+    private final OptionsService optionsServiceMVC;
+    private final OptionTypeService optionTypeServiceMVC;
 
-    OptionsController(ServiceMVC<Options> optionsServiceMVC, ServiceMVC<OptionType> optionTypeServiceMVC) {
+    OptionsController(OptionsService optionsServiceMVC, OptionTypeService optionTypeServiceMVC) {
         this.optionsServiceMVC = optionsServiceMVC;
         this.optionTypeServiceMVC = optionTypeServiceMVC;
     }
@@ -49,15 +49,7 @@ public class OptionsController {
     public String saveOption(@ModelAttribute("model") OptionsDto optionsDto,
                              @ModelAttribute("errorMessage") String errorMessage) {
 
-        if (optionsDto.getStringOptionCategory() != null) {
-
-            String[] chosenOptionType = optionsDto.getStringOptionCategory();
-            OptionType optionType = optionTypeServiceMVC.get(
-                    Integer.parseInt(chosenOptionType[0]));
-            optionsDto.getOptions().setOptionType(optionType);
-        }
-
-        optionsServiceMVC.save(optionsDto.getOptions());
+        optionsServiceMVC.save(optionsDto);
 
         return "redirect:/common/allOptions";
     }

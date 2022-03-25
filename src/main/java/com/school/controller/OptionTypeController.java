@@ -1,8 +1,7 @@
 package com.school.controller;
 
 import com.school.database.entity.OptionType;
-import com.school.database.entity.Options;
-import com.school.service.ServiceMVC;
+import com.school.service.contracts.OptionTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,12 +13,10 @@ import java.util.List;
 @Controller
 public class OptionTypeController {
 
-    private final ServiceMVC<OptionType> optionTypeServiceMVC;
-    private final ServiceMVC<Options> optionsServiceMVC;
+    private final OptionTypeService optionTypeServiceMVC;
 
-    OptionTypeController(ServiceMVC<OptionType> optionTypeServiceMVC, ServiceMVC<Options> optionsServiceMVC) {
+    OptionTypeController(OptionTypeService optionTypeServiceMVC) {
         this.optionTypeServiceMVC = optionTypeServiceMVC;
-        this.optionsServiceMVC = optionsServiceMVC;
     }
 
     @RequestMapping("/control/allOptionCategories")
@@ -55,13 +52,8 @@ public class OptionTypeController {
     public String deleteOptionType(@RequestParam("optionsTypeId") int optionsTypeId,
                                    @ModelAttribute("errorMessage") String errorMessage) {
 
-        OptionType optionsType = optionTypeServiceMVC.get(optionsTypeId);
-        List<Options> allOptions = optionsServiceMVC.getAll();
-        for(Options tmp : allOptions) {
-            if (tmp.getOptionType().getOptionType().equals(optionsType.getOptionType()))
-                optionsServiceMVC.delete(tmp.getId());
-        }
         optionTypeServiceMVC.delete(optionsTypeId);
+
 
         return "redirect:/control/allOptionCategories";
     }

@@ -1,10 +1,9 @@
 package com.school.controller;
 
 import com.school.customException.BusinessLogicException;
-import com.school.database.entity.Client;
 import com.school.database.entity.Number;
 import com.school.dto.NumberDto;
-import com.school.service.ServiceMVC;
+import com.school.service.contracts.NumberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class NumberController {
 
-    private final ServiceMVC<Number> numberServiceMVC;
+    private final NumberService numberServiceMVC;
 
-    NumberController(ServiceMVC<com.school.database.entity.Number> numberServiceMVC) {
+    NumberController(NumberService numberServiceMVC) {
         this.numberServiceMVC = numberServiceMVC;
     }
 
@@ -35,12 +34,6 @@ public class NumberController {
 
         NumberDto numberDto = new NumberDto();
         numberDto.setPhoneNumber(phoneNumber.getPhoneNumber());
-
-        if (!numberDto.checkNumberToUnique(numberServiceMVC.getAll())) {
-            throw new BusinessLogicException("User try to add phone number" +
-                    " which we already in base", "redirect:/control/addNewPhoneNumber",
-                    "This phone number already in base");
-        }
 
         numberServiceMVC.save(phoneNumber);
 
