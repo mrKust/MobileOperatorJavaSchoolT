@@ -1,6 +1,5 @@
 package com.school.database.dao.contracts;
 
-import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface TariffDao {
 
     List<Object> getTariffOptions(int id);
 
-    void save(Tariff t);
+    void save(Tariff tariff);
 
     void delete(int id);
 

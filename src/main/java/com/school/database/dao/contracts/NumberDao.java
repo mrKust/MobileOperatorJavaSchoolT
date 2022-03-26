@@ -8,7 +8,7 @@ public interface NumberDao {
 
     Number get(int id);
 
-    Number getByName(String name);
+    Number getByPhoneNumber(String phoneNumber);
 
     List<Number> getAll();
 
@@ -18,7 +18,7 @@ public interface NumberDao {
 
     boolean checkNumberToUnique(Number number);
 
-    void save(Number t);
+    void save(Number number);
 
     void delete(int id);
 

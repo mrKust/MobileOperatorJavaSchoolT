@@ -87,7 +87,7 @@ public class ClientController {
             String roleCast = clientDto.getClient().getUserRole().replace(",", "");
             clientDto.getClient().setUserRole(roleCast);
             if (clientDto.getClient().getUserRole().equals("client")) {
-                number = numberServiceMVC.getByName(clientDto.getClient().getPhoneNumber());
+                number = numberServiceMVC.getByPhoneNumber(clientDto.getClient().getPhoneNumber());
                 number.setAvailableToConnectStatus(false);
                 numberServiceMVC.update(number);
             }
@@ -159,7 +159,7 @@ public class ClientController {
 
         Client client = clientServiceMVC.get(id);
         if (client.getUserRole().equals("client")) {
-            Number number = numberServiceMVC.getByName(client.getPhoneNumber());
+            Number number = numberServiceMVC.getByPhoneNumber(client.getPhoneNumber());
             number.setAvailableToConnectStatus(true);
             numberServiceMVC.update(number);
 

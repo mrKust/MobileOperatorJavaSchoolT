@@ -16,7 +16,7 @@ public interface OptionsService {
     List<Options> getAllAvailable();
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    void save(OptionsDto t);
+    void save(OptionsDto optionsDto);
 
     @Transactional(propagation = Propagation.NESTED)
     Options get(int id);

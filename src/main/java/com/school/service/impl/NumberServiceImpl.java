@@ -58,8 +58,8 @@ public class NumberServiceImpl implements NumberService {
     }
 
     @Override
-    public void update(Number t) {
-        numberDao.save(t);
+    public void update(Number number) {
+        numberDao.save(number);
     }
 
     @Override
@@ -68,8 +68,8 @@ public class NumberServiceImpl implements NumberService {
     }
 
     @Override
-    public Number getByName(String name) {
-        return numberDao.getByName(name);
+    public Number getByPhoneNumber(String phoneNumber) {
+        return numberDao.getByPhoneNumber(phoneNumber);
     }
 
     @Override

@@ -27,12 +27,12 @@ public class NumberDaoImpl implements NumberDao {
     }
 
     @Override
-    public Number getByName(String num) {
+    public Number getByPhoneNumber(String phoneNumber) {
 
         Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("from Number where phoneNumber=:phoneNumber");
-        query.setParameter("phoneNumber", num);
+        query.setParameter("phoneNumber", phoneNumber);
 
         return (Number) query.getSingleResult();
 

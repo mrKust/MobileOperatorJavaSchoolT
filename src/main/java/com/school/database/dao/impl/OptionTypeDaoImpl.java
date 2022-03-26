@@ -38,10 +38,10 @@ public class OptionTypeDaoImpl implements OptionTypeDao {
     }
 
     @Override
-    public void save(OptionType optionsType) {
+    public void save(OptionType optionType) {
 
         Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(optionsType);
+        session.saveOrUpdate(optionType);
 
     }
 

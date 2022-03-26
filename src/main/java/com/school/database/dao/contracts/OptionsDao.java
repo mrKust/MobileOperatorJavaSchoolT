@@ -12,7 +12,7 @@ public interface OptionsDao {
 
     List<Options> getAllAvailable();
 
-    void save(Options t);
+    void save(Options options);
 
     void delete(int id);
 

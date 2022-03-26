@@ -1,6 +1,5 @@
 package com.school.database.dao.contracts;
 
-import com.school.database.entity.Number;
 import com.school.database.entity.OptionType;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public interface OptionTypeDao {
 
     List<OptionType> getAll();
 
-    void save(OptionType t);
+    void save(OptionType optionType);
 
     boolean checkOptionTypeToUnique(OptionType optionType);
 

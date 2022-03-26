@@ -21,16 +21,16 @@ public interface NumberService {
     boolean checkNumberToUnique(Number number);
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    void save(Number t);
+    void save(Number number);
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    void update(Number t);
+    void update(Number number);
 
     @Transactional(propagation = Propagation.NESTED)
     Number get(int id);
 
     @Transactional(propagation = Propagation.NESTED)
-    Number getByName(String name);
+    Number getByPhoneNumber(String phoneNumber);
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     void delete(int id);

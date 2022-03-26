@@ -23,13 +23,13 @@ public class OptionTypeServiceImpl implements OptionTypeService {
     }
 
     @Override
-    public void save(OptionType optionsType) {
+    public void save(OptionType optionType) {
 
-        if (!checkOptionTypeToUnique(optionsType)) {
+        if (!checkOptionTypeToUnique(optionType)) {
             throw new ServiceLayerException("Type with this name has already created");
         }
 
-        optionsTypeDao.save(optionsType);
+        optionsTypeDao.save(optionType);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.school.service.contracts;
 
-import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.TariffDto;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,7 +16,7 @@ public interface TariffService {
     List<Object> getTariffOptions(int id);
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    void save(TariffDto t);
+    void save(TariffDto tariffDto);
 
     @Transactional(propagation = Propagation.NESTED)
     Tariff get(int id);
