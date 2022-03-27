@@ -33,6 +33,11 @@ public class OptionsServiceImpl implements OptionsService {
     }
 
     @Override
+    public List<Options> getOptionsFromChosenList(List<Integer> list) {
+        return optionsDao.getOptionsFromChosenList(list);
+    }
+
+    @Override
     public void save(OptionsDto optionsDto) {
         Options option = optionsDto.getOptions();
         if (optionsDto.getStringOptionCategory() != null) {

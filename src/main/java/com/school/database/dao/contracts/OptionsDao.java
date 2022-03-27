@@ -18,6 +18,9 @@ public interface OptionsDao {
     List<Options> getAllAvailable();
 
     @Transactional
+    List<Options> getOptionsFromChosenList(List<Integer> list);
+
+    @Transactional
     void save(Options options);
 
     @Transactional

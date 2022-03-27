@@ -31,9 +31,7 @@ public class TariffServiceImpl  implements TariffService {
     @Override
     public void save(TariffDto tariffDto) {
         Tariff tariff = tariffDto.getTariff();
-
-        tariff.setOptions(tariffDto.wrapStringsToList(optionsService.getAll()));
-        //tariff.setOptions(optionsService.getListOfChosenOption(tariffDto.getChosenOptionsList()));
+        tariff.setOptions(optionsService.getOptionsFromChosenList(tariffDto.getChosenOptionsList()));
         tariffDao.save(tariff);
     }
 

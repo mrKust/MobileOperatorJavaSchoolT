@@ -46,6 +46,16 @@ public class OptionsDaoImpl implements OptionsDao {
     }
 
     @Override
+    public List<Options> getOptionsFromChosenList(List<Integer> list) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Options where id in :idList");
+        query.setParameter("idList", list);
+
+        return query.getResultList();
+    }
+
+    @Override
     public void save(Options options) {
 
         Session session = sessionFactory.getCurrentSession();

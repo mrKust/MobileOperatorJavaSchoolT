@@ -13,6 +13,8 @@ public interface OptionsService {
 
     List<Options> getAllAvailable();
 
+    List<Options> getOptionsFromChosenList(List<Integer> list);
+
     void save(OptionsDto optionsDto);
 
     Options get(int id);
