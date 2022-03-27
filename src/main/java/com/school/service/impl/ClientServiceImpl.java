@@ -1,18 +1,19 @@
 package com.school.service.impl;
 
-import com.school.database.dao.Dao;
+import com.school.database.dao.contracts.ClientDao;
 import com.school.database.entity.Client;
-import com.school.service.contracts.ServiceMVC;
+import com.school.dto.ClientDto;
+import com.school.service.contracts.ClientService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ClientServiceImpl implements ServiceMVC<Client> {
+public class ClientServiceImpl implements ClientService {
 
-    private final Dao<Client> clientDao;
+    private final ClientDao clientDao;
 
-    ClientServiceImpl(Dao<Client> clientDao) {
+    ClientServiceImpl(ClientDao clientDao) {
         this.clientDao = clientDao;
     }
 
@@ -22,8 +23,8 @@ public class ClientServiceImpl implements ServiceMVC<Client> {
     }
 
     @Override
-    public void save(Client client) {
-        clientDao.save(client);
+    public void save(ClientDto clientDto) {
+        clientDao.save(clientDto.getClient());
     }
 
     @Override
@@ -32,8 +33,8 @@ public class ClientServiceImpl implements ServiceMVC<Client> {
     }
 
     @Override
-    public Client getByName(String email) {
-        return clientDao.getByName(email);
+    public Client getByEmail(String email) {
+        return clientDao.getByEmail(email);
     }
 
     @Override

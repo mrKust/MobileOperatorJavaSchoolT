@@ -6,6 +6,7 @@ import com.school.database.entity.Contract;
 import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.ContractDto;
+import com.school.service.contracts.ClientService;
 import com.school.service.contracts.ServiceMVC;
 import com.school.service.contracts.TariffService;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,9 @@ public class ContractController {
 
     private final TariffService tariffServiceMVC;
 
-    private final ServiceMVC<Client> clientServiceMVC;
+    private final ClientService clientServiceMVC;
 
-    ContractController(ServiceMVC<Contract> contractServiceMVC, ServiceMVC<Client> clientServiceMVC, TariffService tariffServiceMVC) {
+    ContractController(ServiceMVC<Contract> contractServiceMVC, ClientService clientServiceMVC, TariffService tariffServiceMVC) {
         this.contractServiceMVC = contractServiceMVC;
         this.tariffServiceMVC = tariffServiceMVC;
         this.clientServiceMVC = clientServiceMVC;
@@ -140,7 +141,7 @@ public class ContractController {
     public String clientUpdateContract(Principal principal, Model model,
                                        @ModelAttribute("errorMessage") String errorMessage) {
 
-        Client client = clientServiceMVC.getByName(principal.getName());
+        Client client = clientServiceMVC.getByEmail(principal.getName());
         Contract contract = client.getContract();
 
         if (contract == null) {

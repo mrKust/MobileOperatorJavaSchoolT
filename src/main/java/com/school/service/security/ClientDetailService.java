@@ -1,7 +1,7 @@
 package com.school.service.security;
 
 import com.school.database.entity.Client;
-import com.school.service.contracts.ServiceMVC;
+import com.school.service.contracts.ClientService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,15 +13,15 @@ import java.util.Optional;
 @Service
 public class ClientDetailService implements UserDetailsService {
 
-    private final ServiceMVC clientService;
+    private final ClientService clientService;
 
-    public ClientDetailService(ServiceMVC<Client> clientService) {
+    public ClientDetailService(ClientService clientService) {
         this.clientService = clientService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Client tmp = (Client) clientService.getByName(s);
+        Client tmp = (Client) clientService.getByEmail(s);
         return Optional.ofNullable(tmp)
                 .map(client-> User.withUsername(client.getEmailAddress())
                         .password(client.getPasswordLogIn())

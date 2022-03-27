@@ -1,6 +1,7 @@
 package com.school.controller;
 
 import com.school.database.entity.Client;
+import com.school.service.contracts.ClientService;
 import com.school.service.contracts.ServiceMVC;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +14,9 @@ import java.security.Principal;
 @Controller
 public class MainController {
 
-    private final ServiceMVC<Client> clientServiceMVC;
+    private final ClientService clientServiceMVC;
 
-    MainController(ServiceMVC<Client> clientServiceMVC) {
+    MainController(ClientService clientServiceMVC) {
         this.clientServiceMVC = clientServiceMVC;
 
     }
@@ -23,7 +24,7 @@ public class MainController {
     @RequestMapping("/")
     public String showView(Principal principal, Model model) {
 
-        model.addAttribute("user", clientServiceMVC.getByName(principal.getName()));
+        model.addAttribute("user", clientServiceMVC.getByEmail(principal.getName()));
         return "/common/start-view";
     }
 

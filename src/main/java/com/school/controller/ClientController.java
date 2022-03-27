@@ -4,6 +4,7 @@ import com.school.customException.BusinessLogicException;
 import com.school.database.entity.Client;
 import com.school.database.entity.Number;
 import com.school.dto.ClientDto;
+import com.school.service.contracts.ClientService;
 import com.school.service.contracts.NumberService;
 import com.school.service.contracts.ServiceMVC;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,11 +21,11 @@ import java.util.List;
 @Controller
 public class ClientController {
 
-    private final ServiceMVC<Client> clientServiceMVC;
+    private final ClientService clientServiceMVC;
 
     private final NumberService numberServiceMVC;
 
-    ClientController(ServiceMVC<Client> clientServiceMVC, NumberService numberServiceMVC) {
+    ClientController(ClientService clientServiceMVC, NumberService numberServiceMVC) {
         this.clientServiceMVC = clientServiceMVC;
         this.numberServiceMVC = numberServiceMVC;
     }
@@ -103,7 +104,7 @@ public class ClientController {
         }
 
 
-        clientServiceMVC.save(clientDto.getClient());
+        clientServiceMVC.save(clientDto);
         if (request.isUserInRole("ROLE_control"))
             return "redirect:/control/allClients";
 
@@ -174,7 +175,7 @@ public class ClientController {
                                      @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
-        clientDto.setClient(clientServiceMVC.getByName(principal.getName()));
+        clientDto.setClient(clientServiceMVC.getByEmail(principal.getName()));
         clientDto.setOperationType("update");
         model.addAttribute("model", clientDto);
 
