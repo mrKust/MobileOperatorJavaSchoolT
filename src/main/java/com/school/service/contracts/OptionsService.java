@@ -9,18 +9,13 @@ import java.util.List;
 
 public interface OptionsService {
 
-    @Transactional(propagation = Propagation.NESTED)
     List<Options> getAll();
 
-    @Transactional(propagation = Propagation.NESTED)
     List<Options> getAllAvailable();
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void save(OptionsDto optionsDto);
 
-    @Transactional(propagation = Propagation.NESTED)
     Options get(int id);
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void delete(int id);
 }

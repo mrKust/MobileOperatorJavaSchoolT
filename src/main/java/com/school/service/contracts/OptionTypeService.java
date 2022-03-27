@@ -8,18 +8,13 @@ import java.util.List;
 
 public interface OptionTypeService {
 
-    @Transactional(propagation = Propagation.NESTED)
     List<OptionType> getAll();
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void save(OptionType optionType);
 
-    @Transactional(propagation = Propagation.NESTED)
     OptionType get(int id);
 
-    @Transactional(propagation = Propagation.NESTED)
     boolean checkOptionTypeToUnique(OptionType optionType);
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void delete(int id);
 }

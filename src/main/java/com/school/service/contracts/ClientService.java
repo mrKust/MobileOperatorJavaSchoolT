@@ -9,18 +9,13 @@ import java.util.List;
 
 public interface ClientService {
 
-    @Transactional(propagation = Propagation.NESTED)
     List<Client> getAll();
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void save(ClientDto clientDto);
 
-    @Transactional(propagation = Propagation.NESTED)
     Client get(int id);
 
-    @Transactional(propagation = Propagation.NESTED)
     Client getByEmail(String email);
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void delete(int id);
 }

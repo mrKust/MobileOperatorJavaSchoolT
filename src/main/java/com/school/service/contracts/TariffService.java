@@ -9,22 +9,16 @@ import java.util.List;
 
 public interface TariffService {
 
-    @Transactional(propagation = Propagation.NESTED)
     List<Tariff> getAll();
 
-    @Transactional(propagation = Propagation.NESTED)
     List<Object> getTariffOptions(int id);
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void save(TariffDto tariffDto);
 
-    @Transactional(propagation = Propagation.NESTED)
     Tariff get(int id);
 
-    @Transactional(propagation = Propagation.NESTED)
     Tariff getByName(String name);
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     void delete(int id);
 
 }
