@@ -1,13 +1,9 @@
 package com.school.controller;
 
-import com.school.customException.BusinessLogicException;
 import com.school.database.entity.Client;
-import com.school.database.entity.Number;
 import com.school.dto.ClientDto;
 import com.school.service.contracts.ClientService;
 import com.school.service.contracts.NumberService;
-import com.school.service.contracts.ServiceMVC;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,8 +43,7 @@ public class ClientController {
         tmp.setClient(new Client());
         tmp.setOperationType("add");
         tmp.getClient().setClientNumberReadyToWorkStatus(true);
-        List<Number> allAvailableNumbers = numberServiceMVC.getAllUnused();
-        tmp.setStringsNumbers(tmp.wrapAvailableNumbersInString(allAvailableNumbers));
+        tmp.setStringsNumbers(numberServiceMVC.getAllUnused());
         model.addAttribute("model", tmp);
         return "control/add-client-info-control-form";
     }
@@ -57,54 +52,11 @@ public class ClientController {
     public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request,
                              @ModelAttribute("errorMessage") String errorMessage) {
 
-        if (clientDto.getClient().getPasswordLogIn() == null)
-            if ( ( (clientDto.getPasswordString() != null) && (clientDto.getPasswordString2() != null) ) &&
-                ((!clientDto.getPasswordString().equals("")) && (!clientDto.getPasswordString2().equals(""))) ){
-                if (clientDto.getPasswordString().equals(clientDto.getPasswordString2())) {
-                    String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getPasswordString());
-                    clientDto.getClient().setPasswordLogIn(encodedPassword);
-                } else {
-                    throw new BusinessLogicException("User's new password doesn't match",
-                            "redirect:/client/changePasswordClient?clientId=" + clientDto.getClient().getId(),
-                            "Input passwords doesn't match");
-                }
-            } else {
-
-                clientDto.getClient().setPasswordLogIn(clientServiceMVC.get(clientDto.getClient().getId()).getPasswordLogIn());
-            }
-
         if (clientDto.getOperationType().equals("add")) {
 
-            if (!clientDto.checkIsUserEmailUniqueOrNot(clientServiceMVC.getAll())) {
-                throw new BusinessLogicException("User try to add user with already defined " +
-                        "email address", "redirect:/control/addNewClient",
-                        "User with this email already in system");
-            }
+            clientServiceMVC.save(clientDto);
+        } else clientServiceMVC.update(clientDto);
 
-        }
-
-        Number number = null;
-        if ( (clientDto.getOperationType() != null) && (clientDto.getOperationType().equals("add")) ) {
-            String roleCast = clientDto.getClient().getUserRole().replace(",", "");
-            clientDto.getClient().setUserRole(roleCast);
-            if (clientDto.getClient().getUserRole().equals("client")) {
-                number = numberServiceMVC.getByPhoneNumber(clientDto.getClient().getPhoneNumber());
-                number.setAvailableToConnectStatus(false);
-                numberServiceMVC.update(number);
-            }
-
-            String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getClient().getPasswordLogIn());
-            clientDto.getClient().setPasswordLogIn(encodedPassword);
-        }
-
-        if ((clientDto.getOperationType().equals("update")) && (clientDto.getPasswordString() != null)) {
-            String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getPasswordString());
-            if (!encodedPassword.equals(clientDto.getClient().getPasswordLogIn()))
-                clientDto.getClient().setPasswordLogIn(encodedPassword);
-        }
-
-
-        clientServiceMVC.save(clientDto);
         if (request.isUserInRole("ROLE_control"))
             return "redirect:/control/allClients";
 
@@ -128,17 +80,20 @@ public class ClientController {
                                     HttpServletRequest request, @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
-        clientDto.setClient(clientServiceMVC.get(id));
-        clientDto.setOperationType("lock");
-        clientDto.getClient().setClientNumberReadyToWorkStatus(false);
-        if (request.isUserInRole("ROLE_control")) {
-            clientDto.getClient().setRoleOfUserWhoBlockedNumber("control");
-        } else {
-            clientDto.getClient().setRoleOfUserWhoBlockedNumber("client");
-        }
-        model.addAttribute("model", clientDto);
+        clientDto.setId(id);
 
-        return this.saveClient(clientDto, request, errorMessage);
+        if (request.isUserInRole("ROLE_control")) {
+            clientDto.setBlockedRole("control");
+        } else {
+            clientDto.setBlockedRole("client");
+        }
+
+        clientServiceMVC.lock(clientDto);
+
+        if (request.isUserInRole("ROLE_control"))
+            return "redirect:/control/allClients";
+
+        return "redirect:/client/updateClient";
     }
 
     @RequestMapping("/common/unlockClient")
@@ -146,25 +101,20 @@ public class ClientController {
                                       HttpServletRequest request, @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
-        clientDto.setClient(clientServiceMVC.get(id));
-        clientDto.setOperationType("unlock");
-        clientDto.getClient().setClientNumberReadyToWorkStatus(true);
-        clientDto.getClient().setRoleOfUserWhoBlockedNumber(null);
-        model.addAttribute("model", clientDto);
-        return this.saveClient(clientDto, request, errorMessage);
+        clientDto.setId(id);
+
+        clientServiceMVC.unlock(clientDto);
+
+        if (request.isUserInRole("ROLE_control"))
+            return "redirect:/control/allClients";
+
+        return "redirect:/client/updateClient";
     }
 
     @RequestMapping("/control/deleteClient")
     public String deleteClient(@RequestParam("clientId") int id,
                                @ModelAttribute("errorMessage") String errorMessage) {
 
-        Client client = clientServiceMVC.get(id);
-        if (client.getUserRole().equals("client")) {
-            Number number = numberServiceMVC.getByPhoneNumber(client.getPhoneNumber());
-            number.setAvailableToConnectStatus(true);
-            numberServiceMVC.update(number);
-
-        }
         clientServiceMVC.delete(id);
 
         return "redirect:/control/allClients";
@@ -187,7 +137,7 @@ public class ClientController {
     public String getSearchData(Model model, @ModelAttribute("errorMessage") String errorMessage) {
 
         ClientDto clientDto = new ClientDto();
-        clientDto.setStringsNumbers(clientDto.wrapUsedNumbersInString(numberServiceMVC.getAllUsed()));
+        clientDto.setStringsNumbers(numberServiceMVC.getAllUsed());
         model.addAttribute("model", clientDto);
         return "control/input-number-for-search";
     }
@@ -196,15 +146,9 @@ public class ClientController {
     public String searchClientByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model,
                                             @ModelAttribute("errorMessage") String errorMessage) {
 
-        List<Client> clients = clientServiceMVC.getAll();
-        int resultId = -1;
-        for(Client tmp : clients) {
-            if (tmp.getPhoneNumber().equals(phoneNumber))
-                resultId = tmp.getId();
-        }
-        if (resultId != -1) {
-            return this.controlUpdateClient(resultId, model, errorMessage);
-        } else return this.addNewClient(model, errorMessage);
+        Client client = clientServiceMVC.getByPhoneNumber(phoneNumber);
+
+        return this.controlUpdateClient(client.getId(), model, errorMessage);
     }
 
     @RequestMapping("/client/changePasswordClient")

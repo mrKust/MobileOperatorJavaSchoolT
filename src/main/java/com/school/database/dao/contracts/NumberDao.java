@@ -18,10 +18,10 @@ public interface NumberDao {
     List<Number> getAll();
 
     @Transactional
-    List<Number> getAllUsed();
+    List<String> getAllUsed();
 
     @Transactional
-    List<Number> getAllUnused();
+    List<String> getAllUnused();
 
     @Transactional
     boolean checkNumberToUnique(Number number);

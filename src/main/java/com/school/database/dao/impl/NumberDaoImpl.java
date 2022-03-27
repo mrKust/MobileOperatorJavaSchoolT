@@ -2,6 +2,7 @@ package com.school.database.dao.impl;
 
 import com.school.database.dao.contracts.NumberDao;
 import com.school.database.entity.Number;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -49,21 +50,20 @@ public class NumberDaoImpl implements NumberDao {
     }
 
     @Override
-    public List<Number> getAllUsed() {
-
+    public List<String> getAllUsed() {
         Session session = sessionFactory.getCurrentSession();
 
-        Query query = session.createQuery("from Number where availableToConnectStatus=:status");
+        Query query = session.createQuery("select phoneNumber from Number where availableToConnectStatus=:status");
         query.setParameter("status", false);
 
         return query.getResultList();
     }
 
     @Override
-    public List<Number> getAllUnused() {
+    public List<String> getAllUnused() {
         Session session = sessionFactory.getCurrentSession();
 
-        Query query = session.createQuery("from Number where availableToConnectStatus=:status");
+        Query query = session.createQuery("select phoneNumber from Number where availableToConnectStatus=:status");
         query.setParameter("status", true);
 
         return query.getResultList();

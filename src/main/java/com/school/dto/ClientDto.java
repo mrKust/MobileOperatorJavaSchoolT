@@ -26,54 +26,7 @@ public class ClientDto {
 
     private String passwordString2;
 
-    public String wrapAvailableNumbersInJsonString(List<Number> allNumbers) {
-        JSONArray jsonArray = new JSONArray();
-        for (Number tmp : allNumbers) {
-            if (tmp.isAvailableToConnectStatus())
-                jsonArray.add(tmp.getPhoneNumber());
-        }
+    private String blockedRole;
 
-        return jsonArray.toJSONString();
-    }
-
-    public String[] wrapAvailableNumbersInString(List<Number> allNumbers) {
-        List<String> availableNumbers = new ArrayList<>();
-
-        for (Number tmp: allNumbers) {
-            if (tmp.isAvailableToConnectStatus())
-                availableNumbers.add(tmp.getPhoneNumber());
-        }
-
-        return availableNumbers.toArray(new String[0]);
-    }
-
-    public String[] wrapUsedNumbersInString(List<Number> allNumbers) {
-        List<String> usedNumbers = new ArrayList<>();
-
-        for (Number tmp: allNumbers) {
-            if (!tmp.isAvailableToConnectStatus())
-                usedNumbers.add(tmp.getPhoneNumber());
-        }
-
-        return usedNumbers.toArray(new String[0]);
-    }
-
-    public String wrapUsedNumbersInJsonString(List<Number> allNumbers) {
-        JSONArray jsonArray = new JSONArray();
-        for (Number tmp : allNumbers) {
-            if (!tmp.isAvailableToConnectStatus())
-                jsonArray.add(tmp.getPhoneNumber());
-        }
-
-        return jsonArray.toJSONString();
-    }
-
-    public boolean checkIsUserEmailUniqueOrNot(List<Client> allClients) {
-
-        for (Client tmp : allClients) {
-            if (tmp.getEmailAddress().equals(this.client.getEmailAddress()))
-                return false;
-        }
-        return true;
-    }
+    private int id;
 }

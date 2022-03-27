@@ -21,7 +21,7 @@ public class ClientDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Client tmp = (Client) clientService.getByEmail(s);
+        Client tmp = clientService.getByEmail(s);
         return Optional.ofNullable(tmp)
                 .map(client-> User.withUsername(client.getEmailAddress())
                         .password(client.getPasswordLogIn())

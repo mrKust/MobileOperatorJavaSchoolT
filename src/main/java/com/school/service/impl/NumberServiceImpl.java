@@ -28,13 +28,13 @@ public class NumberServiceImpl implements NumberService {
     }
 
     @Override
-    public List<Number> getAllUsed() {
-        return numberDao.getAllUsed();
+    public String[] getAllUsed() {
+        return numberDao.getAllUsed().toArray(new String[0]);
     }
 
     @Override
-    public List<Number> getAllUnused() {
-        return numberDao.getAllUnused();
+    public String[] getAllUnused() {
+        return numberDao.getAllUnused().toArray(new String[0]);
     }
 
     @Override

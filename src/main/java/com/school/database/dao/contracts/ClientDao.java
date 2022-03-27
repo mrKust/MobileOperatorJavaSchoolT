@@ -15,7 +15,13 @@ public interface ClientDao {
     Client getByEmail(String email);
 
     @Transactional
+    Client getByPhoneNumber(String phoneNumber);
+
+    @Transactional
     List<Client> getAll();
+
+    @Transactional
+    boolean checkUserEmailToUnique(Client client);
 
     @Transactional
     void save(Client client);

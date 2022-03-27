@@ -1,6 +1,5 @@
 package com.school.controller;
 
-import com.school.customException.BusinessLogicException;
 import com.school.database.entity.Number;
 import com.school.dto.NumberDto;
 import com.school.service.contracts.NumberService;

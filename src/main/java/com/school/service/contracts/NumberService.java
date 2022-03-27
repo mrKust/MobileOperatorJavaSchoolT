@@ -10,9 +10,9 @@ public interface NumberService {
 
     List<Number> getAll();
 
-    List<Number> getAllUsed();
+    String[] getAllUsed();
 
-    List<Number> getAllUnused();
+    String[] getAllUnused();
 
     boolean checkNumberToUnique(Number number);
 
