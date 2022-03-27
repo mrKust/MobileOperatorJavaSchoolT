@@ -27,25 +27,6 @@ public class ContractDto {
 
     private String operationType;
 
-    public Tariff wrapStringsToTariff(List<Tariff> allTariffs) {
-
-        int choosenTariffId = Integer.parseInt(stringsTariff[0]);
-        for (Tariff tmp : allTariffs) {
-            if (choosenTariffId == tmp.getId())
-                return tmp;
-        }
-        return null;
-    }
-
-    public Client wrapStringsToClient(List<Client> allClients) {
-        int choosenClientId = Integer.parseInt(stringsClients[0]);
-        for (Client tmp : allClients) {
-            if (choosenClientId == tmp.getId())
-                return tmp;
-        }
-        return null;
-    }
-
     public List<Options> wrapStringsToConnectedOptions(List<Options> allOptions) {
         List<Options> connectedOptions = new ArrayList<>();
 

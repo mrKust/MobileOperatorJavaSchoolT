@@ -1,7 +1,6 @@
 package com.school.database.dao.contracts;
 
 import com.school.database.entity.Number;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

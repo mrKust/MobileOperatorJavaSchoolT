@@ -1,7 +1,6 @@
 package com.school.database.dao.contracts;
 
 import com.school.database.entity.Tariff;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,9 +15,6 @@ public interface TariffDao {
 
     @Transactional
     List<Tariff> getAll();
-
-    @Transactional
-    List<Object> getTariffOptions(int id);
 
     @Transactional
     void save(Tariff tariff);

@@ -35,4 +35,15 @@ public class TariffDto {
 
         return result;
     }
+
+    public List<Integer> getChosenOptionsList() {
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < this.stringsOptions.length; i++) {
+            int optionId = Integer.parseInt(this.stringsOptions[i]);
+            result.add(optionId);
+        }
+
+        return result;
+    }
 }

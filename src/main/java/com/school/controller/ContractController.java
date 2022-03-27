@@ -7,6 +7,7 @@ import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.ContractDto;
 import com.school.service.contracts.ClientService;
+import com.school.service.contracts.ContractService;
 import com.school.service.contracts.ServiceMVC;
 import com.school.service.contracts.TariffService;
 import org.springframework.stereotype.Controller;
@@ -20,13 +21,13 @@ import java.util.List;
 @Controller
 public class ContractController {
 
-    private final ServiceMVC<Contract> contractServiceMVC;
+    private final ContractService contractServiceMVC;
 
     private final TariffService tariffServiceMVC;
 
     private final ClientService clientServiceMVC;
 
-    ContractController(ServiceMVC<Contract> contractServiceMVC, ClientService clientServiceMVC, TariffService tariffServiceMVC) {
+    ContractController(ContractService contractServiceMVC, ClientService clientServiceMVC, TariffService tariffServiceMVC) {
         this.contractServiceMVC = contractServiceMVC;
         this.tariffServiceMVC = tariffServiceMVC;
         this.clientServiceMVC = clientServiceMVC;
@@ -61,46 +62,8 @@ public class ContractController {
                                HttpServletRequest request, Model model, Principal principal,
                                @ModelAttribute("errorMessage") String errorMessage) {
 
+        contractServiceMVC.save(contractDto);
 
-        Contract contract = contractDto.getContract();
-        if (contractDto.getStringsTariff() != null) {
-            contract.setContractTariff(contractDto.wrapStringsToTariff(tariffServiceMVC.getAll()));
-        } else {
-            contract.setContractTariff(tariffServiceMVC.get(contract.getContractTariff().getId()));
-        }
-
-        if (contractDto.getStringsClients() != null) {
-            contract.setContractClient(contractDto.wrapStringsToClient(clientServiceMVC.getAll()));
-        }
-
-
-        List<Options> chosenOptions = contractDto.wrapStringsToConnectedOptions(contract.getContractTariff().getOptions());
-
-        if (!contractDto.checkChosenOptionForCorrect(chosenOptions)) {
-
-            String exceptionMessage = "User " + principal.getName() + " chose forbidden combination of options";
-            if (request.isUserInRole("ROLE_control")) {
-                throw new BusinessLogicException(exceptionMessage,
-                        "redirect:/control/updateContract?contractId=" +
-                                contractDto.getContract().getId(),
-                        "You must choose one option from every category");
-            }
-            else {
-                model.addAttribute(principal);
-                throw new BusinessLogicException(exceptionMessage,
-                        "redirect:/client/updateContract?contractId=" +
-                                contractDto.getContract().getId(),
-                        "You must choose one option from every category");
-            }
-        }
-
-        if (contractDto.getStringsOptions() != null) {
-            contract.setConnectedOptions(chosenOptions);
-        } else if (contractDto.getOperationType().equals("update")) {
-            contract.setConnectedOptions(contractDto.wrapStringsToConnectedOptions(chosenOptions));
-        }
-
-        contractServiceMVC.save(contract);
         if (request.isUserInRole("ROLE_control"))
             return "redirect:/control/allContracts";
 

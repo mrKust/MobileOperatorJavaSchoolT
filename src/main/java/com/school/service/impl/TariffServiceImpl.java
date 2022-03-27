@@ -2,6 +2,7 @@ package com.school.service.impl;
 
 import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.TariffDao;
+import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.TariffDto;
 import com.school.service.contracts.OptionsService;
@@ -26,16 +27,13 @@ public class TariffServiceImpl  implements TariffService {
         return tariffDao.getAll();
     }
 
-    @Override
-    public List<Object> getTariffOptions(int id) {
-        return tariffDao.getTariffOptions(id);
-    }
 
     @Override
     public void save(TariffDto tariffDto) {
         Tariff tariff = tariffDto.getTariff();
 
         tariff.setOptions(tariffDto.wrapStringsToList(optionsService.getAll()));
+        //tariff.setOptions(optionsService.getListOfChosenOption(tariffDto.getChosenOptionsList()));
         tariffDao.save(tariff);
     }
 

@@ -1,6 +1,7 @@
 package com.school.database.dao.impl;
 
 import com.school.database.dao.contracts.TariffDao;
+import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -45,18 +46,6 @@ public class TariffDaoImpl implements TariffDao {
         Query query = session.createQuery("SELECT e FROM Tariff e");
         return query.getResultList();
 
-    }
-
-    @Override
-    public List<Object> getTariffOptions(int id) {
-
-        Session session = sessionFactory.getCurrentSession();
-
-        Query query = session.createQuery("from Tariff tariff left join tariff.options " +
-                "options where tariff.id=:tariffId");
-        query.setParameter("tariffId", id);
-
-        return  query.getResultList();
     }
 
     @Override
