@@ -20,28 +20,23 @@ public class OptionTypeController {
     }
 
     @RequestMapping("/control/allOptionCategories")
-    public String showAllOptionsCategory(Model model,
-                                         @ModelAttribute("errorMessage") String errorMessage) {
+    public String showAllOptionsCategory(Model model) {
 
-        List<OptionType> allOptionsType = optionTypeServiceMVC.getAll();
-        model.addAttribute("allOptionsType", allOptionsType);
+        model.addAttribute("allOptionsType", optionTypeServiceMVC.getAll());
 
         return "control/all-optionsTypes";
     }
 
     @RequestMapping("/control/addNewOptionCategory")
-    public String controlAddNewOptionCategory(Model model,
-                                              @ModelAttribute("errorMessage") String errorMessage) {
+    public String controlAddNewOptionCategory(Model model) {
 
-        OptionType optionsType = new OptionType();
-        model.addAttribute("optionsType", optionsType);
+        model.addAttribute("optionsType", new OptionType());
 
         return "control/add-optiontype-info-control-form";
     }
 
     @RequestMapping("/control/saveOptionType")
-    public String saveOptionType(@ModelAttribute("optionsType") OptionType optionsType,
-                                 @ModelAttribute("errorMessage") String errorMessage) {
+    public String saveOptionType(@ModelAttribute("optionsType") OptionType optionsType) {
 
         optionTypeServiceMVC.save(optionsType);
 
@@ -49,8 +44,7 @@ public class OptionTypeController {
     }
 
     @RequestMapping("/control/deleteOptionType")
-    public String deleteOptionType(@RequestParam("optionsTypeId") int optionsTypeId,
-                                   @ModelAttribute("errorMessage") String errorMessage) {
+    public String deleteOptionType(@RequestParam("optionsTypeId") int optionsTypeId) {
 
         optionTypeServiceMVC.delete(optionsTypeId);
 

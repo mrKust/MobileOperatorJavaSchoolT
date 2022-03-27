@@ -18,7 +18,7 @@ public class NumberController {
     }
 
     @RequestMapping("/control/addNewPhoneNumber")
-    public String addNewPhoneNumber(Model model, @ModelAttribute("errorMessage") String errorMessage) {
+    public String addNewPhoneNumber(Model model) {
 
         Number number = new Number();
         number.setAvailableToConnectStatus(true);

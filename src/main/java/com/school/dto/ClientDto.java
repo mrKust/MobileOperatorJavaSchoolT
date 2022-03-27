@@ -1,15 +1,10 @@
 package com.school.dto;
 
 import com.school.database.entity.Client;
-import com.school.database.entity.Number;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.json.simple.JSONArray;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @Getter

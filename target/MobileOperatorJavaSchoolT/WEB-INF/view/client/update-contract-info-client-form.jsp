@@ -19,7 +19,7 @@
         <div class="container">
             <h3>Contract info</h3>
 
-            <c:if test="${errorMessage ne ''}">
+            <c:if test="${errorMessage ne null}">
                 <jsp:include page="../common/error-text.jsp">
                     <jsp:param name="errorMessage" value="${errorMessage}"/>
                 </jsp:include>
@@ -37,7 +37,6 @@
                 <form:hidden path="contract.contractClient.contract"/>
                 <form:hidden path="contract.phoneNumber"/>
                 <form:hidden path="connectedOptions"/>
-                <form:hidden path="operationType"/>
                 <form:hidden path="contract.contractClient.phoneNumber"/>
                 <form:hidden path="contract.contractClient.firstName"/>
                 <form:hidden path="contract.contractClient.surname"/>

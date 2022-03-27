@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class ClientController {
@@ -27,17 +26,15 @@ public class ClientController {
     }
 
     @RequestMapping("/control/allClients")
-    public String showAllClients(Model model, @ModelAttribute("errorMessage") String errorMessage) {
+    public String showAllClients(Model model) {
 
-        List<Client> allClients = clientServiceMVC.getAll();
-        model.addAttribute("allClients", allClients);
+        model.addAttribute("allClients", clientServiceMVC.getAll());
 
         return "control/all-clients";
     }
 
     @RequestMapping("/control/addNewClient")
-    public String addNewClient(Model model,
-                               @ModelAttribute("errorMessage") String errorMessage) {
+    public String addNewClient(Model model) {
 
         ClientDto tmp = new ClientDto();
         tmp.setClient(new Client());
@@ -49,8 +46,7 @@ public class ClientController {
     }
 
     @RequestMapping("/common/saveClient")
-    public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request,
-                             @ModelAttribute("errorMessage") String errorMessage) {
+    public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request) {
 
         if (clientDto.getOperationType().equals("add")) {
 
@@ -64,8 +60,7 @@ public class ClientController {
     }
 
     @RequestMapping("/control/updateClient")
-    public String controlUpdateClient(@RequestParam("clientId") int id, Model model,
-                                      @ModelAttribute("errorMessage") String errorMessage) {
+    public String controlUpdateClient(@RequestParam("clientId") int id, Model model) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(id));
@@ -76,8 +71,7 @@ public class ClientController {
     }
 
     @RequestMapping("/common/lockClient")
-    public String controlLockClient(@RequestParam("clientId") int id, Model model,
-                                    HttpServletRequest request, @ModelAttribute("errorMessage") String errorMessage) {
+    public String controlLockClient(@RequestParam("clientId") int id, HttpServletRequest request) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setId(id);
@@ -97,8 +91,7 @@ public class ClientController {
     }
 
     @RequestMapping("/common/unlockClient")
-    public String controlUnlockClient(@RequestParam("clientId") int id, Model model,
-                                      HttpServletRequest request, @ModelAttribute("errorMessage") String errorMessage) {
+    public String controlUnlockClient(@RequestParam("clientId") int id, HttpServletRequest request) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setId(id);
@@ -112,8 +105,7 @@ public class ClientController {
     }
 
     @RequestMapping("/control/deleteClient")
-    public String deleteClient(@RequestParam("clientId") int id,
-                               @ModelAttribute("errorMessage") String errorMessage) {
+    public String deleteClient(@RequestParam("clientId") int id) {
 
         clientServiceMVC.delete(id);
 
@@ -121,8 +113,7 @@ public class ClientController {
     }
 
     @RequestMapping("/client/updateClient")
-    public String clientUpdateClient(Principal principal, Model model,
-                                     @ModelAttribute("errorMessage") String errorMessage) {
+    public String clientUpdateClient(Principal principal, Model model) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.getByEmail(principal.getName()));
@@ -134,7 +125,7 @@ public class ClientController {
     }
 
     @RequestMapping("/control/inputNumberToSearch")
-    public String getSearchData(Model model, @ModelAttribute("errorMessage") String errorMessage) {
+    public String getSearchData(Model model) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setStringsNumbers(numberServiceMVC.getAllUsed());
@@ -143,16 +134,15 @@ public class ClientController {
     }
 
     @RequestMapping("/control/searchByPhoneNumber")
-    public String searchClientByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model,
-                                            @ModelAttribute("errorMessage") String errorMessage) {
+    public String searchClientByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model) {
 
         Client client = clientServiceMVC.getByPhoneNumber(phoneNumber);
 
-        return this.controlUpdateClient(client.getId(), model, errorMessage);
+        return this.controlUpdateClient(client.getId(), model);
     }
 
     @RequestMapping("/client/changePasswordClient")
-    public String changePassword(@RequestParam("clientId") int clientId, Model model, @ModelAttribute("errorMessage") String errorMessage) {
+    public String changePassword(@RequestParam("clientId") int clientId, Model model) {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(clientId));

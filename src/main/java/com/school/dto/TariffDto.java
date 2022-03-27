@@ -1,6 +1,5 @@
 package com.school.dto;
 
-import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,22 +18,6 @@ public class TariffDto {
     private String[] stringsOptions;
 
     private String operationType;
-
-    public List<Options> wrapStringsToList(List<Options> allOptions) {
-        List<Options> result = new ArrayList<>();
-
-        for (int i = 0; i < this.stringsOptions.length; i++) {
-            int optionId = Integer.parseInt(this.stringsOptions[i]);
-            for(Options option : allOptions) {
-                if (option.getId() == optionId) {
-                    result.add(option);
-                    break;
-                }
-            }
-        }
-
-        return result;
-    }
 
     public List<Integer> getChosenOptionsList() {
         List<Integer> result = new ArrayList<>();

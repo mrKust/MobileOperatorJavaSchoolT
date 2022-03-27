@@ -25,26 +25,15 @@ public class ContractDto {
 
     private String[] connectedOptions;
 
-    private String operationType;
+    public List<Integer> getChosenOptionsList() {
+        List<Integer> result = new ArrayList<>();
 
-    public List<Options> wrapStringsToConnectedOptions(List<Options> allOptions) {
-        List<Options> connectedOptions = new ArrayList<>();
-
-        if (this.stringsOptions == null) {
-            return connectedOptions;
+        for (int i = 0; i < this.stringsOptions.length; i++) {
+            int optionId = Integer.parseInt(this.stringsOptions[i]);
+            result.add(optionId);
         }
 
-        for (Options tmp : allOptions) {
-            for (int i = 0; i < this.stringsOptions.length; i++) {
-                if (Integer.parseInt(this.stringsOptions[i]) == tmp.getId()) {
-                    connectedOptions.add(tmp);
-                    break;
-                }
-
-            }
-        }
-
-        return connectedOptions;
+        return result;
     }
 
     public String[] castConnectedOptionsInStrings(List<Options> connectedOptions) {
@@ -57,20 +46,4 @@ public class ContractDto {
         return result;
     }
 
-    public boolean checkChosenOptionForCorrect (List<Options> chosenOptions) {
-        Map<Integer, Integer> optionTypeCount = new HashMap<>();
-        for (Options tmp : chosenOptions) {
-            Integer count = optionTypeCount.get(tmp.getOptionType().getId());
-            optionTypeCount.put(tmp.getOptionType().getId(), count == null ? 1 : count + 1);
-
-        }
-
-        for (Map.Entry<Integer, Integer> entry : optionTypeCount.entrySet()) {
-            if (entry.getValue() > 1 )
-                return false;
-        }
-
-
-        return true;
-    }
 }

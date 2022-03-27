@@ -19,7 +19,7 @@
         <div class="container">
 
             <h3>Client info</h3>
-            <c:if test="${errorMessage ne ''}">
+            <c:if test="${errorMessage ne null}">
                 <jsp:include page="../common/error-text.jsp">
                     <jsp:param name="errorMessage" value="${errorMessage}"/>
                 </jsp:include>

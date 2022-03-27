@@ -1,6 +1,5 @@
 package com.school.service.impl;
 
-import com.school.customException.BusinessLogicException;
 import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.ClientDao;
 import com.school.database.entity.Client;
@@ -128,6 +127,12 @@ public class ClientServiceImpl implements ClientService {
     public void delete(int id) {
 
         Client client = get(id);
+
+        if (client.getContract() != null) {
+            throw new ServiceLayerException("Can't delete user with existing contract. Before " +
+                    "deleting user end contract with him");
+        }
+
         if (client.getUserRole().equals("client")) {
             Number number = numberService.getByPhoneNumber(client.getPhoneNumber());
             number.setAvailableToConnectStatus(true);

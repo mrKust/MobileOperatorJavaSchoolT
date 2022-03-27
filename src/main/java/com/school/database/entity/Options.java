@@ -3,6 +3,8 @@ package com.school.database.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,7 +39,8 @@ public class Options {
     )
     private List<Tariff> availableForTariffs;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
             name = "contract_options",
             joinColumns = @JoinColumn(name = "options_id"),
