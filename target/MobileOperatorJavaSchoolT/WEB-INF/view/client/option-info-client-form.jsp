@@ -34,14 +34,18 @@
                     <form:input class="form-control" type="text" path="options.optionsName" readonly="true"/>
                 </div>
 
-                <div class="mb-3">
-                    <label for="options.price" class="form-label">Price</label>
+                <label for="options.price" class="form-label">Price</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">0.00</span>
                     <form:input class="form-control" type="number" min="0" path="options.price"
                                 readonly="true"/>
                 </div>
 
-                <div class="mb-3">
-                    <label for="options.costToAdd" class="form-label">Cost to connect</label>
+                <label for="options.costToAdd" class="form-label">Cost to connect</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">0.00</span>
                     <form:input class="form-control" type="number" min="0" path="options.costToAdd"
                                 readonly="true"/>
                 </div>

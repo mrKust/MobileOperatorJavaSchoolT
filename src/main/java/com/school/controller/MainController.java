@@ -20,9 +20,8 @@ public class MainController {
     }
 
     @RequestMapping("/")
-    public String showView(Principal principal, Model model) {
+    public String showView(Model model) {
 
-        model.addAttribute("user", clientServiceMVC.getByEmail(principal.getName()));
         return "/common/start-view";
     }
 
