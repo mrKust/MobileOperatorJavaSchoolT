@@ -49,6 +49,16 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     @Override
+    public List<Tariff> getAllAvailable() {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Tariff where availableToConnectOrNotStatus=:status");
+        query.setParameter("status", true);
+
+        return query.getResultList();
+    }
+
+    @Override
     public void save(Tariff tariff) {
 
         Session session = sessionFactory.getCurrentSession();

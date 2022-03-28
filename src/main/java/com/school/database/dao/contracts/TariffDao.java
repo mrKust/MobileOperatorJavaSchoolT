@@ -17,6 +17,9 @@ public interface TariffDao {
     List<Tariff> getAll();
 
     @Transactional
+    List<Tariff> getAllAvailable();
+
+    @Transactional
     void save(Tariff tariff);
 
     @Transactional

@@ -21,10 +21,10 @@
                     <a href="/" class="nav-link" aria-current="page">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/common/allOptions" class="nav-link">Options list</a>
+                    <a href="/anonymous/allAvailableOptions" class="nav-link">Options list</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/common/allTariffs" class="nav-link">Tariffs list</a>
+                    <a href="/anonymous/allAvailableTariffs" class="nav-link">Tariffs list</a>
                 </li>
                 <li class="nav-item">
                     <a href="/login" class="nav-link">Log in</a>

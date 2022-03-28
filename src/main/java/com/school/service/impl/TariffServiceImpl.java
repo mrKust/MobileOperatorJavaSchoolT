@@ -27,6 +27,11 @@ public class TariffServiceImpl  implements TariffService {
         return tariffDao.getAll();
     }
 
+    @Override
+    public List<Tariff> getAllAvailable() {
+        return tariffDao.getAllAvailable();
+    }
+
 
     @Override
     public void save(TariffDto tariffDto) {

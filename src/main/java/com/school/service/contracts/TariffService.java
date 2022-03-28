@@ -11,6 +11,8 @@ public interface TariffService {
 
     List<Tariff> getAll();
 
+    List<Tariff> getAllAvailable();
+
     void save(TariffDto tariffDto);
 
     Tariff get(int id);

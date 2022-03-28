@@ -27,8 +27,15 @@ public class TariffController {
     @RequestMapping("/common/allTariffs")
     public String showAllTariff(Model model) {
 
-        List<Tariff> tariffs = tariffServiceMVC.getAll();
-        model.addAttribute("allTariffs", tariffs);
+        model.addAttribute("allTariffs", tariffServiceMVC.getAll());
+
+        return "common/all-tariffs";
+    }
+
+    @RequestMapping("/anonymous/allAvailableTariffs")
+    public String showAllAvailableTariff(Model model) {
+
+        model.addAttribute("allTariffs", tariffServiceMVC.getAllAvailable());
 
         return "common/all-tariffs";
     }

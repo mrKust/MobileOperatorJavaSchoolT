@@ -31,6 +31,14 @@ public class OptionsController {
         return "common/all-options";
     }
 
+    @RequestMapping("/anonymous/allAvailableOptions")
+    public String showAllAvailableOptions(Model model) {
+
+        model.addAttribute("allOptions", optionsServiceMVC.getAllAvailable());
+
+        return "common/all-options";
+    }
+
     @RequestMapping("/control/addNewOption")
     public String addNewOption(Model model) {
 
