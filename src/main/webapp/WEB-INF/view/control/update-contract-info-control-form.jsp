@@ -67,9 +67,7 @@
                                         <option value="${tariff.id}" selected>${tariff.tariffName}</option>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:if test="${tariff.availableToConnectOrNotStatus eq true}">
-                                            <option value="${tariff.id}">${tariff.tariffName}</option>
-                                        </c:if>
+                                        <option value="${tariff.id}">${tariff.tariffName}</option>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
@@ -78,11 +76,11 @@
                 </div>
 
                 <c:choose>
-                    <c:when test="${model.contract.contractBlockStatus eq true}">
+                    <c:when test="${model.contract.contractBlockStatus eq false}">
                         <c:forEach var="option" items="${availableForTariffOptionsList}">
                             <c:set var="contains" value="false" />
-                            <c:if test="${fn:length(connectedOptionsList)>0}">
-                                <c:forEach var="item" items="${connectedOptionsList}">
+                            <c:if test="${fn:length(model.contract.connectedOptions)>0}">
+                                <c:forEach var="item" items="${model.contract.connectedOptions}">
                                     <c:if test="${item.id eq option.id}">
                                         <c:set var="contains" value="true" />
                                     </c:if>
@@ -108,7 +106,7 @@
                         <div class="mb-3">
                             <label class="form-check-label">Connected options</label>
                         </div>
-                        <c:forEach var="option" items="${connectedOptionsList}">
+                        <c:forEach var="option" items="${model.contract.connectedOptions}">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="connectedOption" disabled>
                                 <label class="form-check-label" for="connectedOption">

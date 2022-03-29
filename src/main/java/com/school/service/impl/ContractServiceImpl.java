@@ -4,13 +4,11 @@ import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.ContractDao;
 import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
+import com.school.database.entity.Number;
 import com.school.database.entity.Options;
 import com.school.dto.ClientDto;
 import com.school.dto.ContractDto;
-import com.school.service.contracts.ClientService;
-import com.school.service.contracts.ContractService;
-import com.school.service.contracts.OptionsService;
-import com.school.service.contracts.TariffService;
+import com.school.service.contracts.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,13 +23,15 @@ public class ContractServiceImpl implements ContractService {
     private final TariffService tariffService;
     private final ClientService clientService;
     private final OptionsService optionsService;
+    private final NumberService numberService;
 
     ContractServiceImpl(ContractDao contractDao, TariffService tariffService, ClientService clientService,
-                        OptionsService optionsService) {
+                        OptionsService optionsService, NumberService numberService) {
         this.contractDao = contractDao;
         this.tariffService = tariffService;
         this.clientService = clientService;
         this.optionsService = optionsService;
+        this.numberService = numberService;
     }
 
     @Override
@@ -66,6 +66,10 @@ public class ContractServiceImpl implements ContractService {
     public void save(ContractDto contractDto) {
         Contract contract = contractDto.getContract();
 
+        Number number = numberService.getByPhoneNumber(contract.getPhoneNumber());
+        number.setAvailableToConnectStatus(false);
+        numberService.update(number);
+
         if (contractDto.getStringsTariff() != null) {
             int tariffId = Integer.parseInt(contractDto.getStringsTariff()[0]);
             contract.setContractTariff(tariffService.get(tariffId));
@@ -90,6 +94,12 @@ public class ContractServiceImpl implements ContractService {
 
         contract.setConnectedOptions(chosenOptions);
 
+        contractDao.save(contract);
+    }
+
+    @Override
+    public void update(ContractDto contractDto) {
+        Contract contract = contractDto.getContract();
         contractDao.save(contract);
     }
 
@@ -128,6 +138,8 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public void delete(int id) {
+        Contract contract = get(id);
+        numberService.getByPhoneNumber(contract.getPhoneNumber()).setAvailableToConnectStatus(true);
         contractDao.delete(id);
     }
 }

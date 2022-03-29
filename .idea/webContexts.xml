@@ -3,6 +3,7 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/view/control/update-contract-info-control-form.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/view/control" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/view/control/update-tariff-info-control-form.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/view/control" />
       </map>
     </option>

@@ -59,10 +59,7 @@ public class ContractController {
 
         contractServiceMVC.save(contractDto);
 
-        if (request.isUserInRole("ROLE_control"))
-            return "redirect:/control/allContracts";
-
-        return "redirect:/";
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @RequestMapping("/control/updateContract")
@@ -70,12 +67,10 @@ public class ContractController {
 
         ContractDto tmp = new ContractDto();
         tmp.setContract(contractServiceMVC.get(id));
-        List<Options> contractAvailableOptions = tmp.getContract().getConnectedOptions();
-        tmp.setConnectedOptions(tmp.castConnectedOptionsInStrings(contractAvailableOptions));
-        model.addAttribute("connectedOptionsList", contractAvailableOptions);
+        model.addAttribute("connectedOptions", tmp.castConnectedOptionsInStrings(tmp.getContract().getConnectedOptions()));
         model.addAttribute("availableForTariffOptionsList", tmp.getContract().getContractTariff().getOptions());
         model.addAttribute("connectedTariff", tmp.getContract().getContractTariff());
-        model.addAttribute("tariffsList", tariffServiceMVC.getAll());
+        model.addAttribute("tariffsList", tariffServiceMVC.getAllAvailable());
         model.addAttribute("model", tmp);
 
         return "control/update-contract-info-control-form";
@@ -102,11 +97,10 @@ public class ContractController {
 
         ContractDto tmp = new ContractDto();
         tmp.setContract(contractServiceMVC.get(contractId));
-        tmp.setConnectedOptions(tmp.castConnectedOptionsInStrings(tmp.getContract().getConnectedOptions()));
-        model.addAttribute("connectedOptionsList", tmp.getContract().getConnectedOptions());
+        model.addAttribute("connectedOptions", tmp.castConnectedOptionsInStrings(tmp.getContract().getConnectedOptions()));
         model.addAttribute("availableForTariffOptionsList", tmp.getContract().getContractTariff().getOptions());
         model.addAttribute("connectedTariff", tmp.getContract().getContractTariff());
-        model.addAttribute("tariffsList", tariffServiceMVC.getAll());
+        model.addAttribute("tariffsList", tariffServiceMVC.getAllAvailable());
         model.addAttribute("model", tmp);
 
 

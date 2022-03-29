@@ -22,6 +22,8 @@ public interface ContractService {
 
     void save(ContractDto contractDto);
 
+    void update(ContractDto contractDto);
+
     Contract get(int id);
 
     Contract getByPhoneNumber(String phoneNumber);

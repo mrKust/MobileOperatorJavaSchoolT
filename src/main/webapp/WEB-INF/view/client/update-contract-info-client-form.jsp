@@ -50,7 +50,7 @@
                 <div class="input-group">
                     <span class="input-group-text">Current tariff and Available to switch tariff</span>
                     <form:input class="form-control" type="text" path="contract.contractTariff.tariffName" readonly="true"/>
-                    <c:if test="${model.contract.contractBlockStatus eq true}">
+                    <c:if test="${model.contract.contractBlockStatus eq false}">
                         <select class="form-select" name="stringsTariff">
                             <c:forEach var="tariff" items="${tariffsList}">
                                 <c:choose>
@@ -69,11 +69,11 @@
                 </div>
 
                 <c:choose>
-                    <c:when test="${model.contract.contractBlockStatus eq true}">
+                    <c:when test="${model.contract.contractBlockStatus eq false}">
                         <c:forEach var="option" items="${availableForTariffOptionsList}">
                             <c:set var="contains" value="false" />
-                            <c:if test="${fn:length(connectedOptionsList)>0}">
-                                <c:forEach var="item" items="${connectedOptionsList}">
+                            <c:if test="${fn:length({model.contract.connectedOptions})>0}">
+                                <c:forEach var="item" items="${model.contract.connectedOptions}">
                                     <c:if test="${item.id eq option.id}">
                                         <c:set var="contains" value="true" />
                                     </c:if>
@@ -99,7 +99,7 @@
                         <div class="mb-3">
                             <label class="form-check-label">Connected options</label>
                         </div>
-                        <c:forEach var="option" items="${connectedOptionsList}">
+                        <c:forEach var="option" items="${model.contract.connectedOptions}">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="connectedOption" disabled>
                                 <label class="form-check-label" for="connectedOption">
@@ -117,7 +117,7 @@
 
                 <c:if test="${model.contract.contractBlockStatus eq true}">
                     <button type="button" class="btn btn-primary"
-                            onclick="window.location.href = '/client/updateContract'">Confirm</button>
+                            onclick="window.location.href = '/client/allContracts'">Confirm</button>
                 </c:if>
             </form:form>
         </div>
