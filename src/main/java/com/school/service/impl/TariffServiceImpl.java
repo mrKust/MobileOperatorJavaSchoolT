@@ -9,17 +9,25 @@ import com.school.service.contracts.OptionsService;
 import com.school.service.contracts.TariffService;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class TariffServiceImpl  implements TariffService {
 
     private final TariffDao tariffDao;
     private final OptionsService optionsService;
+    private final DecimalFormatSymbols priceFormat;
+    private final DecimalFormat decimalFormat;
+    String PRICE_PATTERN = "##0.00";
 
     TariffServiceImpl(TariffDao tariffDao, OptionsService optionsService) {
         this.tariffDao = tariffDao;
         this.optionsService = optionsService;
+        this.priceFormat = new DecimalFormatSymbols(Locale.US);
+        this.decimalFormat = new DecimalFormat(PRICE_PATTERN, priceFormat);
     }
 
     @Override
@@ -36,6 +44,7 @@ public class TariffServiceImpl  implements TariffService {
     @Override
     public void save(TariffDto tariffDto) {
         Tariff tariff = tariffDto.getTariff();
+        tariff.setPrice(Double.parseDouble(decimalFormat.format(tariff.getPrice())));
         tariff.setOptions(optionsService.getOptionsFromChosenList(tariffDto.getChosenOptionsList()));
         tariffDao.save(tariff);
     }

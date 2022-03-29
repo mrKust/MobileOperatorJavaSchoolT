@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "option_type")
+@Table(name = "options_type")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -27,7 +27,4 @@ public class OptionType {
     orphanRemoval = true)
     private List<Options> options;
 
-    public OptionType(String optionType) {
-        this.optionType = optionType;
-    }
 }

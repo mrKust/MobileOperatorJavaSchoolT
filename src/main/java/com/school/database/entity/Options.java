@@ -52,15 +52,6 @@ public class Options {
     private boolean availableOptionToConnectOrNot;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "option_type_id")
+    @JoinColumn(name = "options_type_id")
     private OptionType optionType;
-
-    public Options(String optionsName, int price, int costToAdd, boolean availableOptionToConnectOrNot) {
-        this.optionsName = optionsName;
-        this.price = price;
-        this.costToAdd = costToAdd;
-        this.availableOptionToConnectOrNot = availableOptionToConnectOrNot;
-        this.availableForTariffs = new ArrayList<>();
-    }
-
 }

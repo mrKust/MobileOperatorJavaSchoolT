@@ -15,9 +15,6 @@ public interface ClientDao {
     Client getByEmail(String email);
 
     @Transactional
-    Client getByPhoneNumber(String phoneNumber);
-
-    @Transactional
     List<Client> getAll();
 
     @Transactional

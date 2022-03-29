@@ -60,10 +60,10 @@
                         This option available to connect
                     </label>
                     <c:if test="${model.options.availableOptionToConnectOrNot eq true}">
-                        <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot" checked="checked"/>
+                        <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot" checked="checked" readonly="true"/>
                     </c:if>
                     <c:if test="${model.options.availableOptionToConnectOrNot ne true}">
-                        <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot"/>
+                        <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot" readonly="true"/>
                     </c:if>
                 </div>
                 <input type="submit" class="btn btn-primary" value="Confirm">

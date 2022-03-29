@@ -1,6 +1,7 @@
 package com.school.service.contracts;
 
 import com.school.database.entity.Client;
+import com.school.database.entity.Contract;
 import com.school.dto.ClientDto;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,15 +18,9 @@ public interface ClientService {
 
     void update(ClientDto clientDto);
 
-    void lock(ClientDto clientDto);
-
-    void unlock(ClientDto clientDto);
-
     Client get(int id);
 
     Client getByEmail(String email);
-
-    Client getByPhoneNumber(String phoneNumber);
 
     void delete(int id);
 }

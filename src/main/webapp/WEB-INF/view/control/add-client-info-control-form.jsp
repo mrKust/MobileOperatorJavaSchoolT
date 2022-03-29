@@ -28,8 +28,6 @@
             <form:form action="/common/saveClient" modelAttribute="model">
 
                 <form:hidden path="client.id"/>
-                <form:hidden path="client.roleOfUserWhoBlockedNumber"/>
-                <form:hidden path="client.clientNumberReadyToWorkStatus"/>
                 <form:hidden path="operationType"/>
 
                 <div class="input-group">
@@ -68,17 +66,6 @@
                 <div class="mb-3">
                     <label for="client.address" class="form-label">Home address</label>
                     <form:input class="form-control" type="text" path="client.address"/>
-                </div>
-
-                <div class="mb-3">
-                    <label for="client.phoneNumber" class="form-label">Phone number</label>
-                    <form:input class="form-control" type="tel" path="client.phoneNumber" list="numbers"
-                                placeholder="Phone number: 8XXXXXXXXXX" pattern="[0-9]{11}"/>
-                    <datalist id="numbers">
-                        <c:forEach var="num" items="${model.stringsNumbers}">
-                        <option value="${num}">
-                            </c:forEach>
-                    </datalist>
                 </div>
 
                 <div class="mb-3">

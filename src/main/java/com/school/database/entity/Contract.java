@@ -23,11 +23,20 @@ public class Contract {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "status_of_number_block")
+    private boolean contractBlockStatus;
+
+    @Column(name = "user_role_blocked_number")
+    private String roleOfUserWhoBlockedContract;
+
+    @Column(name = "contract_cost")
+    private double priceForContractPerMonth;
+
     @OneToOne
     @JoinColumn(name = "tariff_id")
     private Tariff contractTariff;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "client_id")
     private Client contractClient;
 
@@ -38,10 +47,5 @@ public class Contract {
             inverseJoinColumns = @JoinColumn(name = "options_id")
     )
     private List<Options> ConnectedOptions;
-
-    public Contract(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        this.ConnectedOptions = new ArrayList<>();
-    }
 
 }

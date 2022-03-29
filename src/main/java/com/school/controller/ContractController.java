@@ -1,12 +1,12 @@
 package com.school.controller;
 
-import com.school.customException.ServiceLayerException;
 import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
 import com.school.database.entity.Options;
 import com.school.dto.ContractDto;
 import com.school.service.contracts.ClientService;
 import com.school.service.contracts.ContractService;
+import com.school.service.contracts.NumberService;
 import com.school.service.contracts.TariffService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,16 +20,16 @@ import java.util.List;
 public class ContractController {
 
     private final ContractService contractServiceMVC;
-
     private final TariffService tariffServiceMVC;
-
     private final ClientService clientServiceMVC;
+    private final NumberService numberServiceMVC;
 
-    ContractController(ContractService contractServiceMVC, ClientService clientServiceMVC, TariffService tariffServiceMVC) {
+    ContractController(ContractService contractServiceMVC, ClientService clientServiceMVC,
+                       TariffService tariffServiceMVC, NumberService numberServiceMVC) {
         this.contractServiceMVC = contractServiceMVC;
         this.tariffServiceMVC = tariffServiceMVC;
         this.clientServiceMVC = clientServiceMVC;
-
+        this.numberServiceMVC = numberServiceMVC;
     }
 
     @RequestMapping("/control/allContracts")
@@ -45,6 +45,8 @@ public class ContractController {
 
         ContractDto tmp = new ContractDto();
         tmp.setContract(new Contract());
+        tmp.getContract().setContractBlockStatus(false);
+        tmp.setStringsNumbers(numberServiceMVC.getAllUnused());
         model.addAttribute("tariffsList", tariffServiceMVC.getAll());
         model.addAttribute("clientsList", clientServiceMVC.getAll());
         model.addAttribute("model", tmp);
@@ -79,7 +81,7 @@ public class ContractController {
         return "control/update-contract-info-control-form";
     }
 
-    @RequestMapping("/control/deleteContract")
+    @RequestMapping("/common/deleteContract")
     public String deleteContract(@RequestParam("contractId") int id) {
 
         contractServiceMVC.delete(id);
@@ -87,19 +89,19 @@ public class ContractController {
         return "redirect:/control/allContracts";
     }
 
-    @RequestMapping("/client/updateContract")
-    public String clientUpdateContract(Principal principal, Model model) {
-
+    @RequestMapping("/client/allContracts")
+    public String clientAllContracts(Principal principal, Model model) {
         Client client = clientServiceMVC.getByEmail(principal.getName());
-        Contract contract = client.getContract();
+        model.addAttribute("allContracts", contractServiceMVC.getAllContractsOfClient(client.getId()));
 
-        if (contract == null) {
-            throw new ServiceLayerException("Client " + principal.getName() + " try to get his contract. " +
-                    "But contract doesn't created yet");
-        }
+        return "client/all-contracts";
+    }
+
+    @RequestMapping("/client/updateContract")
+    public String clientUpdateContract(@RequestParam("contractId") int contractId, Model model) {
 
         ContractDto tmp = new ContractDto();
-        tmp.setContract(contract);
+        tmp.setContract(contractServiceMVC.get(contractId));
         tmp.setConnectedOptions(tmp.castConnectedOptionsInStrings(tmp.getContract().getConnectedOptions()));
         model.addAttribute("connectedOptionsList", tmp.getContract().getConnectedOptions());
         model.addAttribute("availableForTariffOptionsList", tmp.getContract().getContractTariff().getOptions());
@@ -110,5 +112,50 @@ public class ContractController {
 
         return "client/update-contract-info-client-form";
 
+    }
+
+    @RequestMapping("/common/lockContract")
+    public String controlLockClient(@RequestParam("contractId") int id, HttpServletRequest request) {
+
+        ContractDto contractDto = new ContractDto();
+        contractDto.setId(id);
+
+        if (request.isUserInRole("ROLE_control")) {
+            contractDto.setBlockedRole("control");
+        } else {
+            contractDto.setBlockedRole("client");
+        }
+
+        contractServiceMVC.lock(contractDto);
+
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @RequestMapping("/common/unlockContract")
+    public String controlUnlockClient(@RequestParam("contractId") int id, HttpServletRequest request) {
+
+        ContractDto contractDto = new ContractDto();
+        contractDto.setId(id);
+
+        contractServiceMVC.unlock(contractDto);
+
+        return "redirect:" + request.getHeader("Referer");
+    }
+
+    @RequestMapping("/control/inputNumberToSearch")
+    public String getSearchData(Model model) {
+
+        ContractDto contractDto = new ContractDto();
+        contractDto.setStringsNumbers(numberServiceMVC.getAllUsed());
+        model.addAttribute("model", contractDto);
+        return "control/input-number-for-search";
+    }
+
+    @RequestMapping("/control/searchByPhoneNumber")
+    public String searchContractByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model) {
+
+        Contract contract = contractServiceMVC.getByPhoneNumber(phoneNumber);
+
+        return this.clientUpdateContract(contract.getId(), model);
     }
 }

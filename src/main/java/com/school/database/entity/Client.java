@@ -3,8 +3,11 @@ package com.school.database.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="client")
@@ -33,39 +36,21 @@ public class Client {
     @Column(name="address")
     private String address;
 
-    @Column(name="phone_number")
-    private String phoneNumber;
-
     @Column(name="email_address")
     private String emailAddress;
 
     @Column(name="password_log_in")
     private String passwordLogIn;
 
-    @OneToOne(mappedBy = "contractClient", cascade = CascadeType.REMOVE)
-    private Contract contract;
-
-    @Column(name = "status_of_number_block")
-    private boolean clientNumberReadyToWorkStatus;
+    @OneToMany(mappedBy = "contractClient", cascade = CascadeType.REMOVE,
+    fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Contract> contractClient;
 
     @Column(name = "user_role")
     private String userRole;
 
-    @Column(name = "user_role_blocked_number")
-    private String roleOfUserWhoBlockedNumber;
-
-    public Client(String firstName, String surname, String dateOfBirth, String passportNumber, String address, String phoneNumber, String emailAddress, String passwordLogIn, boolean clientNumberReadyToWorkStatus, String userRole, String roleOfUserWhoBlockedNumber) {
-        this.firstName = firstName;
-        this.surname = surname;
-        this.dateOfBirth = dateOfBirth;
-        this.passportNumber = passportNumber;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.emailAddress = emailAddress;
-        this.passwordLogIn = passwordLogIn;
-        this.clientNumberReadyToWorkStatus = clientNumberReadyToWorkStatus;
-        this.userRole = userRole;
-        this.roleOfUserWhoBlockedNumber = roleOfUserWhoBlockedNumber;
-    }
+    @Column(name = "money_balance")
+    private double moneyBalance;
 
 }

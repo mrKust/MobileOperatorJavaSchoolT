@@ -16,14 +16,6 @@
 
     <jsp:include page="../common/header.jsp"/>
 
-    <c:url var="controlLockButton" value="/common/lockClient">
-        <c:param name="clientId" value="${model.client.id}"/>
-    </c:url>
-
-    <c:url var="controlUnlockButton" value="/common/unlockClient">
-        <c:param name="clientId" value="${model.client.id}"/>
-    </c:url>
-
     <c:url var="clientChangePassword" value="/client/changePasswordClient">
         <c:param name="clientId" value="${model.client.id}"/>
     </c:url>
@@ -84,12 +76,6 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="client.phoneNumber" class="form-label">Phone number</label>
-                    <form:input class="form-control" type="tel" path="client.phoneNumber" readonly="true"
-                                pattern="[0-9]{11}"/>
-                </div>
-
-                <div class="mb-3">
                     <label for="client.emailAddress" class="form-label">E-mail</label>
                     <form:input class="form-control" type="email" path="client.emailAddress" readonly="true"/>
                 </div>
@@ -100,24 +86,68 @@
                             onclick="window.location.href= '${clientChangePassword}'">Set new password</button>
                 </div>
 
-                <div class="input-group">
-                    <span class="input-group-text">Current user's available status & Who blocked number</span>
-                    <form:input class="form-control" type="text" path="client.clientNumberReadyToWorkStatus" readonly="true"/>
-                    <form:input class="form-control" type="text" path="client.roleOfUserWhoBlockedNumber" readonly="true"/>
+                <label for="client.moneyBalance" class="form-label">Remaining money in the account</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <form:input class="form-control" type="number" min="0" path="client.moneyBalance"
+                                readonly="true"/>
+                    <button type="button" class="btn btn-success"
+                            onclick="window.location.href= '${clientChangePassword}'">Add money</button>
                 </div>
 
-                <c:choose>
-                    <c:when test="${model.client.clientNumberReadyToWorkStatus==true}">
-                        <button type="button" class="btn btn-warning"
-                                onclick="window.location.href = '${controlLockButton}'">Lock</button>
-                    </c:when>
-                    <c:otherwise>
-                        <c:if test="${model.client.roleOfUserWhoBlockedNumber ne 'control'}">
-                            <button type="button" class="btn btn-warning"
-                                    onclick="window.location.href = '${controlUnlockButton}'">Unlock</button>
-                        </c:if>
-                    </c:otherwise>
-                </c:choose>
+                <table class="table table-striped">
+                    <thead>
+                    <th scope="col">Phone number</th>
+                    <th scope="col">Tariff</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Block status</th>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="contracts" items="${clientContracts}">
+
+                        <c:url var="controlUpdateButton" value="/client/updateContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
+
+                        <c:url var="deleteButton" value="/common/deleteContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
+
+                        <c:url var="controlLockButton" value="/common/lockContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
+
+                        <c:url var="controlUnlockButton" value="/common/unlockContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
+
+                        <tr>
+                            <th scope="row">${contracts.phoneNumber}</th>
+                            <td>${contracts.contractTariff.tariffName}</td>
+                            <td>${contracts.priceForContractPerMonth}</td>
+                            <td>${contracts.contractBlockStatus}</td>
+                            <td>
+                                <button type="button" class="btn btn-secondary"
+                                        onclick="window.location.href = '${controlUpdateButton}'">Update</button>
+                                <button type="button" class="btn btn-danger"
+                                        onclick="window.location.href = '${deleteButton}'">Delete</button>
+                                <c:choose>
+                                    <c:when test="${contracts.contractBlockStatus == false}">
+                                        <button type="button" class="btn btn-warning"
+                                                onclick="window.location.href = '${controlLockButton}'">Lock</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${contracts.roleOfUserWhoBlockedContract ne 'control'}">
+                                            <button type="button" class="btn btn-warning"
+                                                    onclick="window.location.href = '${controlUnlockButton}'">Unlock</button>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
 
                 <input type="submit" class="btn btn-primary" value="Confirm"/>
 

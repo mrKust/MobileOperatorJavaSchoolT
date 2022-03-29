@@ -39,17 +39,6 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public Client getByPhoneNumber(String phoneNumber) {
-
-        Session session = sessionFactory.getCurrentSession();
-
-        Query query = session.createQuery("from Client where phoneNumber=:phoneNumber");
-        query.setParameter("phoneNumber", phoneNumber);
-
-        return  (Client) query.getSingleResult();
-    }
-
-    @Override
     public List<Client> getAll() {
 
         Session session = sessionFactory.getCurrentSession();

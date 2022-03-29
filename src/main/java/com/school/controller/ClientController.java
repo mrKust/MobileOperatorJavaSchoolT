@@ -18,11 +18,8 @@ public class ClientController {
 
     private final ClientService clientServiceMVC;
 
-    private final NumberService numberServiceMVC;
-
-    ClientController(ClientService clientServiceMVC, NumberService numberServiceMVC) {
+    ClientController(ClientService clientServiceMVC) {
         this.clientServiceMVC = clientServiceMVC;
-        this.numberServiceMVC = numberServiceMVC;
     }
 
     @RequestMapping("/control/allClients")
@@ -39,8 +36,6 @@ public class ClientController {
         ClientDto tmp = new ClientDto();
         tmp.setClient(new Client());
         tmp.setOperationType("add");
-        tmp.getClient().setClientNumberReadyToWorkStatus(true);
-        tmp.setStringsNumbers(numberServiceMVC.getAllUnused());
         model.addAttribute("model", tmp);
         return "control/add-client-info-control-form";
     }
@@ -66,42 +61,9 @@ public class ClientController {
         clientDto.setClient(clientServiceMVC.get(id));
         clientDto.setOperationType("update");
         model.addAttribute("model", clientDto);
+        model.addAttribute("clientContracts", clientDto.getClient().getContractClient());
 
         return "control/update-client-info-control-form";
-    }
-
-    @RequestMapping("/common/lockClient")
-    public String controlLockClient(@RequestParam("clientId") int id, HttpServletRequest request) {
-
-        ClientDto clientDto = new ClientDto();
-        clientDto.setId(id);
-
-        if (request.isUserInRole("ROLE_control")) {
-            clientDto.setBlockedRole("control");
-        } else {
-            clientDto.setBlockedRole("client");
-        }
-
-        clientServiceMVC.lock(clientDto);
-
-        if (request.isUserInRole("ROLE_control"))
-            return "redirect:/control/allClients";
-
-        return "redirect:/client/updateClient";
-    }
-
-    @RequestMapping("/common/unlockClient")
-    public String controlUnlockClient(@RequestParam("clientId") int id, HttpServletRequest request) {
-
-        ClientDto clientDto = new ClientDto();
-        clientDto.setId(id);
-
-        clientServiceMVC.unlock(clientDto);
-
-        if (request.isUserInRole("ROLE_control"))
-            return "redirect:/control/allClients";
-
-        return "redirect:/client/updateClient";
     }
 
     @RequestMapping("/control/deleteClient")
@@ -119,26 +81,10 @@ public class ClientController {
         clientDto.setClient(clientServiceMVC.getByEmail(principal.getName()));
         clientDto.setOperationType("update");
         model.addAttribute("model", clientDto);
+        model.addAttribute("clientContracts", clientDto.getClient().getContractClient());
 
         return "client/update-client-info-client-form";
 
-    }
-
-    @RequestMapping("/control/inputNumberToSearch")
-    public String getSearchData(Model model) {
-
-        ClientDto clientDto = new ClientDto();
-        clientDto.setStringsNumbers(numberServiceMVC.getAllUsed());
-        model.addAttribute("model", clientDto);
-        return "control/input-number-for-search";
-    }
-
-    @RequestMapping("/control/searchByPhoneNumber")
-    public String searchClientByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model) {
-
-        Client client = clientServiceMVC.getByPhoneNumber(phoneNumber);
-
-        return this.controlUpdateClient(client.getId(), model);
     }
 
     @RequestMapping("/client/changePasswordClient")

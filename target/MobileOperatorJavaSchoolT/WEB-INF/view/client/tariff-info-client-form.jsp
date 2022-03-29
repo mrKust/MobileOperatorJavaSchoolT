@@ -61,7 +61,12 @@
 
                 <div class="mb-3">
                     <label for="tariff.price" class="form-label">This tariff available for connect</label>
-                    <form:input class="form-control" type="text" path="tariff.availableToConnectOrNotStatus" readonly="true"/>
+                    <c:if test="${model.tariff.availableToConnectOrNotStatus eq true}">
+                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" checked="checked" readonly="true"/>
+                    </c:if>
+                    <c:if test="${model.tariff.availableToConnectOrNotStatus ne true}">
+                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" readonly="true"/>
+                    </c:if>
                 </div>
 
                 <input type="submit" class="btn btn-primary" value="Confirm">

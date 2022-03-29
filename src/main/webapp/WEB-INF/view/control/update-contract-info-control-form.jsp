@@ -32,17 +32,13 @@
                 <form:hidden path="contract.contractClient.dateOfBirth"/>
                 <form:hidden path="contract.contractClient.passportNumber"/>
                 <form:hidden path="contract.contractClient.address"/>
-                <form:hidden path="contract.contractClient.clientNumberReadyToWorkStatus"/>
                 <form:hidden path="contract.contractClient.userRole"/>
-                <form:hidden path="contract.contractClient.roleOfUserWhoBlockedNumber"/>
-                <form:hidden path="contract.contractClient.contract"/>
-                <form:hidden path="contract.phoneNumber"/>
                 <form:hidden path="connectedOptions"/>
 
                 <div class="mb-3">
-                    <label for="contract.contractClient.phoneNumber" class="form-label">Client's phone</label>
-                    <form:input class="form-control" path="contract.contractClient.phoneNumber"
-                                type="tel" readonly="true" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"/>
+                    <label for="contract.phoneNumber" class="form-label">Client's phone</label>
+                    <form:input class="form-control" path="contract.phoneNumber"
+                                type="tel" readonly="true"/>
                 </div>
 
                 <div class="input-group">
@@ -62,7 +58,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
+                    <c:if test="${model.contract.contractBlockStatus eq false}">
                         <label class="form-label">Switch to tariff</label>
                         <select class="form-select" name="stringsTariff">
                             <c:forEach var="tariff" items="${tariffsList}">
@@ -82,7 +78,7 @@
                 </div>
 
                 <c:choose>
-                    <c:when test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
+                    <c:when test="${model.contract.contractBlockStatus eq true}">
                         <c:forEach var="option" items="${availableForTariffOptionsList}">
                             <c:set var="contains" value="false" />
                             <c:if test="${fn:length(connectedOptionsList)>0}">
@@ -124,14 +120,17 @@
                     </c:otherwise>
                 </c:choose>
 
-                <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
-                    <input type="submit" class="btn btn-primary" value="Confirm"/>
-                </c:if>
+
+                <c:choose>
+                    <c:when test="${model.contract.contractBlockStatus eq false}">
+                        <input type="submit" class="btn btn-primary" value="Confirm"/>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" class="btn btn-primary"
+                                onclick="window.location.href = '/control/allContracts'">Confirm</button>
+                    </c:otherwise>
+                </c:choose>
             </form:form>
-            <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus ne true}">
-                <button type="button" class="btn btn-primary"
-                        onclick="window.location.href = '/control/allContracts'">Confirm</button>
-            </c:if>
         </div>
     </main>
 

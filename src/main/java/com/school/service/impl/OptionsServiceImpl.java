@@ -9,17 +9,25 @@ import com.school.service.contracts.OptionTypeService;
 import com.school.service.contracts.OptionsService;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class OptionsServiceImpl implements OptionsService {
 
     private final OptionsDao optionsDao;
     private final OptionTypeService optionTypeService;
+    private final DecimalFormatSymbols priceFormat;
+    private final DecimalFormat decimalFormat;
+    String PRICE_PATTERN = "##0.00";
 
     OptionsServiceImpl(OptionsDao optionsDao, OptionTypeService optionTypeService) {
         this.optionsDao = optionsDao;
         this.optionTypeService = optionTypeService;
+        this.priceFormat = new DecimalFormatSymbols(Locale.US);
+        this.decimalFormat = new DecimalFormat(PRICE_PATTERN, priceFormat);
     }
 
     @Override
@@ -40,6 +48,8 @@ public class OptionsServiceImpl implements OptionsService {
     @Override
     public void save(OptionsDto optionsDto) {
         Options option = optionsDto.getOptions();
+        option.setPrice(Double.parseDouble(decimalFormat.format(option.getPrice())));
+        option.setCostToAdd(Double.parseDouble(decimalFormat.format(option.getCostToAdd())));
         if (optionsDto.getStringOptionCategory() != null) {
 
             String[] chosenOptionType = optionsDto.getStringOptionCategory();

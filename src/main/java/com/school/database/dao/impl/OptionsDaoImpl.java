@@ -30,7 +30,7 @@ public class OptionsDaoImpl implements OptionsDao {
     public List<Options> getAll() {
 
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Options ", Options.class);
+        Query query = session.createQuery("from Options", Options.class);
         return query.getResultList();
 
     }

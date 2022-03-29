@@ -25,6 +25,12 @@ public class ContractDto {
 
     private String[] connectedOptions;
 
+    private int id;
+
+    private String blockedRole;
+
+    private String[] stringsNumbers;
+
     public List<Integer> getChosenOptionsList() {
         List<Integer> result = new ArrayList<>();
 

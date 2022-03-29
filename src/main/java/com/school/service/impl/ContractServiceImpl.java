@@ -2,8 +2,10 @@ package com.school.service.impl;
 
 import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.ContractDao;
+import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
 import com.school.database.entity.Options;
+import com.school.dto.ClientDto;
 import com.school.dto.ContractDto;
 import com.school.service.contracts.ClientService;
 import com.school.service.contracts.ContractService;
@@ -35,6 +37,11 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public List<Contract> getAll() {
         return contractDao.getAll();
+    }
+
+    @Override
+    public List<Contract> getAllContractsOfClient(int clientId) {
+        return contractDao.getAllContractsOfClient(clientId);
     }
 
     @Override
@@ -87,14 +94,36 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public void lock(ContractDto contractDto) {
+
+        Contract contract = this.get(contractDto.getId());
+        contract.setContractBlockStatus(true);
+        contract.setRoleOfUserWhoBlockedContract(contractDto.getBlockedRole());
+
+        contractDao.save(contract);
+    }
+
+    @Override
+    public void unlock(ContractDto contractDto) {
+
+        Contract contract = this.get(contractDto.getId());
+
+        contract.setContractBlockStatus(false);
+        contract.setRoleOfUserWhoBlockedContract(null);
+
+        contractDao.save(contract);
+    }
+
+    @Override
     public Contract get(int id) {
         Contract contract = contractDao.get(id);
 
-        if (contract == null) {
-            throw new ServiceLayerException("User try to get his contract, but contract " +
-                    "wasn't created");
-        }
         return contract;
+    }
+
+    @Override
+    public Contract getByPhoneNumber(String phoneNumber) {
+        return contractDao.getByPhoneNumber(phoneNumber);
     }
 
     @Override

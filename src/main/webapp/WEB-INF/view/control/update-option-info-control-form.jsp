@@ -38,14 +38,14 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">$</span>
                     <span class="input-group-text">0.00</span>
-                    <form:input class="form-control" type="number" min="0" path="options.price" placeholder="input option's price here"/>
+                    <form:input class="form-control" type="number" min="0" step="0.01" path="options.price" placeholder="input option's price here"/>
                 </div>
 
                 <label for="options.costToAdd" class="form-label">Cost to connect</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">$</span>
                     <span class="input-group-text">0.00</span>
-                    <form:input class="form-control" type="number" min="0" path="options.costToAdd" placeholder="input option's cost to connect here"/>
+                    <form:input class="form-control" type="number" min="0" step="0.01" path="options.costToAdd" placeholder="input option's cost to connect here"/>
                 </div>
 
                 <div class="mb-3">

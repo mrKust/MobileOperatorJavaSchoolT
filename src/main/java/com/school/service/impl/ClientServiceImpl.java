@@ -3,10 +3,8 @@ package com.school.service.impl;
 import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.ClientDao;
 import com.school.database.entity.Client;
-import com.school.database.entity.Number;
 import com.school.dto.ClientDto;
 import com.school.service.contracts.ClientService;
-import com.school.service.contracts.NumberService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +19,9 @@ public class ClientServiceImpl implements ClientService {
     );
 
     private final ClientDao clientDao;
-    private final NumberService numberService;
 
-    ClientServiceImpl(ClientDao clientDao, NumberService numberService) {
+    ClientServiceImpl(ClientDao clientDao) {
         this.clientDao = clientDao;
-        this.numberService = numberService;
     }
 
     @Override
@@ -52,17 +48,13 @@ public class ClientServiceImpl implements ClientService {
                     "User with this email already registered");
         }
 
-        Number number = null;
         String roleCast = clientDto.getClient().getUserRole().replace(",", "");
         client.setUserRole(roleCast);
-        if (clientDto.getClient().getUserRole().equals("client")) {
-            number = numberService.getByPhoneNumber(clientDto.getClient().getPhoneNumber());
-            number.setAvailableToConnectStatus(false);
-            numberService.update(number);
-        }
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getClient().getPasswordLogIn());
-        clientDto.getClient().setPasswordLogIn(encodedPassword);
+        if (clientDto.getClient().getPasswordLogIn().length() < 255) {
+            String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getClient().getPasswordLogIn());
+            clientDto.getClient().setPasswordLogIn(encodedPassword);
+        } else throw new ServiceLayerException("Password which you input is to long");
 
         clientDao.save(client);
     }
@@ -87,28 +79,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void lock(ClientDto clientDto) {
-
-        Client client = this.get(clientDto.getId());
-
-        client.setClientNumberReadyToWorkStatus(false);
-        client.setRoleOfUserWhoBlockedNumber(clientDto.getBlockedRole());
-
-        clientDao.save(client);
-    }
-
-    @Override
-    public void unlock(ClientDto clientDto) {
-
-        Client client = this.get(clientDto.getId());
-
-        client.setClientNumberReadyToWorkStatus(true);
-        client.setRoleOfUserWhoBlockedNumber(null);
-
-        clientDao.save(client);
-    }
-
-    @Override
     public Client get(int id) {
         return clientDao.get(id);
     }
@@ -119,25 +89,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client getByPhoneNumber(String phoneNumber) {
-        return clientDao.getByPhoneNumber(phoneNumber);
-    }
-
-    @Override
     public void delete(int id) {
 
         Client client = get(id);
 
-        if (client.getContract() != null) {
+        if (client.getContractClient().size() > 0) {
             throw new ServiceLayerException("Can't delete user with existing contract. Before " +
                     "deleting user end contract with him");
-        }
-
-        if (client.getUserRole().equals("client")) {
-            Number number = numberService.getByPhoneNumber(client.getPhoneNumber());
-            number.setAvailableToConnectStatus(true);
-            numberService.update(number);
-
         }
         clientDao.delete(id);
     }

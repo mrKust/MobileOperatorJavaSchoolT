@@ -25,6 +25,12 @@
                 </jsp:include>
             </c:if>
 
+            <c:if test="${model.contract.roleOfUserWhoBlockedContract eq 'control'}">
+                <div class="alert alert-warning" role="alert">
+                    This contact was blocked by administration. You can't change anything. Contact to help if you need.
+                </div>
+            </c:if>
+
             <form:form action="/common/saveContract" modelAttribute="model">
 
                 <form:hidden path="contract.id"/>
@@ -33,11 +39,10 @@
                 <form:hidden path="contract.contractClient.passportNumber"/>
                 <form:hidden path="contract.contractClient.address"/>
                 <form:hidden path="contract.contractClient.userRole"/>
-                <form:hidden path="contract.contractClient.roleOfUserWhoBlockedNumber"/>
-                <form:hidden path="contract.contractClient.contract"/>
+                <form:hidden path="contract.roleOfUserWhoBlockedContract"/>
+                <form:hidden path="contract"/>
                 <form:hidden path="contract.phoneNumber"/>
                 <form:hidden path="connectedOptions"/>
-                <form:hidden path="contract.contractClient.phoneNumber"/>
                 <form:hidden path="contract.contractClient.firstName"/>
                 <form:hidden path="contract.contractClient.surname"/>
                 <form:hidden path="contract.contractClient.emailAddress"/>
@@ -45,7 +50,7 @@
                 <div class="input-group">
                     <span class="input-group-text">Current tariff and Available to switch tariff</span>
                     <form:input class="form-control" type="text" path="contract.contractTariff.tariffName" readonly="true"/>
-                    <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
+                    <c:if test="${model.contract.contractBlockStatus eq true}">
                         <select class="form-select" name="stringsTariff">
                             <c:forEach var="tariff" items="${tariffsList}">
                                 <c:choose>
@@ -64,7 +69,7 @@
                 </div>
 
                 <c:choose>
-                    <c:when test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
+                    <c:when test="${model.contract.contractBlockStatus eq true}">
                         <c:forEach var="option" items="${availableForTariffOptionsList}">
                             <c:set var="contains" value="false" />
                             <c:if test="${fn:length(connectedOptionsList)>0}">
@@ -106,11 +111,11 @@
                     </c:otherwise>
                 </c:choose>
 
-                <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus eq true}">
+                <c:if test="${model.contract.contractBlockStatus eq false}">
                     <input type="submit" class="btn btn-primary" value="Confirm"/>
                 </c:if>
 
-                <c:if test="${model.contract.contractClient.clientNumberReadyToWorkStatus ne true}">
+                <c:if test="${model.contract.contractBlockStatus eq true}">
                     <button type="button" class="btn btn-primary"
                             onclick="window.location.href = '/client/updateContract'">Confirm</button>
                 </c:if>

@@ -15,13 +15,7 @@ public class ClientDto {
 
     private String operationType;
 
-    private String[] stringsNumbers;
-
     private String passwordString;
 
     private String passwordString2;
-
-    private String blockedRole;
-
-    private int id;
 }

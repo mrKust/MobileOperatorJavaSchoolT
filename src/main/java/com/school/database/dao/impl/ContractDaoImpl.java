@@ -28,6 +28,27 @@ public class ContractDaoImpl implements ContractDao {
     }
 
     @Override
+    public List<Contract> getAllContractsOfClient(int clientId) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Contract where contractClient.id=:id");
+        query.setParameter("id", clientId);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public Contract getByPhoneNumber(String phoneNumber) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Contract where phoneNumber=:phoneNumber");
+        query.setParameter("phoneNumber", phoneNumber);
+
+        return  (Contract) query.getSingleResult();
+    }
+
+    @Override
     public List<Contract> getAll() {
 
         Session session = sessionFactory.getCurrentSession();

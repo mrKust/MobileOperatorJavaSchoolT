@@ -52,38 +52,59 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="client.phoneNumber" class="form-label">Phone number</label>
-                    <form:input class="form-control" type="tel" path="client.phoneNumber" readonly="true"
-                                pattern="[0-9]{11}"/>
-                </div>
-
-                <div class="mb-3">
                     <label for="client.emailAddress" class="form-label">E-mail</label>
                     <form:input class="form-control" type="email" path="client.emailAddress" readonly="true"/>
                 </div>
 
-                <div class="mb-3">
-                    <label for="client.contract.contractTariff.tariffName" class="form-label">Current connected tariff</label>
-                    <form:input class="form-control" type="text" path="client.contract.contractTariff.tariffName" readonly="true"/>
-                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <th scope="col">Current tariff</th>
+                    <th scope="col">Block status</th>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="contracts" items="${clientContracts}">
 
-                <div class="mb-3">
-                    <label class="form-check-label">Connected options</label>
-                </div>
-                <c:forEach var="option" items="${model.client.contract.connectedOptions}">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="connectedOption" disabled>
-                        <label class="form-check-label" for="connectedOption">
-                                ${option.optionType.optionType} ${option.optionsName}
-                        </label>
-                        <form:checkbox class="form-check-input" path="passwordString" value="${option.id}" name="list" checked="checked" disabled="true"/>
-                    </div>
-                </c:forEach>
+                        <c:url var="controlUpdateButton" value="/control/updateContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
 
-                <div class="mb-3">
-                    <label for="client.clientNumberReadyToWorkStatus" class="form-label">This client available</label>
-                    <form:input class="form-control" type="text" path="client.clientNumberReadyToWorkStatus" readonly="true"/>
-                </div>
+                        <c:url var="deleteButton" value="/common/deleteContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
+
+                        <c:url var="controlLockButton" value="/common/lockContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
+
+                        <c:url var="controlUnlockButton" value="/common/unlockContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
+
+                        <tr>
+                            <th scope="row">${contracts.phoneNumber}</th>
+                            <td>${contracts.contractClient.emailAddress}</td>
+                            <td>${contracts.contractTariff.tariffName}</td>
+                            <td>${contracts.contractBlockStatus}</td>
+                            <td>
+                                <button type="button" class="btn btn-secondary"
+                                        onclick="window.location.href = '${controlUpdateButton}'">Update</button>
+                                <button type="button" class="btn btn-danger"
+                                        onclick="window.location.href = '${deleteButton}'">Delete</button>
+                                <c:choose>
+                                    <c:when test="${contracts.contractBlockStatus == false}">
+                                        <button type="button" class="btn btn-warning"
+                                                onclick="window.location.href = '${controlLockButton}'">Lock</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-warning"
+                                                onclick="window.location.href = '${controlUnlockButton}'">Unlock</button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
 
                 <input type="submit" class="btn btn-primary" value="Confirm"/>
 

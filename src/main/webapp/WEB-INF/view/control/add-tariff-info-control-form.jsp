@@ -38,7 +38,7 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text">$</span>
                     <span class="input-group-text">0.00</span>
-                    <form:input class="form-control" type="number" min="0" path="tariff.price" placeholder="input tariff price here"/>
+                    <form:input class="form-control" type="number" min="0" step="0.01" path="tariff.price" placeholder="input tariff price here"/>
                 </div>
 
                 <c:forEach var="option" items="${optionsList}">

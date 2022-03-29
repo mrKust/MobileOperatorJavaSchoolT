@@ -32,11 +32,22 @@
                     <label class="form-label">Select client</label>
                     <select class="form-select" name="stringsClients">
                         <c:forEach var="client" items="${clientsList}">
-                            <c:if test="${ ( (client.contract eq null) && (client.userRole.equals('client')) ) }">
-                                <option value="${client.id}">${client.phoneNumber} ${client.surname} ${client.emailAddress}</option>
+                            <c:if test="${ (client.userRole.equals('client')) }">
+                                <option value="${client.id}">${client.surname} ${client.firstName} ${client.emailAddress} ${client.passportNumber}</option>
                             </c:if>
                         </c:forEach>
                     </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="contract.phoneNumber" class="form-label">Phone number</label>
+                    <form:input class="form-control" type="tel" path="contract.phoneNumber" list="numbers"
+                                placeholder="Phone number: 8XXXXXXXXXX" pattern="[0-9]{11}"/>
+                    <datalist id="numbers">
+                        <c:forEach var="num" items="${model.stringsNumbers}">
+                        <option value="${num}">
+                            </c:forEach>
+                    </datalist>
                 </div>
 
                 <div class="mb-3">

@@ -28,6 +28,7 @@
                 <th scope="col">Client's phone number</th>
                 <th scope="col">Client's email</th>
                 <th scope="col">Current tariff</th>
+                <th scope="col">Block status</th>
                 </thead>
                 <tbody>
                 <c:forEach var="contracts" items="${allContracts}">
@@ -36,19 +37,38 @@
                         <c:param name="contractId" value="${contracts.id}"/>
                     </c:url>
 
-                    <c:url var="deleteButton" value="/control/deleteContract">
+                    <c:url var="deleteButton" value="/common/deleteContract">
+                        <c:param name="contractId" value="${contracts.id}"/>
+                    </c:url>
+
+                    <c:url var="controlLockButton" value="/common/lockContract">
+                        <c:param name="contractId" value="${contracts.id}"/>
+                    </c:url>
+
+                    <c:url var="controlUnlockButton" value="/common/unlockContract">
                         <c:param name="contractId" value="${contracts.id}"/>
                     </c:url>
 
                     <tr>
-                        <th scope="row">${contracts.contractClient.phoneNumber}</th>
+                        <th scope="row">${contracts.phoneNumber}</th>
                         <td>${contracts.contractClient.emailAddress}</td>
                         <td>${contracts.contractTariff.tariffName}</td>
+                        <td>${contracts.contractBlockStatus}</td>
                         <td>
                             <button type="button" class="btn btn-secondary"
                                     onclick="window.location.href = '${controlUpdateButton}'">Update</button>
                             <button type="button" class="btn btn-danger"
                                     onclick="window.location.href = '${deleteButton}'">Delete</button>
+                            <c:choose>
+                                <c:when test="${contracts.contractBlockStatus == false}">
+                                    <button type="button" class="btn btn-warning"
+                                            onclick="window.location.href = '${controlLockButton}'">Lock</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="button" class="btn btn-warning"
+                                            onclick="window.location.href = '${controlUnlockButton}'">Unlock</button>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                 </c:forEach>
@@ -56,6 +76,8 @@
             </table>
             <button type="button" class="btn btn-primary"
                     onclick="window.location.href = '/control/addNewContract'">Add</button>
+            <button type="button" class="btn btn-secondary"
+                    onclick="window.location.href = '/control/addNewPhoneNumber'">Add new phone number</button>
         </div>
     </main>
 

@@ -42,10 +42,4 @@ public class Tariff {
     @Column(name = "available_to_connect_status")
     private boolean availableToConnectOrNotStatus;
 
-    public Tariff(String tariffName, int price, boolean availableToConnectOrNotStatus) {
-        this.tariffName = tariffName;
-        this.price = price;
-        this.availableToConnectOrNotStatus = availableToConnectOrNotStatus;
-    }
-
 }
