@@ -139,7 +139,9 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public void delete(int id) {
         Contract contract = get(id);
-        numberService.getByPhoneNumber(contract.getPhoneNumber()).setAvailableToConnectStatus(true);
+        Number number = numberService.getByPhoneNumber(contract.getPhoneNumber());
+        number.setAvailableToConnectStatus(true);
+        numberService.update(number);
         contractDao.delete(id);
     }
 }

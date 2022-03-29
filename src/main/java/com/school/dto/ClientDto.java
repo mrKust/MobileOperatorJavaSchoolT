@@ -18,4 +18,6 @@ public class ClientDto {
     private String passwordString;
 
     private String passwordString2;
+
+    private int money;
 }

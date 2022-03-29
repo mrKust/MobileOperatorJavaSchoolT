@@ -98,4 +98,25 @@ public class ClientController {
         return "client/change-password-client";
 
     }
+
+    @RequestMapping("/client/addMoneyToAccaunt")
+    public String addMoney(@RequestParam("clientId") int clientId, Model model) {
+
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(clientServiceMVC.get(clientId));
+        clientDto.setOperationType("money");
+
+        model.addAttribute("model", clientDto);
+
+        return "client/add-money-to-account-client-form";
+    }
+
+    @RequestMapping("/client/moneyProcess")
+    public String addMoneyCheck(@ModelAttribute("model") ClientDto clientDto, Model model,
+                                HttpServletRequest request) {
+
+        clientServiceMVC.addMoney(clientDto);
+
+        return "redirect:/client/updateClient";
+    }
 }

@@ -35,9 +35,7 @@
                 <form:hidden path="client.dateOfBirth"/>
                 <form:hidden path="client.passportNumber"/>
                 <form:hidden path="client.address"/>
-                <form:hidden path="client.phoneNumber"/>
                 <form:hidden path="client.emailAddress"/>
-                <form:hidden path="client.clientNumberReadyToWorkStatus"/>
                 <form:hidden path="operationType"/>
 
 

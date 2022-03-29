@@ -20,6 +20,10 @@
         <c:param name="clientId" value="${model.client.id}"/>
     </c:url>
 
+    <c:url var="clientAddMoneyButton" value="/client/addMoneyToAccaunt">
+        <c:param name="clientId" value="${model.client.id}"/>
+    </c:url>
+
     <main>
         <div class="container">
             <h3>My info</h3>
@@ -92,7 +96,7 @@
                     <form:input class="form-control" type="number" min="0" path="client.moneyBalance"
                                 readonly="true"/>
                     <button type="button" class="btn btn-success"
-                            onclick="window.location.href= '${clientChangePassword}'">Add money</button>
+                            onclick="window.location.href= '${clientAddMoneyButton}'">Add money</button>
                 </div>
 
                 <table class="table table-striped">

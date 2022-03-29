@@ -89,6 +89,14 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public void addMoney(ClientDto clientDto) {
+        double moneyAmount = clientDto.getClient().getMoneyBalance();
+        moneyAmount += clientDto.getMoney();
+        clientDto.getClient().setMoneyBalance(moneyAmount);
+        update(clientDto);
+    }
+
+    @Override
     public void delete(int id) {
 
         Client client = get(id);

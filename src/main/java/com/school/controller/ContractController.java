@@ -149,7 +149,8 @@ public class ContractController {
     public String searchContractByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model) {
 
         Contract contract = contractServiceMVC.getByPhoneNumber(phoneNumber);
+        model.addAttribute("clientId", contract.getContractClient().getId());
 
-        return this.clientUpdateContract(contract.getId(), model);
+        return "redirect:/control/updateClient";
     }
 }

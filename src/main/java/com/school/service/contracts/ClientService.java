@@ -22,5 +22,7 @@ public interface ClientService {
 
     Client getByEmail(String email);
 
+    void addMoney(ClientDto clientDto);
+
     void delete(int id);
 }

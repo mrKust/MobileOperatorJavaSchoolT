@@ -60,6 +60,8 @@
                     <thead>
                     <th scope="col">Current tariff</th>
                     <th scope="col">Block status</th>
+                    <th scope="col">Tariff</th>
+                    <th scope="col">Block status</th>
                     </thead>
                     <tbody>
                     <c:forEach var="contracts" items="${clientContracts}">
