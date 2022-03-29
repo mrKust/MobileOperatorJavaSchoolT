@@ -25,7 +25,7 @@ public class Tariff {
     private String tariffName;
 
     @Column(name = "price")
-    private int price;
+    private double price;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)

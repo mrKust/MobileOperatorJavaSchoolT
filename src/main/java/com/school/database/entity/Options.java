@@ -26,10 +26,10 @@ public class Options {
     private String optionsName;
 
     @Column(name = "price")
-    private int price;
+    private double price;
 
     @Column(name = "cost_to_add")
-    private int costToAdd;
+    private double costToAdd;
 
     @ManyToMany
     @JoinTable(

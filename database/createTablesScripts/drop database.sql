@@ -1,1 +1,1 @@
-drop table db_ecare.client, db_ecare.contract, db_ecare.contract_options, db_ecare.numbers_base, db_ecare.options, db_ecare.options_type_base, db_ecare.tariff, db_ecare.tariff_options;
+drop table db_ecare.client, db_ecare.contract, db_ecare.contract_options, db_ecare.numbers_base, db_ecare.options, db_ecare.options_type, db_ecare.tariff, db_ecare.tariff_options;
