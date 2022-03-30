@@ -59,17 +59,20 @@
                     </tbody>
                 </table>
 
-                <div class="mb-3">
-                    <label for="tariff.price" class="form-label">This tariff available for connect</label>
+                <div class="form-check form-switch">
+                    <label class="form-check-label">
+                        This tariff available for connect
+                    </label>
                     <c:if test="${model.tariff.availableToConnectOrNotStatus eq true}">
-                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" checked="checked" readonly="true"/>
+                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" checked="checked" disabled="true"/>
                     </c:if>
                     <c:if test="${model.tariff.availableToConnectOrNotStatus ne true}">
-                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" readonly="true"/>
+                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" disabled="true"/>
                     </c:if>
                 </div>
 
-                <input type="submit" class="btn btn-primary" value="Confirm">
+                <button type="button" class="btn btn-primary"
+                        onclick="window.location.href = '/common/allTariffs'">Confirm</button>
             </form:form>
         </div>
     </main>

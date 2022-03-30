@@ -25,6 +25,12 @@
                 </jsp:include>
             </c:if>
 
+            <c:if test="${successMessage ne null}">
+                <div class="alert alert-success" role="alert">
+                        ${successMessage}
+                </div>
+            </c:if>
+
             <form:form action="/common/saveContract" modelAttribute="model">
 
                 <form:hidden path="contract.id"/>
@@ -53,6 +59,12 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="contract.contractClient.moneyBalance" class="form-label">Money on balance</label>
+                    <form:input class="form-control" path="contract.contractClient.moneyBalance"
+                                readonly="true"/>
+                </div>
+
+                <div class="mb-3">
                     <label for="contract.contractTariff.tariffName" class="form-label">Client's current tariff</label>
                     <form:input class="form-control" type="text" path="contract.contractTariff.tariffName" readonly="true"/>
                 </div>
@@ -64,10 +76,10 @@
                             <c:forEach var="tariff" items="${tariffsList}">
                                 <c:choose>
                                     <c:when test="${tariff.id eq connectedTariff.id}">
-                                        <option value="${tariff.id}" selected>${tariff.tariffName}</option>
+                                        <option value="${tariff.id}" selected>${tariff.tariffName} ${tariff.price}</option>
                                     </c:when>
                                     <c:otherwise>
-                                        <option value="${tariff.id}">${tariff.tariffName}</option>
+                                        <option value="${tariff.id}">${tariff.tariffName} ${tariff.price}</option>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
@@ -77,6 +89,9 @@
 
                 <c:choose>
                     <c:when test="${model.contract.contractBlockStatus eq false}">
+                        <div class="mb-3">
+                            <label class="form-check-label">Available options (Option category, name, cost to connect, monthly price)</label>
+                        </div>
                         <c:forEach var="option" items="${availableForTariffOptionsList}">
                             <c:set var="contains" value="false" />
                             <c:if test="${fn:length(model.contract.connectedOptions)>0}">
@@ -89,13 +104,13 @@
                             <c:choose>
                                 <c:when test="${contains==true}">
                                     <div class="mb-3">
-                                        <label class="form-check-label">${option.optionType.optionType} ${option.optionsName}</label>
+                                        <label class="form-check-label">${option.optionType.optionType} ${option.optionsName} ${option.costToAdd} ${option.price}</label>
                                         <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list" checked="checked"/>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="mb-3">
-                                        <label class="form-check-label">${option.optionType.optionType} ${option.optionsName}</label>
+                                        <label class="form-check-label">${option.optionType.optionType} ${option.optionsName} ${option.costToAdd} ${option.price}</label>
                                         <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
                                     </div>
                                 </c:otherwise>

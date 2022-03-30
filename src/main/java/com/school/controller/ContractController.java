@@ -11,6 +11,8 @@ import com.school.service.contracts.TariffService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -54,12 +56,14 @@ public class ContractController {
     }
 
     @RequestMapping("/common/saveContract")
-    public String saveContract(@ModelAttribute("model") ContractDto contractDto,
-                               HttpServletRequest request) {
+    public RedirectView saveContract(@ModelAttribute("model") ContractDto contractDto,
+                                     HttpServletRequest request, RedirectAttributes redir) {
 
         contractServiceMVC.save(contractDto);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Contract update successfully");
 
-        return "redirect:" + request.getHeader("Referer");
+        return redirectView;
     }
 
     @RequestMapping("/control/updateContract")

@@ -42,7 +42,7 @@ public class Client {
     @Column(name="password_log_in")
     private String passwordLogIn;
 
-    @OneToMany(mappedBy = "contractClient", cascade = CascadeType.REMOVE,
+    @OneToMany(mappedBy = "contractClient", cascade = CascadeType.ALL,
     fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Contract> contractClient;

@@ -9,6 +9,7 @@ import com.school.database.entity.Options;
 import com.school.dto.ClientDto;
 import com.school.dto.ContractDto;
 import com.school.service.contracts.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -66,10 +67,6 @@ public class ContractServiceImpl implements ContractService {
     public void save(ContractDto contractDto) {
         Contract contract = contractDto.getContract();
 
-        Number number = numberService.getByPhoneNumber(contract.getPhoneNumber());
-        number.setAvailableToConnectStatus(false);
-        numberService.update(number);
-
         if (contractDto.getStringsTariff() != null) {
             int tariffId = Integer.parseInt(contractDto.getStringsTariff()[0]);
             contract.setContractTariff(tariffService.get(tariffId));
@@ -82,6 +79,10 @@ public class ContractServiceImpl implements ContractService {
             contract.setContractClient(clientService.get(clientId));
         }
 
+        if (contract.getContractClient().getPasswordLogIn() == null) {
+            contract.getContractClient().setPasswordLogIn(clientService.get(contract.getContractClient().getId()).getPasswordLogIn());
+        }
+
         List<Options> chosenOptions = new ArrayList<>();
 
         if (contractDto.getStringsOptions() != null) {
@@ -92,7 +93,13 @@ public class ContractServiceImpl implements ContractService {
             throw new ServiceLayerException("Chosen combination of options is forbidden. You must choose only one option from one category");
         }
 
+        contract.setPriceForContractPerMonth(countPricePerMonth(contractDto));
+
         contract.setConnectedOptions(chosenOptions);
+
+        Number number = numberService.getByPhoneNumber(contract.getPhoneNumber());
+        number.setAvailableToConnectStatus(false);
+        numberService.update(number);
 
         contractDao.save(contract);
     }
@@ -122,6 +129,41 @@ public class ContractServiceImpl implements ContractService {
         contract.setRoleOfUserWhoBlockedContract(null);
 
         contractDao.save(contract);
+    }
+
+    @Override
+    public double countPricePerMonth(ContractDto contractDto) {
+        if (contractDto.getContract().getId() == 0)
+            return contractDto.getContract().getContractTariff().getPrice();
+
+        Contract contract = contractDto.getContract();
+        Client client = contract.getContractClient();
+        List<Options> connectedOptions = get(contract.getId()).getConnectedOptions();
+        double priceForMonth = contract.getContractTariff().getPrice();
+        for (Integer tmp : contractDto.getChosenOptionsList()) {
+            if (!optionsAlreadyConnectedToContract(tmp, connectedOptions)) {
+                Options options = optionsService.get(tmp);
+                if (client.getMoneyBalance() > 0) {
+                    client.setMoneyBalance(client.getMoneyBalance() - options.getCostToAdd());
+                    connectedOptions.add(options);
+                    priceForMonth += options.getPrice();
+                } else {
+                    throw new ServiceLayerException("You don't have money to connect option " +
+                            options.getOptionsName() + ". Lack of funds is " + (contract.getContractClient()
+                            .getMoneyBalance() - options.getCostToAdd()) );
+                }
+            }
+        }
+        return priceForMonth;
+    }
+
+    @Override
+    public boolean optionsAlreadyConnectedToContract(int id, List<Options> connectedOptions) {
+        for (Options tmp: connectedOptions) {
+            if (tmp.getId() == id)
+                return true;
+        }
+        return false;
     }
 
     @Override

@@ -56,12 +56,19 @@
                     <form:input class="form-control" type="email" path="client.emailAddress" readonly="true"/>
                 </div>
 
+                <div class="mb-3">
+                    <label for="client.moneyBalance" class="form-label">Money balance</label>
+                    <form:input class="form-control" type="number" min="0" path="client.moneyBalance"
+                                readonly="true"/>
+                </div>
+
                 <table class="table table-striped">
                     <thead>
                     <th scope="col">Current tariff</th>
                     <th scope="col">Block status</th>
                     <th scope="col">Tariff</th>
                     <th scope="col">Block status</th>
+                    <th scope="col">Price</th>
                     </thead>
                     <tbody>
                     <c:forEach var="contracts" items="${clientContracts}">
@@ -87,6 +94,7 @@
                             <td>${contracts.contractClient.emailAddress}</td>
                             <td>${contracts.contractTariff.tariffName}</td>
                             <td>${contracts.contractBlockStatus}</td>
+                            <td>${contracts.priceForContractPerMonth}</td>
                             <td>
                                 <button type="button" class="btn btn-secondary"
                                         onclick="window.location.href = '${controlUpdateButton}'">Update</button>

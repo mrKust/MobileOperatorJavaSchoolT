@@ -36,7 +36,7 @@ public class Contract {
     @JoinColumn(name = "tariff_id")
     private Tariff contractTariff;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
     private Client contractClient;
 
