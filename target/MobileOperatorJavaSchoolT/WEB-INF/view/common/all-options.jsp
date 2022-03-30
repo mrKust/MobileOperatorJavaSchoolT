@@ -107,7 +107,7 @@
             <br><br>
             <nav aria-label="Page navigation example">
                 <ul class="pagination" id="listing">
-                    <c:if test="${pageNumber ne 1}">
+                    <c:if test="${(pageNumber ne 1) && (pageNumber ne null)}">
                         <c:url var="changePagePrevious" value="/common/allOptions">
                             <c:param name="pageNumber" value="${pageNumber-1}"/>
                         </c:url>
@@ -125,7 +125,7 @@
 
                         <li class="page-item"><a class="page-link" href="${changePage}">${index}</a></li>
                     </c:forEach>
-                    <c:if test="${pageNumber < numberOfPages}">
+                    <c:if test="${(pageNumber < numberOfPages) || (pageNumber eq null)}">
                         <li class="page-item"><a class="page-link" href="${changePageNext}">Next</a></li>
                     </c:if>
                 </ul>

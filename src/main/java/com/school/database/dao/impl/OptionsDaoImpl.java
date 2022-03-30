@@ -62,7 +62,7 @@ public class OptionsDaoImpl implements OptionsDao {
 
         Query query = session.createQuery("from Options options order by options." + sortColumn + " desc");
 
-        query.setFirstResult((pageSize * (pageNumber - 1)) + 1);
+        query.setFirstResult(pageSize * (pageNumber - 1));
         query.setMaxResults(pageSize);
 
         return query.getResultList();
