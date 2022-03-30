@@ -2,6 +2,7 @@ package com.school.database.dao.impl;
 
 import com.school.database.dao.contracts.OptionsDao;
 import com.school.database.entity.Options;
+import com.school.dto.OptionsDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -53,6 +54,29 @@ public class OptionsDaoImpl implements OptionsDao {
         query.setParameter("idList", list);
 
         return query.getResultList();
+    }
+
+    @Override
+    public List<Options> getPageOfOptions(int pageSize, String sortColumn, int pageNumber) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Options options order by options." + sortColumn + " desc");
+
+        query.setFirstResult((pageSize * (pageNumber - 1)) + 1);
+        query.setMaxResults(pageSize);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("select count(*) from Options");
+
+        Integer numberOfRecords = Integer.parseInt(query.getSingleResult().toString());
+
+        return (int) Math.ceil((double) numberOfRecords / sizeOfPage);
     }
 
     @Override

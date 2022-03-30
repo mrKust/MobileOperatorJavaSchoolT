@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,27 @@
                 </jsp:include>
             </c:if>
 
-            <table class="table table-striped">
+            <form:form action="/common/allOptions" modelAttribute="model">
+                <input type="hidden" name="pageNumber" value="${pageNumber}">
+                <div class="input-group mb-3">
+                    <select class="form-select" name="pageSize">
+                        <option value="${model.pageSize}" selected>Choose page size</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                    </select>
+                    <select class="form-select" name="sortColumn">
+                        <option value="${model.sortColumn}" selected>Choose column</option>
+                        <option value="optionsName">Name</option>
+                        <option value="optionType" >Category</option>
+                        <option value="price">Price</option>
+                        <option value="costToAdd">Cost to add</option>
+                        <option value="availableOptionToConnectOrNot">Connect status</option>
+                    </select>
+                    <input type="submit" class="btn btn-success" value="Refresh">
+                </div>
+
+            <table id="table" class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col">Option's name</th>
@@ -83,6 +104,33 @@
                 <button type="button" class="btn btn-info"
                         onclick="window.location.href = '/control/allOptionCategories'">Show all options categories</button>
             </security:authorize>
+            <br><br>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" id="listing">
+                    <c:if test="${pageNumber ne 1}">
+                        <c:url var="changePagePrevious" value="/common/allOptions">
+                            <c:param name="pageNumber" value="${pageNumber-1}"/>
+                        </c:url>
+                    <li class="page-item"><a class="page-link" href="${changePagePrevious}">Previous</a></li>
+                    </c:if>
+                    <c:forEach begin="1" end="${numberOfPages}" step="1" var="index">
+
+                        <c:url var="changePageNext" value="/common/allOptions">
+                            <c:param name="pageNumber" value="${index+1}"/>
+                        </c:url>
+
+                        <c:url var="changePage" value="/common/allOptions">
+                            <c:param name="pageNumber" value="${index}"/>
+                        </c:url>
+
+                        <li class="page-item"><a class="page-link" href="${changePage}">${index}</a></li>
+                    </c:forEach>
+                    <c:if test="${pageNumber < numberOfPages}">
+                        <li class="page-item"><a class="page-link" href="${changePageNext}">Next</a></li>
+                    </c:if>
+                </ul>
+            </nav>
+            </form:form>
         </div>
     </main>
 

@@ -14,4 +14,7 @@ public class OptionsDto {
 
     private String[] stringOptionCategory;
 
+    private int pageSize;
+
+    private String sortColumn;
 }

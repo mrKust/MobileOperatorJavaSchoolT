@@ -1,6 +1,7 @@
 package com.school.database.dao.contracts;
 
 import com.school.database.entity.Options;
+import com.school.dto.OptionsDto;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,12 @@ public interface OptionsDao {
 
     @Transactional
     List<Options> getOptionsFromChosenList(List<Integer> list);
+
+    @Transactional
+    List<Options> getPageOfOptions(int pageSize, String sortColumn, int pageNumber);
+
+    @Transactional
+    int getNumberOfPages(int sizeOfPage);
 
     @Transactional
     void save(Options options);

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -21,10 +22,14 @@ public class OptionsController {
         this.optionTypeServiceMVC = optionTypeServiceMVC;
     }
 
-    @RequestMapping("/common/allOptions")
-    public String showAllOptions(Model model) {
+    @RequestMapping(value = "/common/allOptions")
+    public String showAllOptions(@ModelAttribute("model") OptionsDto optionsDto,
+                                 @RequestParam(value = "pageNumber", required = false) Integer pageNumber, Model model) {
 
-        model.addAttribute("allOptions", optionsServiceMVC.getAll());
+        model.addAttribute("model", optionsDto);
+        model.addAttribute("allOptions", optionsServiceMVC.getPageOfOptions(optionsDto, pageNumber));
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("numberOfPages", optionsServiceMVC.getNumberOfPages(optionsDto.getPageSize()));
 
         return "common/all-options";
     }

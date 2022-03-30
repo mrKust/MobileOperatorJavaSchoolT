@@ -46,6 +46,23 @@ public class OptionsServiceImpl implements OptionsService {
     }
 
     @Override
+    public List<Options> getPageOfOptions(OptionsDto optionsDto, Integer numberOfPage) {
+        if (optionsDto.getPageSize() == 0)
+            optionsDto.setPageSize(5);
+        if (optionsDto.getSortColumn() == null)
+            optionsDto.setSortColumn("optionsName");
+        if (numberOfPage == null)
+            numberOfPage = 1;
+        return optionsDao.getPageOfOptions(optionsDto.getPageSize(), optionsDto.getSortColumn(),
+                numberOfPage);
+    }
+
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+        return optionsDao.getNumberOfPages(sizeOfPage);
+    }
+
+    @Override
     public void save(OptionsDto optionsDto) {
         Options option = optionsDto.getOptions();
         option.setPrice(Double.parseDouble(decimalFormat.format(option.getPrice())));
