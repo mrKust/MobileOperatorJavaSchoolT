@@ -99,6 +99,9 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void delete(int id) {
 
+        if (id == 1)
+            throw new ServiceLayerException("You can't delete superadmin");
+
         Client client = get(id);
 
         if (client.getContractClient().size() > 0) {
