@@ -31,6 +31,10 @@ public class ContractDto {
 
     private String[] stringsNumbers;
 
+    private int pageSize;
+
+    private String sortColumn;
+
     public List<Integer> getChosenOptionsList() {
         List<Integer> result = new ArrayList<>();
 

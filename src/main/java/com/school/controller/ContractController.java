@@ -4,6 +4,7 @@ import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
 import com.school.database.entity.Options;
 import com.school.dto.ContractDto;
+import com.school.dto.TariffDto;
 import com.school.service.contracts.ClientService;
 import com.school.service.contracts.ContractService;
 import com.school.service.contracts.NumberService;
@@ -35,9 +36,14 @@ public class ContractController {
     }
 
     @RequestMapping("/control/allContracts")
-    public String showAllContracts(Model model) {
+    public String showAllContracts(@ModelAttribute("model") ContractDto contractDto,
+                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                   Model model) {
 
-        model.addAttribute("allContracts", contractServiceMVC.getAll());
+        model.addAttribute("model", contractDto);
+        model.addAttribute("allContracts", contractServiceMVC.getPageOfContracts(contractDto, pageNumber));
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("numberOfPages", contractServiceMVC.getNumberOfPages(contractDto.getPageSize()));
 
         return "control/all-contracts";
     }
@@ -89,9 +95,15 @@ public class ContractController {
     }
 
     @RequestMapping("/client/allContracts")
-    public String clientAllContracts(Principal principal, Model model) {
-        Client client = clientServiceMVC.getByEmail(principal.getName());
-        model.addAttribute("allContracts", contractServiceMVC.getAllContractsOfClient(client.getId()));
+    public String clientAllContracts(Principal principal,
+                                     @ModelAttribute("model") ContractDto contractDto,
+                                     @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                     Model model) {
+
+        model.addAttribute("model", contractDto);
+        model.addAttribute("allContracts", contractServiceMVC.getPageOfClientContracts(contractDto, pageNumber, principal.getName()));
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("numberOfPages", contractServiceMVC.getNumberOfClientContractPages(contractDto.getPageSize(), principal.getName()));
 
         return "client/all-contracts";
     }

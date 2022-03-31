@@ -28,11 +28,11 @@ public class ContractDaoImpl implements ContractDao {
     }
 
     @Override
-    public List<Contract> getAllContractsOfClient(int clientId) {
+    public List<Contract> getAllContractsOfClient(String clientEmail) {
         Session session = sessionFactory.getCurrentSession();
 
-        Query query = session.createQuery("from Contract where contractClient.id=:id");
-        query.setParameter("id", clientId);
+        Query query = session.createQuery("from Contract where contractClient.emailAddress=:email");
+        query.setParameter("email", clientEmail);
 
         return query.getResultList();
     }
@@ -56,6 +56,56 @@ public class ContractDaoImpl implements ContractDao {
         Query query = session.createQuery("SELECT e FROM Contract e");
         return query.getResultList();
 
+    }
+
+    @Override
+    public List<Contract> getPageOfContracts(int pageSize, String sortColumn, int pageNumber) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Contract contract order by contract." + sortColumn + " desc");
+
+        query.setFirstResult(pageSize * (pageNumber - 1));
+        query.setMaxResults(pageSize);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("select count(*) from Contract ");
+
+        Integer numberOfRecords = Integer.parseInt(query.getSingleResult().toString());
+
+        return (int) Math.ceil((double) numberOfRecords / sizeOfPage);
+    }
+
+    @Override
+    public List<Contract> getPageOfClientContracts(int pageSize, String sortColumn, int pageNumber,
+                                                   String email) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Contract contract where contractClient.emailAddress=:email order by contract." + sortColumn + " desc");
+
+        query.setParameter("email", email);
+        query.setFirstResult(pageSize * (pageNumber - 1));
+        query.setMaxResults(pageSize);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public int getNumberOfClientContractPages(int sizeOfPage,
+                                              String email) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("select count(*) from Contract contract where contractClient.emailAddress=:email");
+
+        query.setParameter("email", email);
+        Integer numberOfRecords = Integer.parseInt(query.getSingleResult().toString());
+
+        return (int) Math.ceil((double) numberOfRecords / sizeOfPage);
     }
 
     @Override

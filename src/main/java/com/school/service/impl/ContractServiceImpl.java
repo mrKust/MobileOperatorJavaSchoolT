@@ -41,8 +41,43 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<Contract> getAllContractsOfClient(int clientId) {
-        return contractDao.getAllContractsOfClient(clientId);
+    public List<Contract> getAllContractsOfClient(String clientEmail) {
+        return contractDao.getAllContractsOfClient(clientEmail);
+    }
+
+    @Override
+    public List<Contract> getPageOfContracts(ContractDto contractDto, Integer numberOfPage) {
+        if (contractDto.getPageSize() == 0)
+            contractDto.setPageSize(5);
+        if (contractDto.getSortColumn() == null)
+            contractDto.setSortColumn("phoneNumber");
+        if (numberOfPage == null)
+            numberOfPage = 1;
+        return contractDao.getPageOfContracts(contractDto.getPageSize(), contractDto.getSortColumn(),
+                numberOfPage);
+    }
+
+    @Override
+    public List<Contract> getPageOfClientContracts(ContractDto contractDto, Integer numberOfPage,
+                                                   String clientEmail) {
+        if (contractDto.getPageSize() == 0)
+            contractDto.setPageSize(5);
+        if (contractDto.getSortColumn() == null)
+            contractDto.setSortColumn("phoneNumber");
+        if (numberOfPage == null)
+            numberOfPage = 1;
+        return contractDao.getPageOfClientContracts(contractDto.getPageSize(),
+                contractDto.getSortColumn(), numberOfPage, clientEmail);
+    }
+
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+        return contractDao.getNumberOfPages(sizeOfPage);
+    }
+
+    @Override
+    public int getNumberOfClientContractPages(int sizeOfPage, String clientEmail) {
+        return contractDao.getNumberOfClientContractPages(sizeOfPage, clientEmail);
     }
 
     @Override

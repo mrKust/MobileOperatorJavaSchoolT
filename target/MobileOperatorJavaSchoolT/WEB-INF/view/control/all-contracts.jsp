@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,62 +24,116 @@
                 </jsp:include>
             </c:if>
 
-            <table class="table table-striped">
-                <thead>
-                <th scope="col">Client's phone number</th>
-                <th scope="col">Client's email</th>
-                <th scope="col">Current tariff</th>
-                <th scope="col">Block status</th>
-                </thead>
-                <tbody>
-                <c:forEach var="contracts" items="${allContracts}">
+            <form:form action="/control/allContracts" modelAttribute="model">
+            <input type="hidden" name="pageNumber" value="${pageNumber}">
+            <div class="input-group mb-3">
+                <select class="form-select" name="pageSize">
+                    <option value="${model.pageSize}" selected>Choose page size</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </select>
+                <select class="form-select" name="sortColumn">
+                    <option value="${model.sortColumn}" selected>Choose column</option>
+                    <option value="phoneNumber">Phone number</option>
+                    <option value="priceForContractPerMonth">Price per month</option>
+                    <option value="contractBlockStatus">Block status</option>
+                    <option value="roleOfUserWhoBlockedContract">Blocker status</option>
+                </select>
+                <input type="submit" class="btn btn-success" value="Refresh">
+            </div>
+                <table class="table table-striped">
+                    <thead>
+                    <th scope="col">Client's phone number</th>
+                    <th scope="col">Client's email</th>
+                    <th scope="col">Current tariff</th>
+                    <th scope="col">Block status</th>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="contracts" items="${allContracts}">
 
-                    <c:url var="controlUpdateButton" value="/control/updateContract">
-                        <c:param name="contractId" value="${contracts.id}"/>
-                    </c:url>
+                        <c:url var="controlUpdateButton" value="/control/updateContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
 
-                    <c:url var="deleteButton" value="/common/deleteContract">
-                        <c:param name="contractId" value="${contracts.id}"/>
-                    </c:url>
+                        <c:url var="deleteButton" value="/common/deleteContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
 
-                    <c:url var="controlLockButton" value="/common/lockContract">
-                        <c:param name="contractId" value="${contracts.id}"/>
-                    </c:url>
+                        <c:url var="controlLockButton" value="/common/lockContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
 
-                    <c:url var="controlUnlockButton" value="/common/unlockContract">
-                        <c:param name="contractId" value="${contracts.id}"/>
-                    </c:url>
+                        <c:url var="controlUnlockButton" value="/common/unlockContract">
+                            <c:param name="contractId" value="${contracts.id}"/>
+                        </c:url>
 
-                    <tr>
-                        <th scope="row">${contracts.phoneNumber}</th>
-                        <td>${contracts.contractClient.emailAddress}</td>
-                        <td>${contracts.contractTariff.tariffName}</td>
-                        <td>${contracts.contractBlockStatus}</td>
-                        <td>
-                            <button type="button" class="btn btn-secondary"
-                                    onclick="window.location.href = '${controlUpdateButton}'">Update</button>
-                            <button type="button" class="btn btn-danger"
-                                    onclick="window.location.href = '${deleteButton}'">Delete</button>
-                            <c:choose>
-                                <c:when test="${contracts.contractBlockStatus == false}">
-                                    <button type="button" class="btn btn-warning"
-                                            onclick="window.location.href = '${controlLockButton}'">Lock</button>
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" class="btn btn-warning"
-                                            onclick="window.location.href = '${controlUnlockButton}'">Unlock</button>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-primary"
-                    onclick="window.location.href = '/control/addNewContract'">Add</button>
-            <button type="button" class="btn btn-secondary"
-                    onclick="window.location.href = '/control/addNewPhoneNumber'">Add new phone number</button>
-        </div>
+                        <tr>
+                            <th scope="row">${contracts.phoneNumber}</th>
+                            <td>${contracts.contractClient.emailAddress}</td>
+                            <td>${contracts.contractTariff.tariffName}</td>
+                            <td>${contracts.contractBlockStatus}</td>
+                            <td>
+                                <button type="button" class="btn btn-secondary"
+                                        onclick="window.location.href = '${controlUpdateButton}'">Update</button>
+                                <button type="button" class="btn btn-danger"
+                                        onclick="window.location.href = '${deleteButton}'">Delete</button>
+                                <c:choose>
+                                    <c:when test="${contracts.contractBlockStatus == false}">
+                                        <button type="button" class="btn btn-warning"
+                                                onclick="window.location.href = '${controlLockButton}'">Lock</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-warning"
+                                                onclick="window.location.href = '${controlUnlockButton}'">Unlock</button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-primary"
+                        onclick="window.location.href = '/control/addNewContract'">Add</button>
+                <button type="button" class="btn btn-secondary"
+                        onclick="window.location.href = '/control/addNewPhoneNumber'">Add new phone number</button>
+
+                <br><br>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination" id="listing">
+                        <c:if test="${(pageNumber ne 1) && (pageNumber ne null)}">
+                            <c:url var="changePagePrevious" value="/control/allContracts">
+                                <c:param name="pageNumber" value="${pageNumber-1}"/>
+                            </c:url>
+                            <li class="page-item"><a class="page-link" href="${changePagePrevious}">Previous</a></li>
+                        </c:if>
+                        <c:forEach begin="1" end="${numberOfPages}" step="1" var="index">
+
+                            <c:url var="changePageNext" value="/control/allContracts">
+                                <c:choose>
+                                    <c:when test="${pageNumber == null}">
+                                        <c:param name="pageNumber" value="${2}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:param name="pageNumber" value="${pageNumber+1}"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:url>
+
+                            <c:url var="changePage" value="/control/allContracts">
+                                <c:param name="pageNumber" value="${index}"/>
+                            </c:url>
+
+                            <li class="page-item"><a class="page-link" href="${changePage}">${index}</a></li>
+                        </c:forEach>
+                        <c:if test="${(pageNumber < numberOfPages) || ( (1 != numberOfPages) && (pageNumber == null))}">
+                            <li class="page-item"><a class="page-link" href="${changePageNext}">Next</a></li>
+                        </c:if>
+                    </ul>
+                </nav>
+            </form:form>
+
+            </div>
     </main>
 
     <jsp:include page="../common/footer.jsp"/>
