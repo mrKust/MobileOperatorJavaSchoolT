@@ -29,6 +29,7 @@
 
                 <form:hidden path="client.id"/>
                 <form:hidden path="operationType"/>
+                <form:hidden path="client.passwordLogIn"/>
 
                 <div class="input-group">
                     <span class="input-group-text">First and last name</span>
@@ -74,7 +75,7 @@
                                 autocomplete="new-email"/>
                 </div>
 
-                <div class="row g-3 align-items-center">
+                <%--<div class="row g-3 align-items-center">
                     <div class="col-auto">
                         <label for="client.passwordLogIn" class="form-label">Password</label>
                     </div>
@@ -87,7 +88,7 @@
                         Must be less than 255 characters long.
                     </span>
                     </div>
-                </div>
+                </div>--%>
 
                 <div class="mb-3">
                     <label class="form-label">Select role</label>

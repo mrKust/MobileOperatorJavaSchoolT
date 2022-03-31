@@ -8,7 +8,15 @@ import com.school.service.contracts.ClientService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 @Service
@@ -68,12 +76,14 @@ public class ClientServiceImpl implements ClientService {
         String roleCast = clientDto.getClient().getUserRole().replace(",", "");
         client.setUserRole(roleCast);
 
+        String password = clientDto.getClient().getPasswordLogIn();
         if (clientDto.getClient().getPasswordLogIn().length() < 255) {
             String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getClient().getPasswordLogIn());
             clientDto.getClient().setPasswordLogIn(encodedPassword);
         } else throw new ServiceLayerException("Password which you input is to long");
 
         clientDao.save(client);
+        sendPasswordToNewUser(client.getEmailAddress(), password, client.getFirstName());
     }
 
     @Override
@@ -114,10 +124,57 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public void sendPasswordToNewUser(String recipientEmail, String password, String name) {
+        Properties prop = new Properties();
+
+        try {
+            prop.load(ClientServiceImpl.class.getClassLoader().getResourceAsStream("mail.properties"));
+            Session session = Session.getInstance(prop, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(prop.getProperty("email"), prop.getProperty("password"));
+                }
+            });
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("mr.kustik@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            message.setSubject("Your account in e-care have been creating");
+            String msg = "Dear " + name + ", account for e-care project on this email were created.\rYour credentials:\n" +
+                    "login: " + recipientEmail + "\rPassword: " + password + "\r" +
+                    "If you get this message, but you don't ask about it. Sorry you address " +
+                    "accidentally concur with input data in school project. Sorry again:)";
+            MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(mimeBodyPart);
+            message.setContent(multipart);
+            Transport.send(message);
+        } catch (MessagingException | IOException e) {
+            throw new ServiceLayerException("Can't add new user e-mail couldn't be send -" + e.getMessage());
+        }
+
+    }
+
+    @Override
+    public String createInputPassword() {
+        StringBuilder password = new StringBuilder();
+        Random random = new Random();
+
+        String setOfCharacters = "abcdefghxyz1234567-/@";
+        for (int i = 0; i < 6; i++) {
+            int randomInt = random.nextInt(setOfCharacters.length());
+            password.append(setOfCharacters.charAt(randomInt));
+        }
+
+        return password.toString();
+    }
+
+    @Override
     public void delete(int id) {
 
         if (id == 1)
-            throw new ServiceLayerException("You can't delete superadmin");
+            throw new ServiceLayerException("You can't delete superadmin!");
 
         Client client = get(id);
 

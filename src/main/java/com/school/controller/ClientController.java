@@ -42,6 +42,7 @@ public class ClientController {
         ClientDto tmp = new ClientDto();
         tmp.setClient(new Client());
         tmp.setOperationType("add");
+        tmp.getClient().setPasswordLogIn(clientServiceMVC.createInputPassword());
         model.addAttribute("model", tmp);
         return "control/add-client-info-control-form";
     }

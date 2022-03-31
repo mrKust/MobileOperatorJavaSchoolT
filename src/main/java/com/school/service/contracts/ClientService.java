@@ -30,5 +30,9 @@ public interface ClientService {
 
     void addMoney(ClientDto clientDto);
 
+    void sendPasswordToNewUser(String recipientEmail, String password, String name);
+
+    String createInputPassword();
+
     void delete(int id);
 }
