@@ -85,39 +85,11 @@
                 </table>
                 <button type="button" class="btn btn-primary"
                         onclick="window.location.href = '/control/addNewClient'">Add</button>
-                <br><br>
-                <nav aria-label="Page navigation">
-                    <ul class="pagination" id="listing">
-                        <c:if test="${(pageNumber ne 1) && (pageNumber ne null)}">
-                            <c:url var="changePagePrevious" value="/control/allClients">
-                                <c:param name="pageNumber" value="${pageNumber-1}"/>
-                            </c:url>
-                            <li class="page-item"><a class="page-link" href="${changePagePrevious}">Previous</a></li>
-                        </c:if>
-                        <c:forEach begin="1" end="${numberOfPages}" step="1" var="index">
 
-                            <c:url var="changePageNext" value="/control/allClients">
-                                <c:choose>
-                                    <c:when test="${pageNumber == null}">
-                                        <c:param name="pageNumber" value="${2}"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:param name="pageNumber" value="${pageNumber+1}"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:url>
-
-                            <c:url var="changePage" value="/control/allClients">
-                                <c:param name="pageNumber" value="${index}"/>
-                            </c:url>
-
-                            <li class="page-item"><a class="page-link" href="${changePage}">${index}</a></li>
-                        </c:forEach>
-                        <c:if test="${(pageNumber < numberOfPages) || ( (1 != numberOfPages) && (pageNumber == null))}">
-                            <li class="page-item"><a class="page-link" href="${changePageNext}">Next</a></li>
-                        </c:if>
-                    </ul>
-                </nav>
+                <jsp:include page="../common/pagination.jsp">
+                    <jsp:param name="pageNumber" value="${pageNumber}"/>
+                    <jsp:param name="action" value="/control/allClients"/>
+                </jsp:include>
             </form:form>
         </div>
     </main>
