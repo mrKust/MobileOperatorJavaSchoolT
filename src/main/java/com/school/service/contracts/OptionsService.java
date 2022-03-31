@@ -2,8 +2,6 @@ package com.school.service.contracts;
 
 import com.school.database.entity.Options;
 import com.school.dto.OptionsDto;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +18,8 @@ public interface OptionsService {
     int getNumberOfPages(int sizeOfPage);
 
     void save(OptionsDto optionsDto);
+
+    void update(OptionsDto optionsDto);
 
     Options get(int id);
 

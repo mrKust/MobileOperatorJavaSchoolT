@@ -27,7 +27,7 @@ public class Tariff {
     @Column(name = "price")
     private double price;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
             name = "tariff_options",

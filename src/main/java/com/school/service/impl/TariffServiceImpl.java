@@ -2,7 +2,6 @@ package com.school.service.impl;
 
 import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.TariffDao;
-import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.TariffDto;
 import com.school.service.contracts.OptionsService;
@@ -63,6 +62,16 @@ public class TariffServiceImpl  implements TariffService {
         Tariff tariff = tariffDto.getTariff();
         tariff.setPrice(Double.parseDouble(decimalFormat.format(tariff.getPrice())));
         tariff.setOptions(optionsService.getOptionsFromChosenList(tariffDto.getChosenOptionsList()));
+        tariffDao.save(tariff);
+    }
+
+    @Override
+    public void update(TariffDto tariffDto) {
+        Tariff tariff = tariffDao.get(tariffDto.getTariff().getId());
+        tariff.setTariffName(tariffDto.getTariff().getTariffName());
+        tariff.setPrice(tariffDto.getTariff().getPrice());
+        tariff.setOptions(optionsService.getOptionsFromChosenList(tariffDto.getChosenOptionsList()));
+
         tariffDao.save(tariff);
     }
 

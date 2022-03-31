@@ -18,41 +18,34 @@
         <div class="container">
             <h3>Option info</h3>
 
-            <c:if test="${errorMessage ne null}">
-                <jsp:include page="../common/error-text.jsp">
-                    <jsp:param name="errorMessage" value="${errorMessage}"/>
-                </jsp:include>
-            </c:if>
-
-            <form:form action="/common/saveOption" modelAttribute="model">
-
-                <form:hidden path="options.id"/>
-                <form:hidden path="options.optionType.id"/>
+                <hidden path="${model.options.id}"></hidden>
+                <hidden path="${model.options.optionType.id}"></hidden>
 
                 <div class="mb-3">
-                    <label for="options.optionsName" class="form-label">Name</label>
-                    <form:input class="form-control" type="text" path="options.optionsName" readonly="true"/>
+                    <label for="name" class="form-label">Name</label>
+                    <input class="form-control" type="text" id="name" value="${model.options.optionsName}" readonly/>
                 </div>
 
-                <label for="options.price" class="form-label">Price</label>
+                <label for="price" class="form-label">Price</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">$</span>
                     <span class="input-group-text">0.00</span>
-                    <form:input class="form-control" type="number" min="0" path="options.price"
-                                readonly="true"/>
+                    <input class="form-control" type="number" min="0" id="price" value="${model.options.price}"
+                                readonly/>
                 </div>
 
                 <label for="options.costToAdd" class="form-label">Cost to connect</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">$</span>
                     <span class="input-group-text">0.00</span>
-                    <form:input class="form-control" type="number" min="0" path="options.costToAdd"
-                                readonly="true"/>
+                    <input class="form-control" type="number" min="0" id="options.costToAdd"
+                           value="${model.options.costToAdd}" readonly/>
                 </div>
 
                 <div class="mb-3">
                     <label for="options.optionType.optionType" class="form-label">Price</label>
-                    <form:input class="form-control" type="text" path="options.optionType.optionType" readonly="true"/>
+                    <input class="form-control" type="text" id="options.optionType.optionType"
+                           value="${model.options.optionType.optionType}" readonly/>
                 </div>
 
                 <div class="form-check form-switch">
@@ -60,15 +53,16 @@
                         This option available to connect
                     </label>
                     <c:if test="${model.options.availableOptionToConnectOrNot eq true}">
-                        <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot" checked="checked" disabled="true"/>
+                        <input class="form-check-input" type="checkbox" role="switch"
+                               id="options.availableOptionToConnectOrNot" checked disabled>
                     </c:if>
                     <c:if test="${model.options.availableOptionToConnectOrNot ne true}">
-                        <form:checkbox class="form-check-input" path="options.availableOptionToConnectOrNot" disabled="true"/>
+                        <input class="form-check-input" type="checkbox" role="switch"
+                               id="options.availableOptionToConnectOrNot" disabled>
                     </c:if>
                 </div>
                 <button type="button" class="btn btn-primary"
                         onclick="window.location.href = '/common/allOptions'">Confirm</button>
-            </form:form>
         </div>
     </main>
     <jsp:include page="../common/footer.jsp"/>

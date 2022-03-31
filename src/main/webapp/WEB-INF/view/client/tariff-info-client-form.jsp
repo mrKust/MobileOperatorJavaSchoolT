@@ -18,62 +18,56 @@
         <div class="container">
             <h3>Tariff info</h3>
 
-            <c:if test="${errorMessage ne null}">
-                <jsp:include page="../common/error-text.jsp">
-                    <jsp:param name="errorMessage" value="${errorMessage}"/>
-                </jsp:include>
-            </c:if>
+            <hidden path="${model.tariff.id}"></hidden>
 
-            <form:form action="/common/allTariffs" modelAttribute="model">
+            <div class="mb-3">
+                <label for="tariff.tariffName" class="form-label">Name</label>
+                <input class="form-control" type="text" id="tariff.tariffName"
+                       value="${model.tariff.tariffName}" readonly/>
+            </div>
 
-                <form:hidden path="tariff.id"/>
-                <form:hidden path="operationType"/>
+            <label for="tariff.price" class="form-label">Price</label>
+            <div class="input-group mb-3">
+                <span class="input-group-text">$</span>
+                <span class="input-group-text">0.00</span>
+                <input class="form-control" type="text" id="tariff.price"
+                       value="${model.tariff.price}" readonly/>
+            </div>
 
-                <div class="mb-3">
-                    <label for="tariff.tariffName" class="form-label">Name</label>
-                    <form:input class="form-control" type="text" path="tariff.tariffName" readonly="true"/>
-                </div>
-
-                <label for="tariff.price" class="form-label">Price</label>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">$</span>
-                    <span class="input-group-text">0.00</span>
-                    <form:input class="form-control" type="text" path="tariff.price" readonly="true"/>
-                </div>
-
-                <table class="table">
-                    <label class="form-label">Available options</label>
-                    <thead>
+            <table class="table">
+                <label class="form-label">Available options</label>
+                <thead>
                     <th scope="col">Category</th>
                     <th scope="col">Name</th>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="option" items="${optionsList}">
-                        <c:if test="${option.availableOptionToConnectOrNot==true}">
-                            <tr>
-                                <td>${option.optionType.optionType}</td>
-                                <td>${option.optionsName}</td>
-                            </tr>
-                        </c:if>
-                    </c:forEach>
-                    </tbody>
-                </table>
-
-                <div class="form-check form-switch">
-                    <label class="form-check-label">
-                        This tariff available for connect
-                    </label>
-                    <c:if test="${model.tariff.availableToConnectOrNotStatus eq true}">
-                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" checked="checked" disabled="true"/>
+                </thead>
+                <tbody>
+                <c:forEach var="option" items="${optionsList}">
+                    <c:if test="${option.availableOptionToConnectOrNot==true}">
+                        <tr>
+                            <td>${option.optionType.optionType}</td>
+                            <td>${option.optionsName}</td>
+                        </tr>
                     </c:if>
-                    <c:if test="${model.tariff.availableToConnectOrNotStatus ne true}">
-                        <form:checkbox class="form-check-input" path="tariff.availableToConnectOrNotStatus" disabled="true"/>
-                    </c:if>
-                </div>
+                </c:forEach>
+                </tbody>
+            </table>
 
-                <button type="button" class="btn btn-primary"
-                        onclick="window.location.href = '/common/allTariffs'">Confirm</button>
-            </form:form>
+            <div class="form-check form-switch">
+                <label class="form-check-label">
+                    This tariff available for connect
+                </label>
+                <c:if test="${model.tariff.availableToConnectOrNotStatus eq true}">
+                    <input class="form-check-input" type="checkbox" role="switch"
+                           id="tariff.availableTariffToConnectOrNot" checked disabled>
+                </c:if>
+                <c:if test="${model.tariff.availableToConnectOrNotStatus ne true}">
+                    <input class="form-check-input" type="checkbox" role="switch"
+                           id="tariff.availableTariffToConnectOrNot" disabled>
+                </c:if>
+            </div>
+
+            <button type="button" class="btn btn-primary"
+                    onclick="window.location.href = '/common/allTariffs'">Confirm</button>
         </div>
     </main>
     <jsp:include page="../common/footer.jsp"/>

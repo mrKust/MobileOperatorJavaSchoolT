@@ -9,6 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class TariffController {
@@ -48,19 +52,32 @@ public class TariffController {
 
         TariffDto tmp = new TariffDto();
         tmp.setTariff(new Tariff());
-        tmp.setOperationType("add");
         model.addAttribute("optionsList", optionsServiceMVC.getAll());
         model.addAttribute("model", tmp);
 
         return "control/add-tariff-info-control-form";
     }
 
-    @RequestMapping("/common/saveTariff")
-    public String saveTariff(@ModelAttribute("model") TariffDto tariffDto) {
+    @RequestMapping("/control/saveTariff")
+    public RedirectView saveTariff(@ModelAttribute("model") TariffDto tariffDto,
+                                   HttpServletRequest request, RedirectAttributes redir) {
 
         tariffServiceMVC.save(tariffDto);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Tariff added successfully");
 
-        return "redirect:/common/allTariffs";
+        return redirectView;
+    }
+
+    @RequestMapping("/control/patchTariff")
+    public RedirectView patchTariff(@ModelAttribute("model") TariffDto tariffDto,
+                                    HttpServletRequest request, RedirectAttributes redir) {
+
+        tariffServiceMVC.update(tariffDto);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Tariff updated successfully");
+
+        return redirectView;
     }
 
     @RequestMapping("/control/updateTariff")
@@ -68,7 +85,6 @@ public class TariffController {
 
         TariffDto tmp = new TariffDto();
         tmp.setTariff(tariffServiceMVC.get(id));
-        tmp.setOperationType("update");
         model.addAttribute("connectedOptionsList", tmp.getTariff().getOptions());
         model.addAttribute("optionsList", optionsServiceMVC.getAll());
         model.addAttribute("model", tmp);
@@ -77,11 +93,14 @@ public class TariffController {
     }
 
     @RequestMapping("/control/deleteTariff")
-    public String deleteTariff(@RequestParam("tariffId") int id) {
+    public RedirectView deleteTariff(@RequestParam("tariffId") int id,
+                                     HttpServletRequest request, RedirectAttributes redir) {
 
         tariffServiceMVC.delete(id);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Tariff deleted successfully");
 
-        return "redirect:/common/allTariffs";
+        return redirectView;
     }
 
     @RequestMapping("/client/updateTariff")
@@ -89,7 +108,6 @@ public class TariffController {
 
         TariffDto tariffDto = new TariffDto();
         tariffDto.setTariff(tariffServiceMVC.get(id));
-        tariffDto.setOperationType("update");
         model.addAttribute("optionsList", tariffDto.getTariff().getOptions());
         model.addAttribute("model", tariffDto);
 

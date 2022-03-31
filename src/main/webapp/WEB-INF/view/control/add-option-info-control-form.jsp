@@ -24,13 +24,19 @@
                 </jsp:include>
             </c:if>
 
-            <form:form action="/common/saveOption" modelAttribute="model">
+            <c:if test="${successMessage ne null}">
+                <jsp:include page="../common/success-text.jsp">
+                    <jsp:param name="successMessage" value="${successMessage}"/>
+                </jsp:include>
+            </c:if>
+
+            <form:form action="/control/saveOption" modelAttribute="model">
 
                 <form:hidden path="options.id"/>
 
                 <div class="mb-3">
                     <label for="options.optionsName" class="form-label">Name</label>
-                    <form:input class="form-control" type="text" path="options.optionsName" placeholder="input option's name here"/>
+                    <form:input class="form-control" type="text" required="true" path="options.optionsName" placeholder="input option's name here"/>
                 </div>
 
                 <label for="options.price" class="form-label">Price</label>

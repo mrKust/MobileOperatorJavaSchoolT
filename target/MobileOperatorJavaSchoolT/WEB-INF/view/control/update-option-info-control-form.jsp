@@ -24,14 +24,20 @@
                 </jsp:include>
             </c:if>
 
-            <form:form action="/common/saveOption" modelAttribute="model">
+            <c:if test="${successMessage ne null}">
+                <jsp:include page="../common/success-text.jsp">
+                    <jsp:param name="successMessage" value="${successMessage}"/>
+                </jsp:include>
+            </c:if>
+
+            <form:form action="/control/patchOption" modelAttribute="model">
 
                 <form:hidden path="options.id"/>
                 <form:hidden path="options.optionType.id"/>
 
                 <div class="mb-3">
                     <label for="options.optionsName" class="form-label">Name</label>
-                    <form:input class="form-control" type="text" path="options.optionsName" placeholder="input option's name here"/>
+                    <form:input class="form-control" type="text" required="true" path="options.optionsName" placeholder="input option's name here"/>
                 </div>
 
                 <label for="options.price" class="form-label">Price</label>
@@ -49,7 +55,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="options.optionType.optionType" class="form-label">Price</label>
+                    <label for="options.optionType.optionType" class="form-label">Category</label>
                     <form:input class="form-control" type="text" path="options.optionType.optionType" readonly="true"/>
                 </div>
 

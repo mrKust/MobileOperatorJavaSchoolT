@@ -24,14 +24,19 @@
                 </jsp:include>
             </c:if>
 
-            <form:form action="/common/saveTariff" modelAttribute="model">
+            <c:if test="${successMessage ne null}">
+                <jsp:include page="../common/success-text.jsp">
+                    <jsp:param name="successMessage" value="${successMessage}"/>
+                </jsp:include>
+            </c:if>
+
+            <form:form action="/control/patchTariff" modelAttribute="model">
 
                 <form:hidden path="tariff.id"/>
-                <form:hidden path="operationType"/>
 
                 <div class="mb-3">
                     <label for="tariff.tariffName" class="form-label">Name</label>
-                    <form:input class="form-control" type="text" path="tariff.tariffName" placeholder="input tariff name here"/>
+                    <form:input class="form-control" type="text" required="true" path="tariff.tariffName" placeholder="input tariff name here"/>
                 </div>
 
                 <label for="tariff.price" class="form-label">Price</label>

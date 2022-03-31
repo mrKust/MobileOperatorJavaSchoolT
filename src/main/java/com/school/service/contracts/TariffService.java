@@ -18,6 +18,8 @@ public interface TariffService {
 
     void save(TariffDto tariffDto);
 
+    void update(TariffDto tariffDto);
+
     Tariff get(int id);
 
     Tariff getByName(String name);

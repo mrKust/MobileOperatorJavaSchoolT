@@ -67,13 +67,20 @@ public class OptionsServiceImpl implements OptionsService {
         Options option = optionsDto.getOptions();
         option.setPrice(Double.parseDouble(decimalFormat.format(option.getPrice())));
         option.setCostToAdd(Double.parseDouble(decimalFormat.format(option.getCostToAdd())));
-        if (optionsDto.getStringOptionCategory() != null) {
+        String[] chosenOptionType = optionsDto.getStringOptionCategory();
+        OptionType optionType = optionTypeService.get(Integer.parseInt(chosenOptionType[0]));
+        option.setOptionType(optionType);
+        optionsDao.save(option);
+    }
 
-            String[] chosenOptionType = optionsDto.getStringOptionCategory();
-            OptionType optionType = optionTypeService.get(
-                    Integer.parseInt(chosenOptionType[0]));
-            option.setOptionType(optionType);
-        }
+    @Override
+    public void update(OptionsDto optionsDto) {
+        Options option = get(optionsDto.getOptions().getId());
+        option.setOptionsName(optionsDto.getOptions().getOptionsName());
+        option.setPrice(optionsDto.getOptions().getPrice());
+        option.setCostToAdd(optionsDto.getOptions().getCostToAdd());
+        option.setAvailableOptionToConnectOrNot(optionsDto.getOptions().isAvailableOptionToConnectOrNot());
+
         optionsDao.save(option);
     }
 

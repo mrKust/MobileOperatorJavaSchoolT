@@ -8,8 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class OptionsController {
@@ -54,15 +57,29 @@ public class OptionsController {
         return "control/add-option-info-control-form";
     }
 
-    @RequestMapping("/common/saveOption")
-    public String saveOption(@ModelAttribute("model") OptionsDto optionsDto) {
+    @RequestMapping(value = "/control/saveOption")
+    public RedirectView saveOption(@ModelAttribute("model") OptionsDto optionsDto,
+                                   HttpServletRequest request, RedirectAttributes redir) {
 
         optionsServiceMVC.save(optionsDto);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Option save successfully");
 
-        return "redirect:/common/allOptions";
+        return redirectView;
     }
 
-    @RequestMapping("/control/updateOption")
+    @RequestMapping(value = "/control/patchOption")
+    public RedirectView patchOption(@ModelAttribute("model") OptionsDto optionsDto,
+                                   HttpServletRequest request, RedirectAttributes redir) {
+
+        optionsServiceMVC.update(optionsDto);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Option update successfully");
+
+        return redirectView;
+    }
+
+    @RequestMapping(value = "/control/updateOption")
     public String controlUpdateOption(@RequestParam("optionId") int id, Model model) {
 
         OptionsDto optionsDto = new OptionsDto();
@@ -72,12 +89,15 @@ public class OptionsController {
         return "control/update-option-info-control-form";
     }
 
-    @RequestMapping("/control/deleteOption")
-    public String deleteOption(@RequestParam("optionId") int id) {
+    @RequestMapping(value = "/control/deleteOption")
+    public RedirectView deleteOption(@RequestParam("optionId") int id,
+                                     HttpServletRequest request, RedirectAttributes redir) {
 
         optionsServiceMVC.delete(id);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Option deleted successfully");
 
-        return "redirect:/common/allOptions";
+        return redirectView;
     }
 
     @RequestMapping("/client/updateOption")

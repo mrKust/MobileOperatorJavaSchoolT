@@ -17,8 +17,6 @@ public class TariffDto {
 
     private String[] stringsOptions;
 
-    private String operationType;
-
     private int pageSize;
 
     private String sortColumn;
