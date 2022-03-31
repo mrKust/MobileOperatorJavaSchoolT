@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @Controller
 public class TariffController {
 
@@ -30,7 +28,7 @@ public class TariffController {
                                             Model model) {
 
         model.addAttribute("model", tariffDto);
-        model.addAttribute("allTariffs", tariffServiceMVC.getPageOfOptions(tariffDto, pageNumber));
+        model.addAttribute("allTariffs", tariffServiceMVC.getPageOfTariffs(tariffDto, pageNumber));
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("numberOfPages", tariffServiceMVC.getNumberOfPages(tariffDto.getPageSize()));
 

@@ -30,6 +30,23 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public List<Client> getPageOfClients(ClientDto clientDto, Integer numberOfPage) {
+        if (clientDto.getPageSize() == 0)
+            clientDto.setPageSize(5);
+        if (clientDto.getSortColumn() == null)
+            clientDto.setSortColumn("surname");
+        if (numberOfPage == null)
+            numberOfPage = 1;
+        return clientDao.getPageOfClients(clientDto.getPageSize(), clientDto.getSortColumn(),
+                numberOfPage);
+    }
+
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+        return clientDao.getNumberOfPages(sizeOfPage);
+    }
+
+    @Override
     public boolean checkUserEmailToUnique(Client client) {
         return clientDao.checkUserEmailToUnique(client);
     }

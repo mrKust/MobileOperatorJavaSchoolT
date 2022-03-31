@@ -2,6 +2,7 @@ package com.school.controller;
 
 import com.school.database.entity.Client;
 import com.school.dto.ClientDto;
+import com.school.dto.TariffDto;
 import com.school.service.contracts.ClientService;
 import com.school.service.contracts.NumberService;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,14 @@ public class ClientController {
     }
 
     @RequestMapping("/control/allClients")
-    public String showAllClients(Model model) {
+    public String showAllClients(@ModelAttribute("model") ClientDto clientDto,
+                                 @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                 Model model) {
 
-        model.addAttribute("allClients", clientServiceMVC.getAll());
+        model.addAttribute("model", clientDto);
+        model.addAttribute("allClients", clientServiceMVC.getPageOfClients(clientDto, pageNumber));
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("numberOfPages", clientServiceMVC.getNumberOfPages(clientDto.getPageSize()));
 
         return "control/all-clients";
     }

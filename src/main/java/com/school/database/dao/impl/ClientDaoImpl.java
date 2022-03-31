@@ -64,6 +64,29 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
+    public List<Client> getPageOfClients(int pageSize, String sortColumn, int pageNumber) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Client client order by client." + sortColumn + " desc");
+
+        query.setFirstResult(pageSize * (pageNumber - 1));
+        query.setMaxResults(pageSize);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("select count(*) from Client ");
+
+        Integer numberOfRecords = Integer.parseInt(query.getSingleResult().toString());
+
+        return (int) Math.ceil((double) numberOfRecords / sizeOfPage);
+    }
+
+    @Override
     public void save(Client client) {
 
         Session session = sessionFactory.getCurrentSession();

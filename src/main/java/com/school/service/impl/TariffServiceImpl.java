@@ -41,7 +41,7 @@ public class TariffServiceImpl  implements TariffService {
     }
 
     @Override
-    public List<Tariff> getPageOfOptions(TariffDto tariffDto, Integer numberOfPage) {
+    public List<Tariff> getPageOfTariffs(TariffDto tariffDto, Integer numberOfPage) {
         if (tariffDto.getPageSize() == 0)
             tariffDto.setPageSize(5);
         if (tariffDto.getSortColumn() == null)

@@ -20,4 +20,8 @@ public class ClientDto {
     private String passwordString2;
 
     private int money;
+
+    private int pageSize;
+
+    private String sortColumn;
 }
