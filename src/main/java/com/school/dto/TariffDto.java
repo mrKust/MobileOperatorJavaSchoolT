@@ -19,6 +19,10 @@ public class TariffDto {
 
     private String operationType;
 
+    private int pageSize;
+
+    private String sortColumn;
+
     public List<Integer> getChosenOptionsList() {
         List<Integer> result = new ArrayList<>();
 

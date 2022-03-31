@@ -40,6 +40,23 @@ public class TariffServiceImpl  implements TariffService {
         return tariffDao.getAllAvailable();
     }
 
+    @Override
+    public List<Tariff> getPageOfOptions(TariffDto tariffDto, Integer numberOfPage) {
+        if (tariffDto.getPageSize() == 0)
+            tariffDto.setPageSize(5);
+        if (tariffDto.getSortColumn() == null)
+            tariffDto.setSortColumn("tariffName");
+        if (numberOfPage == null)
+            numberOfPage = 1;
+        return tariffDao.getPageOfTariffs(tariffDto.getPageSize(), tariffDto.getSortColumn(),
+                numberOfPage);
+    }
+
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+        return tariffDao.getNumberOfPages(sizeOfPage);
+    }
+
 
     @Override
     public void save(TariffDto tariffDto) {

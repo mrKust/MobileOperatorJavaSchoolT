@@ -24,7 +24,8 @@ public class OptionsController {
 
     @RequestMapping(value = "/common/allOptions")
     public String showAllOptions(@ModelAttribute("model") OptionsDto optionsDto,
-                                 @RequestParam(value = "pageNumber", required = false) Integer pageNumber, Model model) {
+                                 @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                 Model model) {
 
         model.addAttribute("model", optionsDto);
         model.addAttribute("allOptions", optionsServiceMVC.getPageOfOptions(optionsDto, pageNumber));

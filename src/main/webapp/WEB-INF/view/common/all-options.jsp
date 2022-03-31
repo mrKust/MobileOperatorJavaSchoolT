@@ -105,7 +105,7 @@
                         onclick="window.location.href = '/control/allOptionCategories'">Show all options categories</button>
             </security:authorize>
             <br><br>
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation">
                 <ul class="pagination" id="listing">
                     <c:if test="${(pageNumber ne 1) && (pageNumber ne null)}">
                         <c:url var="changePagePrevious" value="/common/allOptions">
@@ -116,7 +116,14 @@
                     <c:forEach begin="1" end="${numberOfPages}" step="1" var="index">
 
                         <c:url var="changePageNext" value="/common/allOptions">
-                            <c:param name="pageNumber" value="${index+1}"/>
+                            <c:choose>
+                                <c:when test="${pageNumber == null}">
+                                    <c:param name="pageNumber" value="${2}"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:param name="pageNumber" value="${pageNumber+1}"/>
+                                </c:otherwise>
+                            </c:choose>
                         </c:url>
 
                         <c:url var="changePage" value="/common/allOptions">
@@ -125,7 +132,7 @@
 
                         <li class="page-item"><a class="page-link" href="${changePage}">${index}</a></li>
                     </c:forEach>
-                    <c:if test="${(pageNumber < numberOfPages) || (pageNumber eq null)}">
+                    <c:if test="${(pageNumber < numberOfPages) || ( (1 != numberOfPages) && (pageNumber == null))}">
                         <li class="page-item"><a class="page-link" href="${changePageNext}">Next</a></li>
                     </c:if>
                 </ul>

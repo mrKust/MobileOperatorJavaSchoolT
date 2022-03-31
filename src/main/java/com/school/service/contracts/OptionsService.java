@@ -15,7 +15,7 @@ public interface OptionsService {
 
     List<Options> getOptionsFromChosenList(List<Integer> list);
 
-    List<Options> getPageOfOptions(OptionsDto optionsDto, Integer pageNumbers);
+    List<Options> getPageOfOptions(OptionsDto optionsDto, Integer numberOfPage);
 
     int getNumberOfPages(int sizeOfPage);
 

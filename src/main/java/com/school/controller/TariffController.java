@@ -25,9 +25,14 @@ public class TariffController {
     }
 
     @RequestMapping("/common/allTariffs")
-    public String showAllTariff(Model model) {
+    public String showAllTariff(@ModelAttribute("model") TariffDto tariffDto,
+                                @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                            Model model) {
 
-        model.addAttribute("allTariffs", tariffServiceMVC.getAll());
+        model.addAttribute("model", tariffDto);
+        model.addAttribute("allTariffs", tariffServiceMVC.getPageOfOptions(tariffDto, pageNumber));
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("numberOfPages", tariffServiceMVC.getNumberOfPages(tariffDto.getPageSize()));
 
         return "common/all-tariffs";
     }

@@ -59,6 +59,29 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     @Override
+    public List<Tariff> getPageOfTariffs(int pageSize, String sortColumn, int pageNumber) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Tariff tariff order by tariff." + sortColumn + " desc");
+
+        query.setFirstResult(pageSize * (pageNumber - 1));
+        query.setMaxResults(pageSize);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("select count(*) from Tariff ");
+
+        Integer numberOfRecords = Integer.parseInt(query.getSingleResult().toString());
+
+        return (int) Math.ceil((double) numberOfRecords / sizeOfPage);
+    }
+
+    @Override
     public void save(Tariff tariff) {
 
         Session session = sessionFactory.getCurrentSession();
