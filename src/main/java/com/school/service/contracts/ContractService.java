@@ -30,7 +30,7 @@ public interface ContractService {
 
     void unlock(ContractDto contractDto);
 
-    double countPricePerMonth(ContractDto contractDto);
+    double countPricePerMonth(Contract contract, List<Options> beforeConnectedOptions);
 
     boolean optionsAlreadyConnectedToContract(int id, List<Options> connectedOptions);
 

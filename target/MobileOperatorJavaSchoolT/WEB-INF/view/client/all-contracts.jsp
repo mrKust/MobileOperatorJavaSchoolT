@@ -104,7 +104,7 @@
             </c:otherwise>
         </c:choose>
         <button type="button" class="btn btn-primary"
-                onclick="window.location.href = '/control/addNewContract'">Add</button>
+                onclick="window.location.href = '/client/addNewContract'">Add</button>
 
         <jsp:include page="../common/pagination.jsp">
             <jsp:param name="pageNumber" value="${pageNumber}"/>

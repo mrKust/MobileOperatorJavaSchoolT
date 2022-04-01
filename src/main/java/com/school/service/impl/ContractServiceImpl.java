@@ -2,14 +2,10 @@ package com.school.service.impl;
 
 import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.ContractDao;
-import com.school.database.entity.Client;
-import com.school.database.entity.Contract;
+import com.school.database.entity.*;
 import com.school.database.entity.Number;
-import com.school.database.entity.Options;
-import com.school.dto.ClientDto;
 import com.school.dto.ContractDto;
 import com.school.service.contracts.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -102,46 +98,53 @@ public class ContractServiceImpl implements ContractService {
     public void save(ContractDto contractDto) {
         Contract contract = contractDto.getContract();
 
-        if (contractDto.getStringsTariff() != null) {
-            int tariffId = Integer.parseInt(contractDto.getStringsTariff()[0]);
-            contract.setContractTariff(tariffService.get(tariffId));
-        } else {
-            contract.setContractTariff(tariffService.get(contract.getContractTariff().getId()));
-        }
+        int tariffId = Integer.parseInt(contractDto.getStringsTariff()[0]);
+        Tariff connectedTariff = tariffService.get(tariffId);
+        contract.setContractTariff(connectedTariff);
 
-        if (contractDto.getStringsClients() != null) {
+        if (contractDto.getStringsClients() == null) {
+            contract.setContractClient(clientService.get(contractDto.getId()));
+        } else {
             int clientId = Integer.parseInt(contractDto.getStringsClients()[0]);
             contract.setContractClient(clientService.get(clientId));
         }
 
-        if (contract.getContractClient().getPasswordLogIn() == null) {
-            contract.getContractClient().setPasswordLogIn(clientService.get(contract.getContractClient().getId()).getPasswordLogIn());
-        }
-
-        List<Options> chosenOptions = new ArrayList<>();
-
-        if (contractDto.getStringsOptions() != null) {
-             chosenOptions = optionsService.getOptionsFromChosenList(contractDto.getChosenOptionsList());
-        }
-
-        if (!checkOptionsComboToRight(chosenOptions)) {
-            throw new ServiceLayerException("Chosen combination of options is forbidden. You must choose only one option from one category");
-        }
-
-        contract.setPriceForContractPerMonth(countPricePerMonth(contractDto));
-
-        contract.setConnectedOptions(chosenOptions);
+        contract.setPriceForContractPerMonth(connectedTariff.getPrice());
 
         Number number = numberService.getByPhoneNumber(contract.getPhoneNumber());
-        number.setAvailableToConnectStatus(false);
-        numberService.update(number);
+        if (number.isAvailableToConnectStatus() != false) {
+            number.setAvailableToConnectStatus(false);
+            numberService.update(number);
+        } else
+            throw new ServiceLayerException("This number already connected to different contract");
 
         contractDao.save(contract);
     }
 
     @Override
     public void update(ContractDto contractDto) {
-        Contract contract = contractDto.getContract();
+        Contract contract = get(contractDto.getContract().getId());
+
+        int tariffId = Integer.parseInt(contractDto.getStringsTariff()[0]);
+
+        if (tariffId != contract.getContractTariff().getId()) {
+            contract.setContractTariff(tariffService.get(tariffId));
+        }
+
+        List<Options> chosenOptions = new ArrayList<>();
+        List<Options> beforeConnectedOptions = contract.getConnectedOptions();
+
+        if (contractDto.getStringsOptions() != null) {
+            chosenOptions = optionsService.getOptionsFromChosenList(contractDto.getChosenOptionsList());
+        }
+
+        if (!checkOptionsComboToRight(chosenOptions)) {
+            throw new ServiceLayerException("Chosen combination of options is forbidden. You must choose only one option from one category");
+        }
+
+        contract.setConnectedOptions(chosenOptions);
+        contract.setPriceForContractPerMonth(countPricePerMonth(contract, beforeConnectedOptions));
+
         contractDao.save(contract);
     }
 
@@ -167,25 +170,20 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public double countPricePerMonth(ContractDto contractDto) {
-        if (contractDto.getContract().getId() == 0)
-            return contractDto.getContract().getContractTariff().getPrice();
-
-        Contract contract = contractDto.getContract();
+    public double countPricePerMonth(Contract contract, List<Options> beforeConnectedOptions) {
         Client client = contract.getContractClient();
         List<Options> connectedOptions = get(contract.getId()).getConnectedOptions();
         double priceForMonth = contract.getContractTariff().getPrice();
-        for (Integer tmp : contractDto.getChosenOptionsList()) {
-            if (!optionsAlreadyConnectedToContract(tmp, connectedOptions)) {
-                Options options = optionsService.get(tmp);
+        for (Options tmp : contract.getConnectedOptions()) {
+            if (!optionsAlreadyConnectedToContract(tmp.getId(), connectedOptions)) {
                 if (client.getMoneyBalance() > 0) {
-                    client.setMoneyBalance(client.getMoneyBalance() - options.getCostToAdd());
-                    connectedOptions.add(options);
-                    priceForMonth += options.getPrice();
+                    client.setMoneyBalance(client.getMoneyBalance() - tmp.getCostToAdd());
+                    priceForMonth += tmp.getPrice();
                 } else {
                     throw new ServiceLayerException("You don't have money to connect option " +
-                            options.getOptionsName() + ". Lack of funds is " + (contract.getContractClient()
-                            .getMoneyBalance() - options.getCostToAdd()) );
+                            tmp.getOptionsName()+ " " + tmp.getOptionType().getOptionType() +
+                            ". Lack of funds is " + (contract.getContractClient()
+                            .getMoneyBalance() - tmp.getCostToAdd()) );
                 }
             }
         }

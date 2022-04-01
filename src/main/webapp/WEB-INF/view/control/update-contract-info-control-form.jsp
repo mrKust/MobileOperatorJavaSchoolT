@@ -31,7 +31,7 @@
                 </div>
             </c:if>
 
-            <form:form action="/common/saveContract" modelAttribute="model">
+            <form:form action="/common/patchContract" modelAttribute="model">
 
                 <form:hidden path="contract.id"/>
                 <form:hidden path="contract.contractClient.id"/>

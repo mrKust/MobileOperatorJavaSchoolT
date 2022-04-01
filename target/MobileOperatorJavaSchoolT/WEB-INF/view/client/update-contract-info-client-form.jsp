@@ -25,6 +25,12 @@
                 </jsp:include>
             </c:if>
 
+            <c:if test="${successMessage ne null}">
+                <jsp:include page="../common/success-text.jsp">
+                    <jsp:param name="successMessage" value="${successMessage}"/>
+                </jsp:include>
+            </c:if>
+
             <c:if test="${model.contract.roleOfUserWhoBlockedContract eq 'control'}">
                 <div class="alert alert-warning" role="alert">
                     This contact was blocked by administration. You can't change anything. Contact to help if you need.
@@ -37,7 +43,7 @@
                 </div>
             </c:if>
 
-            <form:form action="/common/saveContract" modelAttribute="model">
+            <form:form action="/common/patchContract" modelAttribute="model">
 
                 <form:hidden path="contract.id"/>
                 <form:hidden path="contract.contractClient.id"/>

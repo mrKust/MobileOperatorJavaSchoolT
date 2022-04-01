@@ -53,12 +53,23 @@ public class ContractController {
 
         ContractDto tmp = new ContractDto();
         tmp.setContract(new Contract());
-        tmp.getContract().setContractBlockStatus(false);
         tmp.setStringsNumbers(numberServiceMVC.getAllUnused());
         model.addAttribute("tariffsList", tariffServiceMVC.getAll());
         model.addAttribute("clientsList", clientServiceMVC.getAll());
         model.addAttribute("model", tmp);
         return "control/add-contract-info-control-form";
+    }
+
+    @RequestMapping("/client/addNewContract")
+    public String addNewContractClient(Model model, Principal principal) {
+
+        ContractDto tmp = new ContractDto();
+        tmp.setContract(new Contract());
+        tmp.setId(clientServiceMVC.getByEmail(principal.getName()).getId());
+        tmp.setStringsNumbers(numberServiceMVC.getAllUnused());
+        model.addAttribute("tariffsList", tariffServiceMVC.getAll());
+        model.addAttribute("model", tmp);
+        return "client/add-contract-info-client-form";
     }
 
     @RequestMapping("/common/saveContract")
@@ -67,7 +78,18 @@ public class ContractController {
 
         contractServiceMVC.save(contractDto);
         RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
-        redir.addFlashAttribute("successMessage", "Contract update successfully");
+        redir.addFlashAttribute("successMessage", "Contract added successfully");
+
+        return redirectView;
+    }
+
+    @RequestMapping("/common/patchContract")
+    public RedirectView patchContract(@ModelAttribute("model") ContractDto contractDto,
+                                     HttpServletRequest request, RedirectAttributes redir) {
+
+        contractServiceMVC.update(contractDto);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Contract updated successfully");
 
         return redirectView;
     }
@@ -87,11 +109,14 @@ public class ContractController {
     }
 
     @RequestMapping("/common/deleteContract")
-    public String deleteContract(@RequestParam("contractId") int id) {
+    public RedirectView deleteContract(@RequestParam("contractId") int id,
+                                       HttpServletRequest request, RedirectAttributes redir) {
 
         contractServiceMVC.delete(id);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Contract deleted successfully");
 
-        return "redirect:/control/allContracts";
+        return redirectView;
     }
 
     @RequestMapping("/client/allContracts")
