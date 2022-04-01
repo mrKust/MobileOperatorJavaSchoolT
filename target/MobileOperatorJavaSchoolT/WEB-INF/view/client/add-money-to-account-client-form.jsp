@@ -26,6 +26,12 @@
             </jsp:include>
         </c:if>
 
+        <c:if test="${successMessage ne null}">
+            <jsp:include page="../common/success-text.jsp">
+                <jsp:param name="successMessage" value="${successMessage}"/>
+            </jsp:include>
+        </c:if>
+
         <form:form action="/client/moneyProcess" modelAttribute="model">
 
             <form:hidden path="client.id"/>
@@ -36,24 +42,25 @@
             <form:hidden path="client.passportNumber"/>
             <form:hidden path="client.address"/>
             <form:hidden path="client.emailAddress"/>
-            <form:hidden path="operationType"/>
+            <form:hidden path="client.moneyBalance"/>
 
 
             <div class="mb-3">
                 <label for="client.passportNumber" class="form-label">Money sum </label>
-                <form:input class="form-control" type="number" min="0" max="9999999999999999"
-                            path="money" placeholde="input amount of money here"/>
+                <form:input class="form-control" type="number" required="true" min="0"
+                            max="9999999" path="money"
+                            placeholde="input amount of money here"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.passportNumber" class="form-label">Card number</label>
-                <input class="form-control" type="number" min="0" max="9999999999999999"
+                <input class="form-control" type="text" required="true" pattern="[0-9]{16}"
                             path="" placeholde="input card number without spaces"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.dateOfBirth" class="form-label">Date of expires</label>
-                <input id="datefield" type="date" max="" data-date-end-date="0d" class="form-control" path="" />
+                <input id="datefield" type="date" max="" required="true" data-date-end-date="0d" class="form-control" path="" />
                 <script>
                     var today = new Date();
                     var dd = today.getDate();
@@ -76,15 +83,15 @@
             <div class="input-group">
                 <span class="input-group-text">Input surname and name</span>
                 <input type="text" aria-label="Surname" class="form-control"
-                            path="" placeholder="Input surname here"/>
+                            path="" required="true" placeholder="Input surname here"/>
                 <input type="text" aria-label="First name" class="form-control"
-                            path="" placeholder="Input name here"/>
+                            path="" required="true" placeholder="Input name here"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.passportNumber" class="form-label">CVC</label>
-                <input class="form-control" type="number" min="0" max="999"
-                            path="" placeholder="input cvc numper"/>
+                <input class="form-control" type="number" min="100" max="999"
+                            path="" required="true" placeholder="input cvc numper"/>
             </div>
 
 

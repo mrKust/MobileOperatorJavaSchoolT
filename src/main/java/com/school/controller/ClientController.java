@@ -2,14 +2,14 @@ package com.school.controller;
 
 import com.school.database.entity.Client;
 import com.school.dto.ClientDto;
-import com.school.dto.TariffDto;
 import com.school.service.contracts.ClientService;
-import com.school.service.contracts.NumberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -41,24 +41,30 @@ public class ClientController {
 
         ClientDto tmp = new ClientDto();
         tmp.setClient(new Client());
-        tmp.setOperationType("add");
-        tmp.getClient().setPasswordLogIn(clientServiceMVC.createInputPassword());
         model.addAttribute("model", tmp);
         return "control/add-client-info-control-form";
     }
 
     @RequestMapping("/common/saveClient")
-    public String saveClient(@ModelAttribute("model") ClientDto clientDto, HttpServletRequest request) {
+    public RedirectView saveClient(@ModelAttribute("model") ClientDto clientDto,
+                                   HttpServletRequest request, RedirectAttributes redir) {
 
-        if (clientDto.getOperationType().equals("add")) {
+        clientServiceMVC.save(clientDto);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Client added successfully");
 
-            clientServiceMVC.save(clientDto);
-        } else clientServiceMVC.update(clientDto);
+        return redirectView;
+    }
 
-        if (request.isUserInRole("ROLE_control"))
-            return "redirect:/control/allClients";
+    @RequestMapping("/common/patchClient")
+    public RedirectView patchClient(@ModelAttribute("model") ClientDto clientDto,
+                                   HttpServletRequest request, RedirectAttributes redir) {
 
-        return "redirect:/";
+        clientServiceMVC.update(clientDto);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Client updated successfully");
+
+        return redirectView;
     }
 
     @RequestMapping("/control/updateClient")
@@ -74,11 +80,14 @@ public class ClientController {
     }
 
     @RequestMapping("/control/deleteClient")
-    public String deleteClient(@RequestParam("clientId") int id) {
+    public RedirectView deleteClient(@RequestParam("clientId") int id,
+                                     HttpServletRequest request, RedirectAttributes redir) {
 
         clientServiceMVC.delete(id);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Client deleted successfully");
 
-        return "redirect:/control/allClients";
+        return redirectView;
     }
 
     @RequestMapping("/client/updateClient")
@@ -99,7 +108,6 @@ public class ClientController {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(clientId));
-
         model.addAttribute("model", clientDto);
 
         return "client/change-password-client";
@@ -119,11 +127,13 @@ public class ClientController {
     }
 
     @RequestMapping("/client/moneyProcess")
-    public String addMoneyCheck(@ModelAttribute("model") ClientDto clientDto, Model model,
-                                HttpServletRequest request) {
+    public RedirectView addMoneyCheck(@ModelAttribute("model") ClientDto clientDto,
+                                      HttpServletRequest request, RedirectAttributes redir) {
 
         clientServiceMVC.addMoney(clientDto);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Money added successfully");
 
-        return "redirect:/client/updateClient";
+        return redirectView;
     }
 }

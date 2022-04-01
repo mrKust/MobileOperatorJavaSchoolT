@@ -25,16 +25,20 @@
                 </jsp:include>
             </c:if>
 
+            <c:if test="${successMessage ne null}">
+                <jsp:include page="../common/success-text.jsp">
+                    <jsp:param name="successMessage" value="${successMessage}"/>
+                </jsp:include>
+            </c:if>
+
             <form:form action="/common/saveClient" modelAttribute="model">
 
                 <form:hidden path="client.id"/>
-                <form:hidden path="operationType"/>
-                <form:hidden path="client.passwordLogIn"/>
 
                 <div class="input-group">
                     <span class="input-group-text">First and last name</span>
-                    <form:input aria-label="First name" type="text" class="form-control" path="client.firstName" placeholder="input First name here"/>
-                    <form:input aria-label="Last name" type="text" class="form-control" path="client.surname" placeholder="input Second name here"/>
+                    <form:input aria-label="First name" type="text" required="true" class="form-control" path="client.firstName" placeholder="input First name here"/>
+                    <form:input aria-label="Last name" type="text" required="true" class="form-control" path="client.surname" placeholder="input Second name here"/>
                 </div>
 
                 <div class="mb-3">
@@ -61,34 +65,19 @@
 
                 <div class="mb-3">
                     <label for="client.passportNumber" class="form-label">Passport number</label>
-                    <form:input class="form-control" type="text" path="client.passportNumber"/>
+                    <form:input class="form-control" required="true" type="text" path="client.passportNumber"/>
                 </div>
 
                 <div class="mb-3">
                     <label for="client.address" class="form-label">Home address</label>
-                    <form:input class="form-control" type="text" path="client.address"/>
+                    <form:input class="form-control" required="true" type="text" path="client.address"/>
                 </div>
 
                 <div class="mb-3">
                     <label for="client.emailAddress" class="form-label">Email address</label>
-                    <form:input type="email" class="form-control" path="client.emailAddress"
+                    <form:input type="email" required="true" class="form-control" path="client.emailAddress"
                                 autocomplete="new-email"/>
                 </div>
-
-                <%--<div class="row g-3 align-items-center">
-                    <div class="col-auto">
-                        <label for="client.passwordLogIn" class="form-label">Password</label>
-                    </div>
-                    <div class="col-auto">
-                        <form:input type="password" class="form-control" path="client.passwordLogIn"
-                                    autocomplete="new-password" aria-describedby="passwordHelpInline"/>
-                    </div>
-                    <div class="col-auto">
-                    <span id="passwordHelpInline" class="form-text">
-                        Must be less than 255 characters long.
-                    </span>
-                    </div>
-                </div>--%>
 
                 <div class="mb-3">
                     <label class="form-label">Select role</label>

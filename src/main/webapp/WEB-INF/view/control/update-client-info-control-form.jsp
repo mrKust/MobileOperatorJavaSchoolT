@@ -25,15 +25,20 @@
                 </jsp:include>
             </c:if>
 
-            <form:form action="/common/saveClient" modelAttribute="model">
+            <c:if test="${successMessage ne null}">
+                <jsp:include page="../common/success-text.jsp">
+                    <jsp:param name="successMessage" value="${successMessage}"/>
+                </jsp:include>
+            </c:if>
+
+            <form:form action="/common/patchClient" modelAttribute="model">
                 <form:hidden path="client.id"/>
                 <form:hidden path="client.userRole"/>
-                <form:hidden path="operationType"/>
 
                 <div class="input-group">
                     <span class="input-group-text">First and last name</span>
-                    <form:input aria-label="First name" type="text" class="form-control" path="client.firstName" readonly="true"/>
-                    <form:input aria-label="Last name" type="text" class="form-control" path="client.surname" readonly="true"/>
+                    <form:input aria-label="First name" type="text" required="true" class="form-control" path="client.firstName" readonly="true"/>
+                    <form:input aria-label="Last name" type="text" required="true" class="form-control" path="client.surname" readonly="true"/>
                 </div>
 
                 <div class="mb-3">
@@ -43,12 +48,12 @@
 
                 <div class="mb-3">
                     <label for="client.passportNumber" class="form-label">Passport number</label>
-                    <form:input class="form-control" type="text" path="client.passportNumber" readonly="true"/>
+                    <form:input class="form-control" type="text" required="true" path="client.passportNumber"/>
                 </div>
 
                 <div class="mb-3">
                     <label for="client.address" class="form-label">Home address</label>
-                    <form:input class="form-control" type="text" path="client.address" readonly="true"/>
+                    <form:input class="form-control" type="text" required="true" path="client.address"/>
                 </div>
 
                 <div class="mb-3">
@@ -65,7 +70,6 @@
                 <table class="table table-striped">
                     <thead>
                     <th scope="col">Current tariff</th>
-                    <th scope="col">Block status</th>
                     <th scope="col">Tariff</th>
                     <th scope="col">Block status</th>
                     <th scope="col">Price</th>
@@ -91,7 +95,6 @@
 
                         <tr>
                             <th scope="row">${contracts.phoneNumber}</th>
-                            <td>${contracts.contractClient.emailAddress}</td>
                             <td>${contracts.contractTariff.tariffName}</td>
                             <td>${contracts.contractBlockStatus}</td>
                             <td>${contracts.priceForContractPerMonth}</td>

@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -62,6 +63,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void save(ClientDto clientDto) {
         Client client = clientDto.getClient();
+        client.setEmailAddress(client.getEmailAddress().toLowerCase(Locale.ROOT));
 
         if (!EMAIL_ADDRESS_PATTERN.matcher(client.getEmailAddress()).matches()) {
             throw new ServiceLayerException("Can't save user with this email." +
@@ -76,11 +78,9 @@ public class ClientServiceImpl implements ClientService {
         String roleCast = clientDto.getClient().getUserRole().replace(",", "");
         client.setUserRole(roleCast);
 
-        String password = clientDto.getClient().getPasswordLogIn();
-        if (clientDto.getClient().getPasswordLogIn().length() < 255) {
-            String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getClient().getPasswordLogIn());
-            clientDto.getClient().setPasswordLogIn(encodedPassword);
-        } else throw new ServiceLayerException("Password which you input is to long");
+        String password = createInputPassword();
+        String encodedPassword = new BCryptPasswordEncoder().encode(password);
+        client.setPasswordLogIn(encodedPassword);
 
         clientDao.save(client);
         sendPasswordToNewUser(client.getEmailAddress(), password, client.getFirstName());
@@ -88,20 +88,26 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void update(ClientDto clientDto) {
-        Client client = clientDto.getClient();
-        if (client.getPasswordLogIn() == null)
-            if ( ( (clientDto.getPasswordString() != null) && (clientDto.getPasswordString2() != null) ) &&
-                    ((!clientDto.getPasswordString().equals("")) && (!clientDto.getPasswordString2().equals(""))) ){
-                if (clientDto.getPasswordString().equals(clientDto.getPasswordString2())) {
-                    String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getPasswordString());
-                    clientDto.getClient().setPasswordLogIn(encodedPassword);
-                } else {
-                    throw new ServiceLayerException("Can't update password. New passwords doesn't match");
-                }
-            } else {
+        Client client = get(clientDto.getClient().getId());
 
-                client.setPasswordLogIn(this.get(clientDto.getClient().getId()).getPasswordLogIn());
-            }
+        if ( (clientDto.getPasswordString() != null) && (clientDto.getPasswordString2() != null) ) {
+
+            if ((clientDto.getPasswordString().length() >= 255) || (clientDto.getPasswordString2().length() >= 255))
+                throw new ServiceLayerException("Can't update password. Inputted password is too long. (Password size < 255)");
+
+            if (clientDto.getPasswordString().equals(clientDto.getPasswordString2())) {
+                String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getPasswordString());
+                client.setPasswordLogIn(encodedPassword);
+            } else
+                throw new ServiceLayerException("Can't update password. New passwords doesn't match");
+        }
+
+        client.setDateOfBirth(clientDto.getClient().getDateOfBirth());
+        client.setPassportNumber(clientDto.getClient().getPassportNumber());
+        client.setMoneyBalance(clientDto.getClient().getMoneyBalance());
+        client.setAddress(clientDto.getClient().getAddress());
+
+
         clientDao.save(client);
     }
 
@@ -136,7 +142,7 @@ public class ClientServiceImpl implements ClientService {
                 }
             });
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("mr.kustik@gmail.com"));
+            message.setFrom(new InternetAddress(prop.getProperty("email")));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
             message.setSubject("Your account in e-care have been creating");
             String msg = "Dear " + name + ", account for e-care project on this email were created.\rYour credentials:\n" +

@@ -25,9 +25,9 @@
             </c:if>
 
             <c:if test="${successMessage ne null}">
-                <div class="alert alert-success" role="alert">
-                        ${successMessage}
-                </div>
+                <jsp:include page="../common/success-text.jsp">
+                    <jsp:param name="successMessage" value="${successMessage}"/>
+                </jsp:include>
             </c:if>
 
             <form:form action="/common/saveContract" modelAttribute="model">

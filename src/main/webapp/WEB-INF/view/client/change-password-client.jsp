@@ -26,7 +26,13 @@
                 </jsp:include>
             </c:if>
 
-            <form:form action="/common/saveClient" modelAttribute="model">
+            <c:if test="${successMessage ne null}">
+                <jsp:include page="../common/success-text.jsp">
+                    <jsp:param name="successMessage" value="${successMessage}"/>
+                </jsp:include>
+            </c:if>
+
+            <form:form action="/common/patchClient" modelAttribute="model">
 
                 <form:hidden path="client.id"/>
                 <form:hidden path="client.userRole"/>
@@ -36,15 +42,14 @@
                 <form:hidden path="client.passportNumber"/>
                 <form:hidden path="client.address"/>
                 <form:hidden path="client.emailAddress"/>
-                <form:hidden path="operationType"/>
 
 
                 <div class="input-group">
                     <span class="input-group-text">Input new password and repeat it</span>
-                    <form:input type="password" aria-label="Password" class="form-control"
+                    <form:input type="password" aria-label="Password" required="true" class="form-control"
                                 path="passwordString" aria-described="passwordHelper"
                                 placeholder="Input new password here"/>
-                    <form:input type="password" aria-label="Repeat password" class="form-control"
+                    <form:input type="password" aria-label="Repeat password" required="true" class="form-control"
                                 path="passwordString2" aria-described="passwordHelper"
                                 placeholder="Repeat new password here"/>
                 </div>

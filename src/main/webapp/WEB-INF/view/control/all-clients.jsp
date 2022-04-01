@@ -25,6 +25,12 @@
                 </jsp:include>
             </c:if>
 
+            <c:if test="${successMessage ne null}">
+                <jsp:include page="../common/success-text.jsp">
+                    <jsp:param name="successMessage" value="${successMessage}"/>
+                </jsp:include>
+            </c:if>
+
             <form:form action="/control/allClients" modelAttribute="model">
             <input type="hidden" name="pageNumber" value="${pageNumber}">
             <div class="input-group mb-3">
