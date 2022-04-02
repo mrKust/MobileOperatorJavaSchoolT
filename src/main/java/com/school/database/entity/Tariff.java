@@ -1,5 +1,8 @@
 package com.school.database.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.school.customSerializer.CustomOptionSerializer;
+import com.school.customSerializer.CustomTariffSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "tariff")
 @NoArgsConstructor
+@JsonSerialize(using = CustomTariffSerializer.class)
 @Getter
 @Setter
 public class Tariff {

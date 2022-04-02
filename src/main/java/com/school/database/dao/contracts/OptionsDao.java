@@ -22,6 +22,9 @@ public interface OptionsDao {
     List<Options> getOptionsFromChosenList(List<Integer> list);
 
     @Transactional
+    List<Options> getAvailableOptionsNamesAndPricesForTariff(List<Integer> list);
+
+    @Transactional
     List<Options> getPageOfOptions(int pageSize, String sortColumn, int pageNumber);
 
     @Transactional

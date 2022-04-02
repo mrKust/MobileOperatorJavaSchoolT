@@ -46,6 +46,11 @@ public class OptionsServiceImpl implements OptionsService {
     }
 
     @Override
+    public List<Options> getAvailableOptionsNamesAndPricesForTariff(List<Integer> list) {
+        return optionsDao.getAvailableOptionsNamesAndPricesForTariff(list);
+    }
+
+    @Override
     public List<Options> getPageOfOptions(OptionsDto optionsDto, Integer numberOfPage) {
         if (optionsDto.getPageSize() == 0)
             optionsDto.setPageSize(5);

@@ -1,17 +1,24 @@
 package com.school.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.school.customException.ServiceLayerException;
+import com.school.customSerializer.CustomOptionSerializer;
 import com.school.database.dao.contracts.TariffDao;
+import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.TariffDto;
 import com.school.service.contracts.OptionsService;
 import com.school.service.contracts.TariffService;
+import jdk.nashorn.internal.runtime.Version;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Service
 public class TariffServiceImpl  implements TariffService {
@@ -83,6 +90,24 @@ public class TariffServiceImpl  implements TariffService {
     @Override
     public Tariff getByName(String name) {
         return tariffDao.getByName(name);
+    }
+
+    @Override
+    public String[] getAllAvailableTariffsDataInJson() {
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<Tariff> list = tariffDao.getAllAvailable();
+        String[] optionsJson = new String[list.size()];
+        int i = 0;
+        try {
+            for (Tariff tariff: list) {
+                optionsJson[i] = mapper.writeValueAsString(list.get(i));
+                i++;
+            }
+        } catch (JsonProcessingException e) {
+            throw new ServiceLayerException("Convert to json problem " + e.getMessage());
+        }
+        return optionsJson;
     }
 
     @Override

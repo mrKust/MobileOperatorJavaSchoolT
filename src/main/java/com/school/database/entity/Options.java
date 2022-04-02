@@ -1,5 +1,7 @@
 package com.school.database.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.school.customSerializer.CustomOptionSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "options")
 @NoArgsConstructor
+@JsonSerialize(using = CustomOptionSerializer.class)
 @Getter
 @Setter
 public class Options {

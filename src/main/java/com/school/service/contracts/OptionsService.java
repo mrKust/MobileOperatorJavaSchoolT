@@ -13,6 +13,8 @@ public interface OptionsService {
 
     List<Options> getOptionsFromChosenList(List<Integer> list);
 
+    List<Options> getAvailableOptionsNamesAndPricesForTariff(List<Integer> list);
+
     List<Options> getPageOfOptions(OptionsDto optionsDto, Integer numberOfPage);
 
     int getNumberOfPages(int sizeOfPage);

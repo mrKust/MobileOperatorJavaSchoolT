@@ -57,6 +57,17 @@ public class OptionsDaoImpl implements OptionsDao {
     }
 
     @Override
+    public List<Options> getAvailableOptionsNamesAndPricesForTariff(List<Integer> list) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("from Options where id in :idList and availableOptionToConnectOrNot=:status");
+        query.setParameter("idList", list);
+        query.setParameter("status", true);
+
+        return query.getResultList();
+    }
+
+    @Override
     public List<Options> getPageOfOptions(int pageSize, String sortColumn, int pageNumber) {
         Session session = sessionFactory.getCurrentSession();
 

@@ -4,15 +4,15 @@ import com.school.database.entity.Tariff;
 import com.school.service.contracts.OptionsService;
 import com.school.dto.TariffDto;
 import com.school.service.contracts.TariffService;
+import org.json.simple.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class TariffController {
@@ -112,5 +112,12 @@ public class TariffController {
         model.addAttribute("model", tariffDto);
 
         return "client/tariff-info-client-form";
+    }
+
+    @RequestMapping("/api/tariffsInfo")
+    @ResponseBody
+    public String[] getTariffJsonData() {
+
+        return tariffServiceMVC.getAllAvailableTariffsDataInJson();
     }
 }

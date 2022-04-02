@@ -2,6 +2,7 @@ package com.school.service.contracts;
 
 import com.school.database.entity.Tariff;
 import com.school.dto.TariffDto;
+import org.json.simple.JSONArray;
 
 
 import java.util.List;
@@ -23,6 +24,8 @@ public interface TariffService {
     Tariff get(int id);
 
     Tariff getByName(String name);
+
+    String[] getAllAvailableTariffsDataInJson();
 
     void delete(int id);
 

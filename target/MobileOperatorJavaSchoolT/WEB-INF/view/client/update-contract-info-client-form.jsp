@@ -37,12 +37,6 @@
                 </div>
             </c:if>
 
-            <c:if test="${successMessage ne null}">
-                <div class="alert alert-success" role="alert">
-                        ${successMessage}
-                </div>
-            </c:if>
-
             <form:form action="/common/patchContract" modelAttribute="model">
 
                 <form:hidden path="contract.id"/>

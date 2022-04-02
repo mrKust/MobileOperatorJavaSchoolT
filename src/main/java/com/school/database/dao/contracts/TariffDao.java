@@ -21,6 +21,9 @@ public interface TariffDao {
     List<Tariff> getAllAvailable();
 
     @Transactional
+    List<Object> getNamesAndPricesOfAllAvailable();
+
+    @Transactional
     List<Tariff> getPageOfTariffs(int pageSize, String sortColumn, int pageNumber);
 
     @Transactional
