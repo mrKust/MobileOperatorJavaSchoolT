@@ -116,7 +116,8 @@ public class TariffController {
 
     @RequestMapping("/api/tariffsInfo")
     @ResponseBody
-    public String[] getTariffJsonData() {
+    @CrossOrigin
+    public String getTariffJsonData() {
 
         return tariffServiceMVC.getAllAvailableTariffsDataInJson();
     }

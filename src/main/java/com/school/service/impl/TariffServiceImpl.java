@@ -93,17 +93,14 @@ public class TariffServiceImpl  implements TariffService {
     }
 
     @Override
-    public String[] getAllAvailableTariffsDataInJson() {
+    public String getAllAvailableTariffsDataInJson() {
         ObjectMapper mapper = new ObjectMapper();
 
         List<Tariff> list = tariffDao.getAllAvailable();
-        String[] optionsJson = new String[list.size()];
-        int i = 0;
+        String optionsJson = new String();
         try {
-            for (Tariff tariff: list) {
-                optionsJson[i] = mapper.writeValueAsString(list.get(i));
-                i++;
-            }
+            optionsJson = mapper.writeValueAsString(list);
+
         } catch (JsonProcessingException e) {
             throw new ServiceLayerException("Convert to json problem " + e.getMessage());
         }
