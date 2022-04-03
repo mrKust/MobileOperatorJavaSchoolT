@@ -1,7 +1,6 @@
 package com.school.database.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.school.customSerializer.CustomOptionSerializer;
 import com.school.customSerializer.CustomTariffSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

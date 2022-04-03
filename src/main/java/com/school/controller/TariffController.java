@@ -18,7 +18,6 @@ import java.util.List;
 public class TariffController {
 
     private final TariffService tariffServiceMVC;
-
     private final OptionsService optionsServiceMVC;
 
     TariffController(TariffService tariffServiceMVC, OptionsService optionsServiceMVC) {
@@ -112,13 +111,5 @@ public class TariffController {
         model.addAttribute("model", tariffDto);
 
         return "client/tariff-info-client-form";
-    }
-
-    @RequestMapping("/api/tariffsInfo")
-    @ResponseBody
-    @CrossOrigin
-    public String getTariffJsonData() {
-
-        return tariffServiceMVC.getAllAvailableTariffsDataInJson();
     }
 }
