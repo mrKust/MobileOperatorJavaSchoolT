@@ -1,6 +1,6 @@
 package com.school.aspect;
 
-import com.school.controller.AdvRestController;
+import com.school.service.contracts.TariffService;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.After;
@@ -12,23 +12,23 @@ import org.springframework.stereotype.Component;
 public class RabbitMqAspect {
 
     private static final Logger LOG = Logger.getLogger(RabbitMqAspect.class);
-    private final AdvRestController advRestController;
+    private final TariffService tariffService;
 
-    RabbitMqAspect(AdvRestController advRestController) {
-        this.advRestController = advRestController;
+    RabbitMqAspect(TariffService tariffService) {
+        this.tariffService = tariffService;
     }
 
     @After("execution(* com.school.service.impl.TariffServiceImpl.save(..))")
     public void afterTariffSave() {
         this.LOG.setLevel(Level.TRACE);
         LOG.trace("Send notification about adding new tariff");
-        advRestController.notificationAboutUpdate();
+        tariffService.notificationAboutTariffUpdate();
     }
 
     @After("execution(* com.school.service.impl.TariffServiceImpl.update(..))")
     public void afterTariffUpdate() {
         this.LOG.setLevel(Level.TRACE);
         LOG.trace("Send notification about updating existed tariff");
-        advRestController.notificationAboutUpdate();
+        tariffService.notificationAboutTariffUpdate();
     }
 }

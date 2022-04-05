@@ -18,6 +18,11 @@ public class ClientDaoImpl implements ClientDao {
         this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * Described at {@link ClientDao}
+     * @param id id of client which we want to get
+     * @return client which we have been looking for
+     */
     @Override
     public Client get(int id) {
 
@@ -26,6 +31,11 @@ public class ClientDaoImpl implements ClientDao {
 
     }
 
+    /**
+     * Described at {@link ClientDao}
+     * @param email email address of the client which we want to get
+     * @return client which we have been looking for
+     */
     @Override
     public Client getByEmail(String email) {
 
@@ -38,6 +48,10 @@ public class ClientDaoImpl implements ClientDao {
 
     }
 
+    /**
+     * Described at {@link ClientDao}
+     * @return list which contains all clients from system
+     */
     @Override
     public List<Client> getAll() {
 
@@ -47,6 +61,11 @@ public class ClientDaoImpl implements ClientDao {
 
     }
 
+    /**
+     * Described at {@link ClientDao}
+     * @param client client email address we want check to unique status
+     * @return true if unique, false otherwise
+     */
     @Override
     public boolean checkUserEmailToUnique(Client client) {
 
@@ -63,6 +82,13 @@ public class ClientDaoImpl implements ClientDao {
         return false;
     }
 
+    /**
+     * Described at {@link ClientDao}
+     * @param pageSize number of records on one page
+     * @param sortColumn filed which will be used as field to compare clients
+     * @param pageNumber number of page where client will be shown
+     * @return list of client for show on page
+     */
     @Override
     public List<Client> getPageOfClients(int pageSize, String sortColumn, int pageNumber) {
         Session session = sessionFactory.getCurrentSession();
@@ -75,6 +101,11 @@ public class ClientDaoImpl implements ClientDao {
         return query.getResultList();
     }
 
+    /**
+     * Described at {@link ClientDao}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
     @Override
     public int getNumberOfPages(int sizeOfPage) {
         Session session = sessionFactory.getCurrentSession();
@@ -86,6 +117,10 @@ public class ClientDaoImpl implements ClientDao {
         return (int) Math.ceil((double) numberOfRecords / sizeOfPage);
     }
 
+    /**
+     * Described at {@link ClientDao}
+     * @param client client which need to be saved or to be updated
+     */
     @Override
     public void save(Client client) {
 
@@ -94,13 +129,17 @@ public class ClientDaoImpl implements ClientDao {
 
     }
 
+    /**
+     * Described at {@link ClientDao}
+     * @param id id of client which should be deleted
+     */
    @Override
-    public void delete(int clientId) {
+    public void delete(int id) {
 
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete from Client " +
                 "where id =:clientId");
-        query.setParameter("clientId", clientId);
+        query.setParameter("clientId", id);
         query.executeUpdate();
 
     }

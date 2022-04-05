@@ -1,35 +1,28 @@
 package com.school.controller;
 
+import com.school.database.entity.Tariff;
 import com.school.service.contracts.TariffService;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api")
 public class AdvRestController {
 
     private final TariffService tariffServiceMVC;
-    private final AmqpTemplate amqpTemplate;
 
-    AdvRestController(TariffService tariffServiceMVC, AmqpTemplate amqpTemplate) {
+    AdvRestController(TariffService tariffServiceMVC) {
         this.tariffServiceMVC = tariffServiceMVC;
-        this.amqpTemplate = amqpTemplate;
     }
 
     @RequestMapping(value = "/tariffsInfo", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     @CrossOrigin
-    public ResponseEntity<String> getTariffJsonData() {
+    public List<Tariff> getTariffJsonData() {
 
-        return ResponseEntity.ok(tariffServiceMVC.getAllAvailableTariffsDataInJson());
-    }
-
-    @RequestMapping("/emit")
-    public void notificationAboutUpdate() {
-        amqpTemplate.convertAndSend("queue1","Update info");
+        return tariffServiceMVC.getAllAvailable();
     }
 }

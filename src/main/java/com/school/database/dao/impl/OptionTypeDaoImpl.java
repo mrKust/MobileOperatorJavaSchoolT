@@ -1,7 +1,6 @@
 package com.school.database.dao.impl;
 
 import com.school.database.dao.contracts.OptionTypeDao;
-import com.school.database.entity.Number;
 import com.school.database.entity.OptionType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,6 +18,11 @@ public class OptionTypeDaoImpl implements OptionTypeDao {
         this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * Described at {@link OptionTypeDao}
+     * @param id id of option type which we are looking for
+     * @return option type with required id
+     */
     @Override
     public OptionType get(int id) {
 
@@ -27,6 +31,10 @@ public class OptionTypeDaoImpl implements OptionTypeDao {
 
     }
 
+    /**
+     * Described at {@link OptionTypeDao}
+     * @return list of option types
+     */
     @Override
     public List<OptionType> getAll() {
 
@@ -37,6 +45,10 @@ public class OptionTypeDaoImpl implements OptionTypeDao {
 
     }
 
+    /**
+     * Described at {@link OptionTypeDao}
+     * @param optionType option type which need to be saved or updated
+     */
     @Override
     public void save(OptionType optionType) {
 
@@ -45,6 +57,11 @@ public class OptionTypeDaoImpl implements OptionTypeDao {
 
     }
 
+    /**
+     * Described at {@link OptionTypeDao}
+     * @param optionType option type which checked to unique status
+     * @return true if unique, false otherwise
+     */
     @Override
     public boolean checkOptionTypeToUnique(OptionType optionType) {
 
@@ -61,6 +78,10 @@ public class OptionTypeDaoImpl implements OptionTypeDao {
         return false;
     }
 
+    /**
+     * Described at {@link OptionTypeDao}
+     * @param id id of option type which need to be deleted
+     */
     @Override
     public void delete(int id) {
 

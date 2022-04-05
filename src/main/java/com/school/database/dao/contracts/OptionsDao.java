@@ -17,7 +17,7 @@ public interface OptionsDao {
 
     /**
      * Method return all options which contains in system
-     * @return
+     * @return list of all options in system
      */
     @Transactional
     List<Options> getAll();

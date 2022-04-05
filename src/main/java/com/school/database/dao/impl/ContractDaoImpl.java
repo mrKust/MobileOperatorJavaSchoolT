@@ -19,6 +19,11 @@ public class ContractDaoImpl implements ContractDao {
         this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @param id id of searched contract
+     * @return contract with id
+     */
     @Override
     public Contract get(int id) {
 
@@ -27,6 +32,11 @@ public class ContractDaoImpl implements ContractDao {
 
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @param clientEmail email address of client who contracts we want to get
+     * @return list of all contracts of one client
+     */
     @Override
     public List<Contract> getAllContractsOfClient(String clientEmail) {
         Session session = sessionFactory.getCurrentSession();
@@ -37,6 +47,11 @@ public class ContractDaoImpl implements ContractDao {
         return query.getResultList();
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @param phoneNumber phone number which locked for contract
+     * @return contract with inputted phone number
+     */
     @Override
     public Contract getByPhoneNumber(String phoneNumber) {
 
@@ -48,6 +63,10 @@ public class ContractDaoImpl implements ContractDao {
         return  (Contract) query.getSingleResult();
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @return list of contracts in system
+     */
     @Override
     public List<Contract> getAll() {
 
@@ -58,6 +77,13 @@ public class ContractDaoImpl implements ContractDao {
 
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @param pageSize number of records on one page
+     * @param sortColumn filed which will be used as field to compare contracts
+     * @param pageNumber number of page where contracts will be shown
+     * @return list of contracts for show on page
+     */
     @Override
     public List<Contract> getPageOfContracts(int pageSize, String sortColumn, int pageNumber) {
         Session session = sessionFactory.getCurrentSession();
@@ -70,6 +96,11 @@ public class ContractDaoImpl implements ContractDao {
         return query.getResultList();
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
     @Override
     public int getNumberOfPages(int sizeOfPage) {
         Session session = sessionFactory.getCurrentSession();
@@ -81,33 +112,51 @@ public class ContractDaoImpl implements ContractDao {
         return (int) Math.ceil((double) numberOfRecords / sizeOfPage);
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @param pageSize number of records on one page
+     * @param sortColumn filed which will be used as field to compare contracts
+     * @param pageNumber number of page where contracts will be shown
+     * @param clientEmail email address of client which contract we are looking for
+     * @return list of contracts for show on page
+     */
     @Override
     public List<Contract> getPageOfClientContracts(int pageSize, String sortColumn, int pageNumber,
-                                                   String email) {
+                                                   String clientEmail) {
         Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("from Contract contract where contractClient.emailAddress=:email order by contract." + sortColumn + " desc");
 
-        query.setParameter("email", email);
+        query.setParameter("email", clientEmail);
         query.setFirstResult(pageSize * (pageNumber - 1));
         query.setMaxResults(pageSize);
 
         return query.getResultList();
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @param sizeOfPage number of record on one page
+     * @param clientEmail email address of client which contract we are looking for
+     * @return number of pages
+     */
     @Override
     public int getNumberOfClientContractPages(int sizeOfPage,
-                                              String email) {
+                                              String clientEmail) {
         Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("select count(*) from Contract contract where contractClient.emailAddress=:email");
 
-        query.setParameter("email", email);
+        query.setParameter("email", clientEmail);
         Integer numberOfRecords = Integer.parseInt(query.getSingleResult().toString());
 
         return (int) Math.ceil((double) numberOfRecords / sizeOfPage);
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @param contract contract which need to be saved or updated
+     */
     @Override
     public void save(Contract contract) {
 
@@ -116,12 +165,16 @@ public class ContractDaoImpl implements ContractDao {
 
     }
 
+    /**
+     * Described at {@link ContractDao}
+     * @param id id of contract which should be deleted
+     */
     @Override
-    public void delete(int contractId) {
+    public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete from Contract " +
                 "where id =:contractId");
-        query.setParameter("contractId", contractId);
+        query.setParameter("contractId", id);
         query.executeUpdate();
 
     }

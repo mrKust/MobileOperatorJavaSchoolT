@@ -2,18 +2,13 @@ package com.school.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.school.customException.ServiceLayerException;
-import com.school.customSerializer.CustomOptionSerializer;
 import com.school.database.dao.contracts.TariffDao;
-import com.school.database.entity.Options;
 import com.school.database.entity.Tariff;
 import com.school.dto.TariffDto;
 import com.school.service.contracts.OptionsService;
 import com.school.service.contracts.TariffService;
-import jdk.nashorn.internal.runtime.Version;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -28,12 +23,14 @@ public class TariffServiceImpl  implements TariffService {
     private final DecimalFormatSymbols priceFormat;
     private final DecimalFormat decimalFormat;
     String PRICE_PATTERN = "##0.00";
+    private final AmqpTemplate amqpTemplate;
 
-    TariffServiceImpl(TariffDao tariffDao, OptionsService optionsService) {
+    TariffServiceImpl(TariffDao tariffDao, OptionsService optionsService, AmqpTemplate amqpTemplate) {
         this.tariffDao = tariffDao;
         this.optionsService = optionsService;
         this.priceFormat = new DecimalFormatSymbols(Locale.US);
         this.decimalFormat = new DecimalFormat(PRICE_PATTERN, priceFormat);
+        this.amqpTemplate = amqpTemplate;
     }
 
     @Override
@@ -80,6 +77,11 @@ public class TariffServiceImpl  implements TariffService {
         tariff.setOptions(optionsService.getOptionsFromChosenList(tariffDto.getChosenOptionsList()));
 
         tariffDao.save(tariff);
+    }
+
+    @Override
+    public void notificationAboutTariffUpdate() {
+        amqpTemplate.convertAndSend("queue1","Update info");
     }
 
     @Override

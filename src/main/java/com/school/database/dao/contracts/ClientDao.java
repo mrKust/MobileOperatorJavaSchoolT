@@ -68,7 +68,7 @@ public interface ClientDao {
 
     /**
      * Method deletes client
-     * @param id
+     * @param id id of client which should be deleted
      */
     @Transactional
     void delete(int id);
