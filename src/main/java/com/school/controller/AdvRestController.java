@@ -2,6 +2,8 @@ package com.school.controller;
 
 import com.school.service.contracts.TariffService;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +29,7 @@ public class AdvRestController {
     }
 
     @RequestMapping("/emit")
-    @ResponseBody
-    public String queue1() {
+    public void notificationAboutUpdate() {
         amqpTemplate.convertAndSend("queue1","Update info");
-        return "update";
     }
 }

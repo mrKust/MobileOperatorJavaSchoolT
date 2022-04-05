@@ -1,5 +1,6 @@
 package com.school.advice;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,7 @@ public class securityAdvice implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
 
+        this.LOG.setLevel(Level.ERROR);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             LOG.warn("User " + auth.getName() + "try to access forbidden URL: " +

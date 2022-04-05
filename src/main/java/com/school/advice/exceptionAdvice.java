@@ -1,6 +1,7 @@
 package com.school.advice;
 
 import com.school.customException.ServiceLayerException;
+import org.apache.log4j.Level;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.apache.log4j.Logger;
@@ -22,6 +23,10 @@ import java.util.Map;
 public class exceptionAdvice {
 
     private static final Logger LOG = Logger.getLogger(exceptionAdvice.class);
+
+    exceptionAdvice() {
+        this.LOG.setLevel(Level.ERROR);
+    }
 
 
     @ExceptionHandler(Exception.class)

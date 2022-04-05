@@ -1,5 +1,6 @@
 package com.school.aspect;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -20,6 +21,7 @@ public class LoggingAspect {
     @Around("execution(* com.school.controller.*.*(..))")
     public Object aroundAllControllerMethodsAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
+        this.LOG.setLevel(Level.TRACE);
         LOG.trace("Begin method " + proceedingJoinPoint.getSignature().getName());
 
         Object targetMethodResult = proceedingJoinPoint.proceed();
@@ -31,7 +33,21 @@ public class LoggingAspect {
 
     @After("execution(* com.school.service.security.ClientDetailService.loadUserByUsername(..))")
     public void afterLoginAdvice() {
+        this.LOG.setLevel(Level.TRACE);
         LOG.trace("User logged in system ");
 
+    }
+
+    @Around("execution(* com.school.service.impl.*.*(..))")
+    public Object aroundAllServiceMethodsAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+
+        this.LOG.setLevel(Level.INFO);
+        LOG.info("Begin method " + proceedingJoinPoint.getSignature().getName());
+
+        Object targetMethodResult = proceedingJoinPoint.proceed();
+
+        LOG.info("End method " + proceedingJoinPoint.getSignature().getName());
+
+        return targetMethodResult;
     }
 }
