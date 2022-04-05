@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * This advice handle the access denied exceptions.
+ * It registers this type of exception and handle it
+ */
 public class securityAdvice implements AccessDeniedHandler {
 
     private static final Logger LOG = Logger.getLogger(securityAdvice.class);
@@ -24,6 +28,6 @@ public class securityAdvice implements AccessDeniedHandler {
                     httpServletRequest.getRequestURI());
         }
 
-        httpServletResponse.sendRedirect("/common/errorPage?errorMes=You don't-have access to this page");
+        httpServletResponse.sendRedirect("/errorPage?errorMes=You don't-have access to this page");
     }
 }

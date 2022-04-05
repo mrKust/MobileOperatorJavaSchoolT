@@ -7,6 +7,9 @@ import com.school.database.entity.Options;
 
 import java.io.IOException;
 
+/**
+ * This class serialize Options entity to json format
+ */
 public class CustomOptionSerializer extends StdSerializer<Options> {
 
     public CustomOptionSerializer() {
@@ -16,6 +19,13 @@ public class CustomOptionSerializer extends StdSerializer<Options> {
         super(t);
     }
 
+    /**
+     * Method convert option entity to json string
+     * @param options entity which will be converted
+     * @param jsonGenerator convert string, numbers and object in json format
+     * @param serializerProvider provider
+     * @throws IOException If generator couldn't write something
+     */
     @Override
     public void serialize(Options options, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();

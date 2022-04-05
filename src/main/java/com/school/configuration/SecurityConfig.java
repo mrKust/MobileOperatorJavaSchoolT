@@ -11,20 +11,37 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+/**
+ * SecurityConfig class is the extension of spring's security
+ * WebSecurityConfigAdapter. There we configure our request params
+ */
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * Service which represents the implementation of spring's UserDetailsService.
+     * It provides ud API for loading userDetails by email. After that security module
+     * decides should it authorise user with those credentials or not
+     */
     private final UserDetailsService userDetailsService;
 
     public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Method creating PasswordEncoder bean
+     * @return BCryptPasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Method creating AccessDeniedHandler method
+     * @return Advice which creates access denied exception handler
+     */
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new securityAdvice();
@@ -35,6 +52,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
     }
 
+    /**
+     * This method describes parameters to access different pages and sets exceptions handler
+     * @param http provide us API for configure http requests
+     * @throws Exception in cases when something go wrong
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -43,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/control/**").hasRole("control")
                 .antMatchers("/anonymous/**").permitAll()
                 .antMatchers("/api/**").permitAll()
+                .antMatchers("/errorPage").permitAll()
                 .antMatchers("/").permitAll()
                 .and().formLogin()
                 .and()

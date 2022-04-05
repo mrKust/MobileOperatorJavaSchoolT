@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Map;
 
-
+/**
+ * This advice handle different types of exceptions
+ * It registers and handle them
+ */
 @ControllerAdvice
 public class exceptionAdvice {
 
@@ -24,7 +27,7 @@ public class exceptionAdvice {
     @ExceptionHandler(Exception.class)
     public String handleException(Exception e) {
         LOG.error(e.getMessage());
-        return "redirect:/common/errorPage?errorMes=" + e.getMessage();
+        return "redirect:/errorPage?errorMes=" + e.getMessage();
     }
 
     @ExceptionHandler(ServiceLayerException.class)

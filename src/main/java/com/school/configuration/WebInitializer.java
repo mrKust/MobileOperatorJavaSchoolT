@@ -2,6 +2,9 @@ package com.school.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+/**
+ * Declaration of initializer. Without it dispatcher servlet doesn't work
+ */
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override

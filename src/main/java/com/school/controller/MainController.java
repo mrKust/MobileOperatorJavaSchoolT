@@ -22,7 +22,7 @@ public class MainController {
         return "/common/start-view";
     }
 
-    @RequestMapping("/common/errorPage")
+    @RequestMapping("/errorPage")
     public String showErrorMessage(@RequestParam("errorMes") String errorMessage, Model model) {
 
         model.addAttribute("errorMessage", errorMessage);

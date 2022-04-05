@@ -15,6 +15,12 @@ import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Properties;
 
+/**
+ * Class needed to configure web app.
+ * Here we set viewResolver bean for mapping views,
+ * set connection to MySQL database, crates session factory to work with db,
+ * sets up transaction manager, add resource folder
+ */
 @Configuration
 @ComponentScan(basePackages = "com.school")
 @EnableWebMvc
@@ -23,6 +29,11 @@ import java.util.Properties;
 @Import(RabbitConfiguration.class)
 public class Config implements WebMvcConfigurer {
 
+    /**
+     * Method register viewResolver bean.
+     * It helps to write path to view in a short way
+     * @return viewResolver
+     */
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver internalResourceViewResolver =
@@ -33,6 +44,11 @@ public class Config implements WebMvcConfigurer {
         return internalResourceViewResolver;
     }
 
+    /**
+     * Method registers dataSource.
+     * With help of this bean we can connect to database with our settings and credentials
+     * @return our database
+     */
     @Bean
     public DataSource dataSource() {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
@@ -48,6 +64,11 @@ public class Config implements WebMvcConfigurer {
         return dataSource;
     }
 
+    /**
+     * Method register LocalSessionFactoryBean.
+     * It sets parameters to our sessions.
+     * @return sessionFactory to connect with database
+     */
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
@@ -64,6 +85,11 @@ public class Config implements WebMvcConfigurer {
         return sessionFactory;
     }
 
+    /**
+     * Method register transactionManager.
+     * This manager control transactions to our database
+     * @return transactionManager which uses sessionFactory from sessionFactory bean
+     */
     @Bean
     public HibernateTransactionManager transactionManager() {
         HibernateTransactionManager transactionManager =
@@ -74,6 +100,10 @@ public class Config implements WebMvcConfigurer {
         return transactionManager;
     }
 
+    /**
+     * Method setting up resource folder.
+     * @param registry - parameter where with add string with source of our resources
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry

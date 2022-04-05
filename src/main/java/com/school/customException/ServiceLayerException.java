@@ -3,8 +3,10 @@ package com.school.customException;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Map;
-
+/**
+ * Class describe custom exception
+ * Those exceptions throwing only from service layer
+ */
 @Getter
 @Setter
 public class ServiceLayerException extends RuntimeException{
