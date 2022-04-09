@@ -3,6 +3,7 @@ package com.school.services.tests;
 import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.OptionTypeDao;
 import com.school.database.entity.OptionType;
+import com.school.database.entity.Options;
 import com.school.service.impl.OptionTypeServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -102,6 +103,15 @@ public class OptionTypeServiceMockTests {
     //Nullpointer exceptions because don't mock options list with current option type
     @Test(expected = NullPointerException.class)
     public void deleteOptionTypeTest1() {
+        optionTypeService.delete(optionType1.getId());
+
+        Mockito.verify(optionTypeDao).delete(optionType1.getId());
+    }
+
+    @Test
+    public void deleteOptionTypeTest2() {
+        Mockito.when(optionTypeDao.get(optionType1.getId())).thenReturn(optionType1);
+        optionType1.setOptions(new ArrayList<Options>());
         optionTypeService.delete(optionType1.getId());
 
         Mockito.verify(optionTypeDao).delete(optionType1.getId());
