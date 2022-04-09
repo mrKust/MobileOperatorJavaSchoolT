@@ -1,6 +1,5 @@
 package com.school.services.tests;
 
-import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.OptionTypeDao;
 import com.school.database.entity.OptionType;
 import com.school.database.entity.Options;
