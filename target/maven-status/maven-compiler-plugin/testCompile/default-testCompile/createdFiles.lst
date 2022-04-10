@@ -1,3 +1,6 @@
 com\school\services\tests\OptionTypeServiceMockTests.class
+com\school\services\tests\TariffServiceMockTests.class
+com\school\services\tests\ClientServiceMockTests.class
 com\school\configuration\TestConfig.class
 com\school\services\tests\NumberServiceMockTests.class
+com\school\services\tests\OptionsServiceMockTests.class

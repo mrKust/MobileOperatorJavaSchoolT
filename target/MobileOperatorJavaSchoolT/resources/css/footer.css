@@ -1,0 +1,23 @@
+:root {
+    --color1: #7FFF00;
+    --color2: #ADFF2F;
+}
+
+footer {
+    background: var(--color1);
+    background: -moz-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: -webkit-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: linear-gradient(45deg,   var(--color1) 0%,  var(--color2) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= var(--color1),
+    endColorstr= var(--color2),GradientType=1 );
+    text-align: center ;
+    padding-bottom: 20px;
+
+}
+
+strong.text {
+    font-size: larger;
+    color: white;
+    -webkit-text-stroke: 1px black;
+
+}

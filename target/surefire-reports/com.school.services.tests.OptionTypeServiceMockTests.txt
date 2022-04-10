@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.school.services.tests.OptionTypeServiceMockTests
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.025 s <<< FAILURE! - in com.school.services.tests.OptionTypeServiceMockTests
-deleteOptionTypeTest1(com.school.services.tests.OptionTypeServiceMockTests)  Time elapsed: 0.007 s  <<< ERROR!
-java.lang.NullPointerException
-	at com.school.services.tests.OptionTypeServiceMockTests.deleteOptionTypeTest1(OptionTypeServiceMockTests.java:103)
-
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s - in com.school.services.tests.OptionTypeServiceMockTests

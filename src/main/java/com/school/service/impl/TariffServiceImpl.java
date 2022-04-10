@@ -90,11 +90,6 @@ public class TariffServiceImpl  implements TariffService {
     }
 
     @Override
-    public Tariff getByName(String name) {
-        return tariffDao.getByName(name);
-    }
-
-    @Override
     public String getAllAvailableTariffsDataInJson() {
         ObjectMapper mapper = new ObjectMapper();
 

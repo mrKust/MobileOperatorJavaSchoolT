@@ -1,0 +1,28 @@
+:root {
+    --color1: #808000;
+    --color2: #006400;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background: #41f105;
+}
+
+.container {
+    padding-top: 10px;
+}
+
+#startPage {
+    text-align: center;
+}
+
+#listing {
+    text-align: center;
+}

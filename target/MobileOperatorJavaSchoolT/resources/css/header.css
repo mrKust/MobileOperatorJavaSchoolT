@@ -1,0 +1,26 @@
+:root {
+    --color1: #7FFF00;
+    --color2: #ADFF2F;
+}
+
+header {
+
+    padding-bottom: 10px;
+    background: var(--color1);
+    background: -moz-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: -webkit-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: linear-gradient(45deg,   var(--color1) 0%,  var(--color2) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= var(--color1),
+    endColorstr= var(--color2),GradientType=1 );
+
+}
+
+h2 {
+    font-size: larger;
+    color: white;
+    -webkit-text-stroke: 1px black;
+}
+
+.active {
+    background-color: blue;
+ }

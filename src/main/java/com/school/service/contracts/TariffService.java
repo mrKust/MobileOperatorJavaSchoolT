@@ -24,8 +24,6 @@ public interface TariffService {
 
     Tariff get(int id);
 
-    Tariff getByName(String name);
-
     String getAllAvailableTariffsDataInJson();
 
     void delete(int id);
