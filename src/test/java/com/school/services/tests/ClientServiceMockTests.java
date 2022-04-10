@@ -1,8 +1,12 @@
 package com.school.services.tests;
 
+import com.school.customException.ServiceLayerException;
 import com.school.database.dao.impl.ClientDaoImpl;
 import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
+import com.school.database.entity.Tariff;
+import com.school.dto.ClientDto;
+import com.school.dto.TariffDto;
 import com.school.service.impl.ClientServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -83,5 +87,150 @@ public class ClientServiceMockTests {
             Assert.assertEquals(expectedClient.getUserRole(), resultClient.getUserRole());
             Assert.assertEquals(String.valueOf(expectedClient.getMoneyBalance()), String.valueOf(resultClient.getMoneyBalance()));
         }
+    }
+
+    @Test
+    public void getPageOfClientsTest1() {
+        Mockito.when(clientDao.getPageOfClients(5, "surname", 1)).thenReturn(allClients);
+        ClientDto clientDto = new ClientDto();
+        List<Client> result = clientService.getPageOfClients(clientDto, 1);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(allClients.size(), result.size());
+    }
+
+    @Test
+    public void getNumberOfPagesTest1() {
+        Mockito.when(clientDao.getPageOfClients(5, "surname", 1)).thenReturn(allClients);
+        int result = clientService.getNumberOfPages(5);
+
+        Assert.assertNotEquals(0, result);
+        Assert.assertEquals(1, result);
+    }
+
+    @Test
+    public void checkUserEmailToUniqueTest1() {
+        Mockito.when(clientDao.checkUserEmailToUnique(client1)).thenReturn(true);
+        boolean result = clientService.checkUserEmailToUnique(client1);
+
+        Mockito.verify(clientDao).checkUserEmailToUnique(client1);
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void saveClientTest1() {
+        Mockito.when(clientDao.checkUserEmailToUnique(client1)).thenReturn(true);
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(client1);
+
+        clientService.save(clientDto);
+        Mockito.verify(clientDao).save(client1);
+    }
+
+    @Test
+    public void updateClientTest1() {
+        Mockito.when(clientDao.get(client1.getId())).thenReturn(client1);
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(client1);
+
+        clientService.update(clientDto);
+        Mockito.verify(clientDao).save(client1);
+    }
+
+    @Test(expected = ServiceLayerException.class)
+    public void updateClientTest2() {
+        Mockito.when(clientDao.get(client1.getId())).thenReturn(client1);
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(client1);
+        clientDto.setPasswordString("qwerty");
+        clientDto.setPasswordString2("kek");
+
+        clientService.update(clientDto);
+        Mockito.verify(clientDao).save(client1);
+    }
+
+    @Test
+    public void getClientTest1() {
+        Mockito.when(clientDao.get(client1.getId())).thenReturn(client1);
+        Client result = clientService.get(client1.getId());
+
+        Mockito.verify(clientDao).get(client1.getId());
+        Assert.assertNotNull(result);
+        Assert.assertEquals(client1.getId(), result.getId());
+        Assert.assertEquals(client1.getFirstName(), result.getFirstName());
+        Assert.assertEquals(client1.getSurname(), result.getSurname());
+        Assert.assertEquals(client1.getDateOfBirth(), result.getDateOfBirth());
+        Assert.assertEquals(client1.getPassportNumber(), result.getPassportNumber());
+        Assert.assertEquals(client1.getAddress(), result.getAddress());
+        Assert.assertEquals(client1.getEmailAddress(), result.getEmailAddress());
+        Assert.assertEquals(client1.getPasswordLogIn(), result.getPasswordLogIn());
+        Assert.assertEquals(client1.getContractClient(), result.getContractClient());
+        Assert.assertEquals(client1.getUserRole(), result.getUserRole());
+        Assert.assertEquals(String.valueOf(client1.getMoneyBalance()), String.valueOf(result.getMoneyBalance()));
+    }
+
+    @Test
+    public void getByEmailTest1() {
+        Mockito.when(clientDao.getByEmail(client1.getEmailAddress())).thenReturn(client1);
+        Client result = clientService.getByEmail(client1.getEmailAddress());
+
+        Mockito.verify(clientDao).getByEmail(client1.getEmailAddress());
+        Assert.assertNotNull(result);
+        Assert.assertEquals(client1.getId(), result.getId());
+        Assert.assertEquals(client1.getFirstName(), result.getFirstName());
+        Assert.assertEquals(client1.getSurname(), result.getSurname());
+        Assert.assertEquals(client1.getDateOfBirth(), result.getDateOfBirth());
+        Assert.assertEquals(client1.getPassportNumber(), result.getPassportNumber());
+        Assert.assertEquals(client1.getAddress(), result.getAddress());
+        Assert.assertEquals(client1.getEmailAddress(), result.getEmailAddress());
+        Assert.assertEquals(client1.getPasswordLogIn(), result.getPasswordLogIn());
+        Assert.assertEquals(client1.getContractClient(), result.getContractClient());
+        Assert.assertEquals(client1.getUserRole(), result.getUserRole());
+        Assert.assertEquals(String.valueOf(client1.getMoneyBalance()), String.valueOf(result.getMoneyBalance()));
+    }
+
+    @Test
+    public void addMoneyTest1() {
+        ClientDto clientDto = new ClientDto();
+        clientDto.setClient(client1);
+        clientDto.setMoney(1000);
+        Mockito.when(clientDao.get(client1.getId())).thenReturn(client1);
+        clientService.addMoney(clientDto);
+        Mockito.verify(clientDao).save(client1);
+    }
+
+    @Test
+    public void createInputPasswordTest1() {
+        String result = clientService.createInputPassword();
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(6, result.length());
+    }
+
+    @Test(expected = ServiceLayerException.class)
+    public void deleteClientTest1() {
+        clientService.delete(client1.getId());
+
+        Mockito.verify(clientDao).delete(client1.getId());
+    }
+
+    @Test(expected = ServiceLayerException.class)
+    public void deleteClientTest2() {
+        client1.setId(3);
+        List<Contract> contractList = new ArrayList<>();
+        contractList.add(new Contract());
+        client1.setContractClient(contractList);
+        Mockito.when(clientDao.get(client1.getId())).thenReturn(client1);
+        clientService.delete(client1.getId());
+
+        Mockito.verify(clientDao).delete(client1.getId());
+    }
+
+    @Test
+    public void deleteClientTest3() {
+        client1.setId(3);
+        Mockito.when(clientDao.get(client1.getId())).thenReturn(client1);
+        clientService.delete(client1.getId());
+
+        Mockito.verify(clientDao).delete(client1.getId());
     }
 }
