@@ -100,7 +100,7 @@ public class ClientServiceMockTests {
 
     @Test
     public void getNumberOfPagesTest1() {
-        Mockito.when(clientDao.getPageOfClients(5, "surname", 1)).thenReturn(allClients);
+        Mockito.when(clientDao.getNumberOfPages(5)).thenReturn(1);
         int result = clientService.getNumberOfPages(5);
 
         Assert.assertNotEquals(0, result);

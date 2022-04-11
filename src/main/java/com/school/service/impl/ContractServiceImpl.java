@@ -132,7 +132,6 @@ public class ContractServiceImpl implements ContractService {
         }
 
         List<Options> chosenOptions = new ArrayList<>();
-        List<Options> beforeConnectedOptions = contract.getConnectedOptions();
 
         if (contractDto.getStringsOptions() != null) {
             chosenOptions = optionsService.getOptionsFromChosenList(contractDto.getChosenOptionsList());
@@ -143,7 +142,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         contract.setConnectedOptions(chosenOptions);
-        contract.setPriceForContractPerMonth(countPricePerMonth(contract, beforeConnectedOptions));
+        contract.setPriceForContractPerMonth(countPricePerMonth(contract));
 
         contractDao.save(contract);
     }
@@ -170,7 +169,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public double countPricePerMonth(Contract contract, List<Options> beforeConnectedOptions) {
+    public double countPricePerMonth(Contract contract) {
         Client client = contract.getContractClient();
         List<Options> connectedOptions = get(contract.getId()).getConnectedOptions();
         double priceForMonth = contract.getContractTariff().getPrice();
@@ -185,7 +184,7 @@ public class ContractServiceImpl implements ContractService {
                             ". Lack of funds is " + (contract.getContractClient()
                             .getMoneyBalance() - tmp.getCostToAdd()) );
                 }
-            }
+            } else priceForMonth += tmp.getPrice();
         }
         return priceForMonth;
     }

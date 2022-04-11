@@ -161,8 +161,6 @@ public class TariffServiceMockTests {
         for (Options tmp : tariff1.getOptions()) {
             tmpList.add(tmp.getId());
         }
-        Mockito.when(tariffDao.get(tariffDto.getTariff().getId())).thenReturn(tariff1);
-        Mockito.when(optionsService.getOptionsFromChosenList(tmpList)).thenReturn(tariff1.getOptions());
 
         tariffService.save(tariffDto);
 
