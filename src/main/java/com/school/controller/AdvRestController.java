@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * This controller sends data by api
+ */
 @RestController
 @RequestMapping(value = "/api")
 public class AdvRestController {
@@ -17,6 +20,10 @@ public class AdvRestController {
         this.tariffServiceMVC = tariffServiceMVC;
     }
 
+    /**
+     * This method returns data about tariffs and available for it options
+     * @return
+     */
     @RequestMapping(value = "/tariffsInfo", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

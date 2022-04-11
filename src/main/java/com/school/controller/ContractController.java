@@ -1,10 +1,7 @@
 package com.school.controller;
 
-import com.school.database.entity.Client;
 import com.school.database.entity.Contract;
-import com.school.database.entity.Options;
 import com.school.dto.ContractDto;
-import com.school.dto.TariffDto;
 import com.school.service.contracts.ClientService;
 import com.school.service.contracts.ContractService;
 import com.school.service.contracts.NumberService;
@@ -17,8 +14,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.List;
 
+/**
+ * This controller redirect to different view which need to work with contracts
+ */
 @Controller
 public class ContractController {
 
@@ -35,6 +34,13 @@ public class ContractController {
         this.numberServiceMVC = numberServiceMVC;
     }
 
+    /**
+     * This method show all contracts which contains in system
+     * @param contractDto contract data transfer object with necessary data
+     * @param pageNumber number of page with contracts
+     * @param model model
+     * @return view with page of contracts
+     */
     @RequestMapping("/control/allContracts")
     public String showAllContracts(@ModelAttribute("model") ContractDto contractDto,
                                    @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
@@ -48,6 +54,11 @@ public class ContractController {
         return "control/all-contracts";
     }
 
+    /**
+     * This method prepares data to form for creating new contract when it created by "control" user
+     * @param model model
+     * @return view with form to add new contract for user
+     */
     @RequestMapping("/control/addNewContract")
     public String addNewContract(Model model) {
 
@@ -60,6 +71,12 @@ public class ContractController {
         return "control/add-contract-info-control-form";
     }
 
+    /**
+     * This method prepares data to form for creating new contract when it created by "client" user
+     * @param model model
+     * @param principal user's data
+     * @return view with form to add new contract for client which call this method
+     */
     @RequestMapping("/client/addNewContract")
     public String addNewContractClient(Model model, Principal principal) {
 
@@ -72,6 +89,13 @@ public class ContractController {
         return "client/add-contract-info-client-form";
     }
 
+    /**
+     * This method saves new contract
+     * @param contractDto contract data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message about save procedure result
+     */
     @RequestMapping("/common/saveContract")
     public RedirectView saveContract(@ModelAttribute("model") ContractDto contractDto,
                                      HttpServletRequest request, RedirectAttributes redir) {
@@ -83,6 +107,13 @@ public class ContractController {
         return redirectView;
     }
 
+    /**
+     * This method updates contract data
+     * @param contractDto contract data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message about update procedure result
+     */
     @RequestMapping("/common/patchContract")
     public RedirectView patchContract(@ModelAttribute("model") ContractDto contractDto,
                                      HttpServletRequest request, RedirectAttributes redir) {
@@ -94,6 +125,12 @@ public class ContractController {
         return redirectView;
     }
 
+    /**
+     * This method prepares information to update contract form when it called from "control" user
+     * @param id contract id
+     * @param model model
+     * @return view with form for update contracts data
+     */
     @RequestMapping("/control/updateContract")
     public String controlUpdateContract(@RequestParam("contractId") int id, Model model) {
 
@@ -108,6 +145,13 @@ public class ContractController {
         return "control/update-contract-info-control-form";
     }
 
+    /**
+     * This method deletes contract from system
+     * @param id id of contract
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message about delete procedure result
+     */
     @RequestMapping("/common/deleteContract")
     public RedirectView deleteContract(@RequestParam("contractId") int id,
                                        HttpServletRequest request, RedirectAttributes redir) {
@@ -119,6 +163,14 @@ public class ContractController {
         return redirectView;
     }
 
+    /**
+     * This method show all contracts of one client
+     * @param principal client data
+     * @param contractDto contract data transfer object with necessary data
+     * @param pageNumber page of contracts
+     * @param model model
+     * @return view with client's contracts
+     */
     @RequestMapping("/client/allContracts")
     public String clientAllContracts(Principal principal,
                                      @ModelAttribute("model") ContractDto contractDto,
@@ -133,6 +185,12 @@ public class ContractController {
         return "client/all-contracts";
     }
 
+    /**
+     * This method prepares data for contract update when update contracts called from "client" user
+     * @param contractId id of contract
+     * @param model model
+     * @return view with form for update contracts data
+     */
     @RequestMapping("/client/updateContract")
     public String clientUpdateContract(@RequestParam("contractId") int contractId, Model model) {
 
@@ -149,6 +207,12 @@ public class ContractController {
 
     }
 
+    /**
+     * This method set contact block status of contract
+     * @param id id of contract
+     * @param request http request
+     * @return previous view, where lock option was called
+     */
     @RequestMapping("/common/lockContract")
     public String controlLockClient(@RequestParam("contractId") int id, HttpServletRequest request) {
 
@@ -166,6 +230,12 @@ public class ContractController {
         return "redirect:" + request.getHeader("Referer");
     }
 
+    /**
+     * This method set contact unblock status of contract
+     * @param id id of contract
+     * @param request http request
+     * @return previous view, where unlock option was called
+     */
     @RequestMapping("/common/unlockContract")
     public String controlUnlockClient(@RequestParam("contractId") int id, HttpServletRequest request) {
 
@@ -177,6 +247,11 @@ public class ContractController {
         return "redirect:" + request.getHeader("Referer");
     }
 
+    /**
+     * This method prepares used phone numbers to search by it
+     * @param model model
+     * @return view with search bar
+     */
     @RequestMapping("/control/inputNumberToSearch")
     public String getSearchData(Model model) {
 
@@ -186,6 +261,12 @@ public class ContractController {
         return "control/input-number-for-search";
     }
 
+    /**
+     * This method returns client which has contract with this number
+     * @param phoneNumber number which used to search
+     * @param model model
+     * @return view with client and his contracts
+     */
     @RequestMapping("/control/searchByPhoneNumber")
     public String searchContractByPhoneNumber(@RequestParam("userPhoneNumber") String phoneNumber, Model model) {
 

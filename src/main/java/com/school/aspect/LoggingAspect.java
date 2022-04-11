@@ -18,10 +18,16 @@ public class LoggingAspect {
 
     private static final Logger LOG = Logger.getLogger(LoggingAspect.class);
 
+    /**
+     * This method log when all controller methods begin and end their work
+     * @param proceedingJoinPoint joinPoint
+     * @return result of method works
+     * @throws Throwable
+     */
     @Around("execution(* com.school.controller.*.*(..))")
     public Object aroundAllControllerMethodsAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-        this.LOG.setLevel(Level.TRACE);
+        LOG.setLevel(Level.TRACE);
         LOG.trace("Begin method " + proceedingJoinPoint.getSignature().getName());
 
         Object targetMethodResult = proceedingJoinPoint.proceed();
@@ -31,13 +37,22 @@ public class LoggingAspect {
         return targetMethodResult;
     }
 
+    /**
+     * This method log when user login in system
+     */
     @After("execution(* com.school.service.security.ClientDetailService.loadUserByUsername(..))")
     public void afterLoginAdvice() {
-        this.LOG.setLevel(Level.TRACE);
+        LOG.setLevel(Level.TRACE);
         LOG.trace("User logged in system ");
 
     }
 
+    /**
+     * This method log when all service methods begins and ends their work
+     * @param proceedingJoinPoint joinPoint
+     * @return result of method works
+     * @throws Throwable
+     */
     @Around("execution(* com.school.service.impl.*.*(..))")
     public Object aroundAllServiceMethodsAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 

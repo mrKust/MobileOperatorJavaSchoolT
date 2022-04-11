@@ -14,6 +14,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
+/**
+ * This controller works with methods which represent client information and activities
+ */
 @Controller
 public class ClientController {
 
@@ -23,6 +26,13 @@ public class ClientController {
         this.clientServiceMVC = clientServiceMVC;
     }
 
+    /**
+     * This method shows all clients registered in system
+     * @param clientDto client data transfer object with necessary data
+     * @param pageNumber number of page
+     * @param model model
+     * @return view with clients table
+     */
     @RequestMapping("/control/allClients")
     public String showAllClients(@ModelAttribute("model") ClientDto clientDto,
                                  @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
@@ -36,6 +46,11 @@ public class ClientController {
         return "control/all-clients";
     }
 
+    /**
+     * This method creates necessary data before register new user in system
+     * @param model model
+     * @return view with registration form
+     */
     @RequestMapping("/control/addNewClient")
     public String addNewClient(Model model) {
 
@@ -45,6 +60,13 @@ public class ClientController {
         return "control/add-client-info-control-form";
     }
 
+    /**
+     * This method saves new client in system
+     * @param clientDto client data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected message
+     * @return view after save
+     */
     @RequestMapping("/common/saveClient")
     public RedirectView saveClient(@ModelAttribute("model") ClientDto clientDto,
                                    HttpServletRequest request, RedirectAttributes redir) {
@@ -56,6 +78,13 @@ public class ClientController {
         return redirectView;
     }
 
+    /**
+     * This method updates clients information
+     * @param clientDto client data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected message
+     * @return view after save
+     */
     @RequestMapping("/common/patchClient")
     public RedirectView patchClient(@ModelAttribute("model") ClientDto clientDto,
                                    HttpServletRequest request, RedirectAttributes redir) {
@@ -67,6 +96,12 @@ public class ClientController {
         return redirectView;
     }
 
+    /**
+     * This method prepare necessary information for update client's form when it called from "control" user
+     * @param id client's id
+     * @param model model
+     * @return view with form for update client's info
+     */
     @RequestMapping("/control/updateClient")
     public String controlUpdateClient(@RequestParam("clientId") int id, Model model) {
 
@@ -79,6 +114,13 @@ public class ClientController {
         return "control/update-client-info-control-form";
     }
 
+    /**
+     * This methods delete client from system
+     * @param id id of client
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message
+     */
     @RequestMapping("/control/deleteClient")
     public RedirectView deleteClient(@RequestParam("clientId") int id,
                                      HttpServletRequest request, RedirectAttributes redir) {
@@ -90,6 +132,12 @@ public class ClientController {
         return redirectView;
     }
 
+    /**
+     * This method prepare necessary information for update client's form when it called from "client" user
+     * @param principal user data
+     * @param model model
+     * @return view with form to update client's info
+     */
     @RequestMapping("/client/updateClient")
     public String clientUpdateClient(Principal principal, Model model) {
 
@@ -103,6 +151,12 @@ public class ClientController {
 
     }
 
+    /**
+     * This method prepares data to client's change password event
+     * @param clientId id of client
+     * @param model model
+     * @return view with form to switch password
+     */
     @RequestMapping("/client/changePasswordClient")
     public String changePassword(@RequestParam("clientId") int clientId, Model model) {
 
@@ -114,6 +168,12 @@ public class ClientController {
 
     }
 
+    /**
+     * This method prepares info to client's add money to balance event
+     * @param clientId id of client
+     * @param model model
+     * @return view with form to add money on client's balance
+     */
     @RequestMapping("/client/addMoneyToAccaunt")
     public String addMoney(@RequestParam("clientId") int clientId, Model model) {
 
@@ -126,6 +186,13 @@ public class ClientController {
         return "client/add-money-to-account-client-form";
     }
 
+    /**
+     * This method sends money data to process for it correct
+     * @param clientDto client data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message about money process
+     */
     @RequestMapping("/client/moneyProcess")
     public RedirectView addMoneyCheck(@ModelAttribute("model") ClientDto clientDto,
                                       HttpServletRequest request, RedirectAttributes redir) {
