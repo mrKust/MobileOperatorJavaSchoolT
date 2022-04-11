@@ -17,6 +17,11 @@ public class NumberController {
         this.numberServiceMVC = numberServiceMVC;
     }
 
+    /**
+     * This method prepare date for add new phone number
+     * @param model model
+     * @return view with add new phone number form
+     */
     @RequestMapping("/control/addNewPhoneNumber")
     public String addNewPhoneNumber(Model model) {
 
@@ -28,6 +33,11 @@ public class NumberController {
         return "control/add-phonenumber-control-form";
     }
 
+    /**
+     * This method save new phone number
+     * @param phoneNumber phone number which needed to be saved
+     * @return view where all client stored, to add new client with new phone number
+     */
     @RequestMapping("/control/savePhoneNumber")
     public String savePhoneNumber(@ModelAttribute("phoneNumber") Number phoneNumber) {
 

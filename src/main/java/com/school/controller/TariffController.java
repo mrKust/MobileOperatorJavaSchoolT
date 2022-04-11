@@ -12,6 +12,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * This controller show all views which are connected with tariffs
+ */
 @Controller
 public class TariffController {
 
@@ -23,6 +26,13 @@ public class TariffController {
         this.optionsServiceMVC = optionsServiceMVC;
     }
 
+    /**
+     * This method show page of tariffs
+     * @param tariffDto tariff data transfer object with necessary data
+     * @param pageNumber number of page of tariffs
+     * @param model model
+     * @return view with page of tariff
+     */
     @RequestMapping("/common/allTariffs")
     public String showAllTariff(@ModelAttribute("model") TariffDto tariffDto,
                                 @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
@@ -36,6 +46,11 @@ public class TariffController {
         return "common/all-tariffs";
     }
 
+    /**
+     * This method show all available tariff for unregistered users
+     * @param model model
+     * @return view with all tariff which could be connected
+     */
     @RequestMapping("/anonymous/allAvailableTariffs")
     public String showAllAvailableTariff(Model model) {
 
@@ -44,6 +59,11 @@ public class TariffController {
         return "common/all-tariffs";
     }
 
+    /**
+     * This method prepare data which is needed to add new tariff
+     * @param model model
+     * @return view with form to add new tariff
+     */
     @RequestMapping("/control/addNewTariff")
     public String addNewTariff(Model model) {
 
@@ -55,6 +75,13 @@ public class TariffController {
         return "control/add-tariff-info-control-form";
     }
 
+    /**
+     * This method saves new tariff
+     * @param tariffDto tariff data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view where save method was called with message about save process
+     */
     @RequestMapping("/control/saveTariff")
     public RedirectView saveTariff(@ModelAttribute("model") TariffDto tariffDto,
                                    HttpServletRequest request, RedirectAttributes redir) {
@@ -66,6 +93,13 @@ public class TariffController {
         return redirectView;
     }
 
+    /**
+     * This method updates existed option
+     * @param tariffDto tariff data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view where update method was called with message about save process
+     */
     @RequestMapping("/control/patchTariff")
     public RedirectView patchTariff(@ModelAttribute("model") TariffDto tariffDto,
                                     HttpServletRequest request, RedirectAttributes redir) {
@@ -77,6 +111,12 @@ public class TariffController {
         return redirectView;
     }
 
+    /**
+     * This method prepare data to update form when update method called by "control" user
+     * @param id id of tariff
+     * @param model model
+     * @return view with data form for update tariff's data
+     */
     @RequestMapping("/control/updateTariff")
     public String controlUpdateTariff(@RequestParam("tariffId") int id, Model model) {
 
@@ -89,6 +129,13 @@ public class TariffController {
         return "control/update-tariff-info-control-form";
     }
 
+    /**
+     * This method delete tariff
+     * @param id id of tariff
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view where delete method was called with message about delete process
+     */
     @RequestMapping("/control/deleteTariff")
     public RedirectView deleteTariff(@RequestParam("tariffId") int id,
                                      HttpServletRequest request, RedirectAttributes redir) {
@@ -100,6 +147,12 @@ public class TariffController {
         return redirectView;
     }
 
+    /**
+     * This method prepare data to update form when update method called by "client" user
+     * @param id id of tariff
+     * @param model model
+     * @return view with form to update tariff data
+     */
     @RequestMapping("/client/updateTariff")
     public String clientUpdateTariff(@RequestParam("tariffId") int id, Model model) {
 

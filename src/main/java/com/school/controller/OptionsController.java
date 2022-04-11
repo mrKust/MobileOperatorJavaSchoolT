@@ -14,6 +14,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * This controller show all views which are connected with options
+ */
 @Controller
 public class OptionsController {
 
@@ -25,6 +28,13 @@ public class OptionsController {
         this.optionTypeServiceMVC = optionTypeServiceMVC;
     }
 
+    /**
+     * This method show page of options
+     * @param optionsDto options data transfer object with necessary data
+     * @param pageNumber number of page of options
+     * @param model model
+     * @return view with page of options
+     */
     @RequestMapping(value = "/common/allOptions")
     public String showAllOptions(@ModelAttribute("model") OptionsDto optionsDto,
                                  @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
@@ -38,6 +48,11 @@ public class OptionsController {
         return "common/all-options";
     }
 
+    /**
+     * This method show all available options for unregistered users
+     * @param model model
+     * @return view with all options which could be connected
+     */
     @RequestMapping("/anonymous/allAvailableOptions")
     public String showAllAvailableOptions(Model model) {
 
@@ -46,6 +61,11 @@ public class OptionsController {
         return "common/all-options";
     }
 
+    /**
+     * This method prepare data which is needed to add new option
+     * @param model model
+     * @return view with form to add new option
+     */
     @RequestMapping("/control/addNewOption")
     public String addNewOption(Model model) {
 
@@ -57,6 +77,13 @@ public class OptionsController {
         return "control/add-option-info-control-form";
     }
 
+    /**
+     * This method saves new option
+     * @param optionsDto options data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view where save method was called with message about save process
+     */
     @RequestMapping(value = "/control/saveOption")
     public RedirectView saveOption(@ModelAttribute("model") OptionsDto optionsDto,
                                    HttpServletRequest request, RedirectAttributes redir) {
@@ -68,6 +95,13 @@ public class OptionsController {
         return redirectView;
     }
 
+    /**
+     * This method updates existed option
+     * @param optionsDto options data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view where update method was called with message about save process
+     */
     @RequestMapping(value = "/control/patchOption")
     public RedirectView patchOption(@ModelAttribute("model") OptionsDto optionsDto,
                                    HttpServletRequest request, RedirectAttributes redir) {
@@ -79,6 +113,12 @@ public class OptionsController {
         return redirectView;
     }
 
+    /**
+     * This method prepare data to update form when update method called by "control" user
+     * @param id id of option
+     * @param model model
+     * @return view with data form for update option's data
+     */
     @RequestMapping(value = "/control/updateOption")
     public String controlUpdateOption(@RequestParam("optionId") int id, Model model) {
 
@@ -89,6 +129,13 @@ public class OptionsController {
         return "control/update-option-info-control-form";
     }
 
+    /**
+     * This method delete option
+     * @param id id of option
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view where delete method was called with message about delete process
+     */
     @RequestMapping(value = "/control/deleteOption")
     public RedirectView deleteOption(@RequestParam("optionId") int id,
                                      HttpServletRequest request, RedirectAttributes redir) {
@@ -100,6 +147,12 @@ public class OptionsController {
         return redirectView;
     }
 
+    /**
+     * This method prepare data to update form when update method called by "client" user
+     * @param id id of option
+     * @param model model
+     * @return view with form to update option data
+     */
     @RequestMapping("/client/updateOption")
     public String clientUpdateOption(@RequestParam("optionId") int id, Model model) {
 
