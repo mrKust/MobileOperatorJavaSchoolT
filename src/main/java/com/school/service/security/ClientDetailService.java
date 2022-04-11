@@ -19,6 +19,12 @@ public class ClientDetailService implements UserDetailsService {
         this.clientService = clientService;
     }
 
+    /**
+     * Method load user by user's email
+     * @param s user's email
+     * @return user cridentials
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Client tmp = clientService.getByEmail(s);
