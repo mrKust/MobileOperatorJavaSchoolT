@@ -17,11 +17,19 @@ public class OptionTypeServiceImpl implements OptionTypeService {
         this.optionsTypeDao = optionsTypeDao;
     }
 
+    /**
+     * Described at {@link OptionTypeService}
+     * @return list of option types
+     */
     @Override
     public List<OptionType> getAll() {
         return optionsTypeDao.getAll();
     }
 
+    /**
+     * Described at {@link OptionTypeService}
+     * @param optionType option type which need to be saved or updated
+     */
     @Override
     public void save(OptionType optionType) {
 
@@ -32,16 +40,30 @@ public class OptionTypeServiceImpl implements OptionTypeService {
         optionsTypeDao.save(optionType);
     }
 
+    /**
+     * Described at {@link OptionTypeService}
+     * @param id id of option type which we are looking for
+     * @return option type with required id
+     */
     @Override
     public OptionType get(int id) {
         return optionsTypeDao.get(id);
     }
 
+    /**
+     * Described at {@link OptionTypeService}
+     * @param optionType option type which checked to unique status
+     * @return true if unique, false otherwise
+     */
     @Override
     public boolean checkOptionTypeToUnique(OptionType optionType) {
         return optionsTypeDao.checkOptionTypeToUnique(optionType);
     }
 
+    /**
+     * Described at {@link OptionTypeService}
+     * @param id id of option type which need to be deleted
+     */
     @Override
     public void delete(int id) {
         OptionType optionType = get(id);

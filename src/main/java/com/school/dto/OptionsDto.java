@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Options data transfer object for pass data from view to backend
+ */
 @NoArgsConstructor
 @Getter
 @Setter

@@ -7,6 +7,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents contract's table from database
+ */
 @Entity
 @Table(name = "contract")
 @NoArgsConstructor

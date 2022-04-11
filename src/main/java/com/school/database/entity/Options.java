@@ -11,6 +11,9 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents option's table from database
+ */
 @Entity
 @Table(name = "options")
 @NoArgsConstructor

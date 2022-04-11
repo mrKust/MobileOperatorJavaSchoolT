@@ -71,7 +71,6 @@ public interface ContractDao {
     List<Contract> getPageOfClientContracts(int pageSize, String sortColumn, int pageNumber, String clientEmail);
 
     /**
-     *
      * Method counts number of pages on which records could be separated with this size of page
      * @param sizeOfPage number of record on one page
      * @param clientEmail email address of client which contract we are looking for

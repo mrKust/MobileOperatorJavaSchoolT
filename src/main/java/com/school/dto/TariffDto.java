@@ -8,6 +8,9 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tariff data transfer object for pass data from view to backend
+ */
 @NoArgsConstructor
 @Getter
 @Setter

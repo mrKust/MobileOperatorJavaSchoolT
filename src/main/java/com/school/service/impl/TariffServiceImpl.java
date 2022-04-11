@@ -33,16 +33,30 @@ public class TariffServiceImpl  implements TariffService {
         this.amqpTemplate = amqpTemplate;
     }
 
+    /**
+     * Described at {@link TariffService}
+     * @return list of tariffs
+     */
     @Override
     public List<Tariff> getAll() {
         return tariffDao.getAll();
     }
 
+    /**
+     * Described at {@link TariffService}
+     * @return list of available to connect tariffs
+     */
     @Override
     public List<Tariff> getAllAvailable() {
         return tariffDao.getAllAvailable();
     }
 
+    /**
+     * Described at {@link TariffService}
+     * @param tariffDto tariff data transfer object
+     * @param numberOfPage number of page where tariffs will be shown
+     * @return list of tariffs for show on page
+     */
     @Override
     public List<Tariff> getPageOfTariffs(TariffDto tariffDto, Integer numberOfPage) {
         if (tariffDto.getPageSize() == 0)
@@ -55,12 +69,20 @@ public class TariffServiceImpl  implements TariffService {
                 numberOfPage);
     }
 
+    /**
+     * Described at {@link TariffService}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
     @Override
     public int getNumberOfPages(int sizeOfPage) {
         return tariffDao.getNumberOfPages(sizeOfPage);
     }
 
-
+    /**
+     * Described at {@link TariffService}
+     * @param tariffDto tariff data transfer object
+     */
     @Override
     public void save(TariffDto tariffDto) {
         Tariff tariff = tariffDto.getTariff();
@@ -69,6 +91,10 @@ public class TariffServiceImpl  implements TariffService {
         tariffDao.save(tariff);
     }
 
+    /**
+     * Described at {@link TariffService}
+     * @param tariffDto tariff data transfer object
+     */
     @Override
     public void update(TariffDto tariffDto) {
         Tariff tariff = tariffDao.get(tariffDto.getTariff().getId());
@@ -79,16 +105,28 @@ public class TariffServiceImpl  implements TariffService {
         tariffDao.save(tariff);
     }
 
+    /**
+     * Described at {@link TariffService}
+     */
     @Override
     public void notificationAboutTariffUpdate() {
         amqpTemplate.convertAndSend("queue1","Update info");
     }
 
+    /**
+     * Described at {@link TariffService}
+     * @param id id of tariff which we are looking for
+     * @return tariff with required id
+     */
     @Override
     public Tariff get(int id) {
         return tariffDao.get(id);
     }
 
+    /**
+     * Described at {@link TariffService}
+     * @return string in json format
+     */
     @Override
     public String getAllAvailableTariffsDataInJson() {
         ObjectMapper mapper = new ObjectMapper();
@@ -104,6 +142,10 @@ public class TariffServiceImpl  implements TariffService {
         return optionsJson;
     }
 
+    /**
+     * Described at {@link TariffService}
+     * @param id id of tariff which should be deleted
+     */
     @Override
     public void delete(int id) {
         Tariff tariff = get(id);

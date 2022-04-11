@@ -9,6 +9,9 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents client's table from database
+ */
 @Entity
 @Table(name="client")
 @NoArgsConstructor

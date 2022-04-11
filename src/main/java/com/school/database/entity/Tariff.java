@@ -11,6 +11,9 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents tariff's table from database
+ */
 @Entity
 @Table(name = "tariff")
 @NoArgsConstructor

@@ -31,16 +31,31 @@ public class ContractServiceImpl implements ContractService {
         this.numberService = numberService;
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @return list of contracts in system
+     */
     @Override
     public List<Contract> getAll() {
         return contractDao.getAll();
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param clientEmail email address of client who contracts we want to get
+     * @return list of all contracts of one client
+     */
     @Override
     public List<Contract> getAllContractsOfClient(String clientEmail) {
         return contractDao.getAllContractsOfClient(clientEmail);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     * @param numberOfPage number of page where contracts will be shown
+     * @return list of contracts for show on page
+     */
     @Override
     public List<Contract> getPageOfContracts(ContractDto contractDto, Integer numberOfPage) {
         if (contractDto.getPageSize() == 0)
@@ -53,6 +68,13 @@ public class ContractServiceImpl implements ContractService {
                 numberOfPage);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     * @param numberOfPage number of page where contracts will be shown
+     * @param clientEmail email address of client which contract we are looking for
+     * @return list of contracts for show on page
+     */
     @Override
     public List<Contract> getPageOfClientContracts(ContractDto contractDto, Integer numberOfPage,
                                                    String clientEmail) {
@@ -66,16 +88,32 @@ public class ContractServiceImpl implements ContractService {
                 contractDto.getSortColumn(), numberOfPage, clientEmail);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
     @Override
     public int getNumberOfPages(int sizeOfPage) {
         return contractDao.getNumberOfPages(sizeOfPage);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param sizeOfPage number of record on one page
+     * @param clientEmail email address of client which contract we are looking for
+     * @return number of pages
+     */
     @Override
     public int getNumberOfClientContractPages(int sizeOfPage, String clientEmail) {
         return contractDao.getNumberOfClientContractPages(sizeOfPage, clientEmail);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param chosenOptions list of options which need to be checked
+     * @return true if options could be connected to one contract, false otherwise
+     */
     @Override
     public boolean checkOptionsComboToRight(List<Options> chosenOptions) {
         Map<Integer, Integer> optionTypeCount = new HashMap<>();
@@ -90,10 +128,13 @@ public class ContractServiceImpl implements ContractService {
                 return false;
         }
 
-
         return true;
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     */
     @Override
     public void save(ContractDto contractDto) {
         Contract contract = contractDto.getContract();
@@ -121,6 +162,10 @@ public class ContractServiceImpl implements ContractService {
         contractDao.save(contract);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     */
     @Override
     public void update(ContractDto contractDto) {
         Contract contract = get(contractDto.getContract().getId());
@@ -147,6 +192,10 @@ public class ContractServiceImpl implements ContractService {
         contractDao.save(contract);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     */
     @Override
     public void lock(ContractDto contractDto) {
 
@@ -157,6 +206,10 @@ public class ContractServiceImpl implements ContractService {
         contractDao.save(contract);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     */
     @Override
     public void unlock(ContractDto contractDto) {
 
@@ -168,6 +221,11 @@ public class ContractServiceImpl implements ContractService {
         contractDao.save(contract);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param contract contract for counting
+     * @return payment for month
+     */
     @Override
     public double countPricePerMonth(Contract contract) {
         Client client = contract.getContractClient();
@@ -189,6 +247,12 @@ public class ContractServiceImpl implements ContractService {
         return priceForMonth;
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param id id of checked option
+     * @param connectedOptions list of previously connected option
+     * @return true if already been connected, false otherwise
+     */
     @Override
     public boolean optionsAlreadyConnectedToContract(int id, List<Options> connectedOptions) {
         for (Options tmp: connectedOptions) {
@@ -198,6 +262,11 @@ public class ContractServiceImpl implements ContractService {
         return false;
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param id id of searched contract
+     * @return contract with id
+     */
     @Override
     public Contract get(int id) {
         Contract contract = contractDao.get(id);
@@ -205,11 +274,20 @@ public class ContractServiceImpl implements ContractService {
         return contract;
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param phoneNumber phone number which locked for contract
+     * @return contract with inputted phone number
+     */
     @Override
     public Contract getByPhoneNumber(String phoneNumber) {
         return contractDao.getByPhoneNumber(phoneNumber);
     }
 
+    /**
+     * Described at {@link ContractService}
+     * @param id id of contract which should be deleted
+     */
     @Override
     public void delete(int id) {
         Contract contract = get(id);

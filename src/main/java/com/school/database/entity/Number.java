@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * This class represents number's table from database
+ */
 @Entity
 @Table(name = "numbers_base")
 @NoArgsConstructor

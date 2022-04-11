@@ -33,11 +33,21 @@ public class ClientServiceImpl implements ClientService {
         this.clientDao = clientDao;
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @return list which contains all clients from system
+     */
     @Override
     public List<Client> getAll() {
         return clientDao.getAll();
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param clientDto client data transfer object
+     * @param numberOfPage number of page where client will be shown
+     * @return list of client for show on page
+     */
     @Override
     public List<Client> getPageOfClients(ClientDto clientDto, Integer numberOfPage) {
         if (clientDto.getPageSize() == 0)
@@ -50,16 +60,30 @@ public class ClientServiceImpl implements ClientService {
                 numberOfPage);
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
     @Override
     public int getNumberOfPages(int sizeOfPage) {
         return clientDao.getNumberOfPages(sizeOfPage);
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param client client email address we want check to unique status
+     * @return true if unique, false otherwise
+     */
     @Override
     public boolean checkUserEmailToUnique(Client client) {
         return clientDao.checkUserEmailToUnique(client);
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param clientDto client data transfer object
+     */
     @Override
     public void save(ClientDto clientDto) {
         Client client = clientDto.getClient();
@@ -86,6 +110,10 @@ public class ClientServiceImpl implements ClientService {
         sendPasswordToNewUser(client.getEmailAddress(), password, client.getFirstName());
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param clientDto client data transfer object
+     */
     @Override
     public void update(ClientDto clientDto) {
         Client client = get(clientDto.getClient().getId());
@@ -111,16 +139,30 @@ public class ClientServiceImpl implements ClientService {
         clientDao.save(client);
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param id id of client which we want to get
+     * @return client which we have been looking for
+     */
     @Override
     public Client get(int id) {
         return clientDao.get(id);
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param email email address of the client which we want to get
+     * @return client which we have been looking for
+     */
     @Override
     public Client getByEmail(String email) {
         return clientDao.getByEmail(email);
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param clientDto client data transfer object
+     */
     @Override
     public void addMoney(ClientDto clientDto) {
         double moneyAmount = clientDto.getClient().getMoneyBalance();
@@ -129,6 +171,12 @@ public class ClientServiceImpl implements ClientService {
         update(clientDto);
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param recipientEmail email of registered user
+     * @param password password of new user
+     * @param name first name of the user
+     */
     @Override
     public void sendPasswordToNewUser(String recipientEmail, String password, String name) {
         Properties prop = new Properties();
@@ -162,6 +210,10 @@ public class ClientServiceImpl implements ClientService {
 
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @return 6 length password
+     */
     @Override
     public String createInputPassword() {
         StringBuilder password = new StringBuilder();
@@ -176,6 +228,10 @@ public class ClientServiceImpl implements ClientService {
         return password.toString();
     }
 
+    /**
+     * Described at {@link ClientService}
+     * @param id id of client which should be deleted
+     */
     @Override
     public void delete(int id) {
 

@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Contract data transfer object for pass data from view to backend
+ */
 @NoArgsConstructor
 @Getter
 @Setter

@@ -30,26 +30,50 @@ public class OptionsServiceImpl implements OptionsService {
         this.decimalFormat = new DecimalFormat(PRICE_PATTERN, priceFormat);
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @return list of all options in system
+     */
     @Override
     public List<Options> getAll() {
         return optionsDao.getAll();
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @return list of available to connect options
+     */
     @Override
     public List<Options> getAllAvailable() {
         return optionsDao.getAllAvailable();
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @param list list with ids of options which we want to get
+     * @return list of options
+     */
     @Override
     public List<Options> getOptionsFromChosenList(List<Integer> list) {
         return optionsDao.getOptionsFromChosenList(list);
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @param list list with ids of options which we want to get
+     * @return list of options
+     */
     @Override
     public List<Options> getAvailableOptionsNamesAndPricesForTariff(List<Integer> list) {
         return optionsDao.getAvailableOptionsNamesAndPricesForTariff(list);
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @param optionsDto option data transfer object
+     * @param numberOfPage number of page where options will be shown
+     * @return list of options for show on page
+     */
     @Override
     public List<Options> getPageOfOptions(OptionsDto optionsDto, Integer numberOfPage) {
         if (optionsDto.getPageSize() == 0)
@@ -62,11 +86,20 @@ public class OptionsServiceImpl implements OptionsService {
                 numberOfPage);
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
     @Override
     public int getNumberOfPages(int sizeOfPage) {
         return optionsDao.getNumberOfPages(sizeOfPage);
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @param optionsDto option data transfer object
+     */
     @Override
     public void save(OptionsDto optionsDto) {
         Options option = optionsDto.getOptions();
@@ -78,6 +111,10 @@ public class OptionsServiceImpl implements OptionsService {
         optionsDao.save(option);
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @param optionsDto option data transfer object
+     */
     @Override
     public void update(OptionsDto optionsDto) {
         Options option = get(optionsDto.getOptions().getId());
@@ -89,11 +126,20 @@ public class OptionsServiceImpl implements OptionsService {
         optionsDao.save(option);
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @param id id of option which need to be returned
+     * @return option with this id
+     */
     @Override
     public Options get(int id) {
         return optionsDao.get(id);
     }
 
+    /**
+     * Described at {@link OptionsService}
+     * @param id option's id which need to be deleted
+     */
     @Override
     public void delete(int id) {
         Options options = get(id);

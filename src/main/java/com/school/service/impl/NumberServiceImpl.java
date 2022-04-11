@@ -22,26 +22,47 @@ public class NumberServiceImpl implements NumberService {
         this.numberDao = numberDao;
     }
 
+    /**
+     * Described at {@link NumberService}
+     * @return list of phone numbers
+     */
     @Override
     public List<Number> getAll() {
         return numberDao.getAll();
     }
 
+    /**
+     * Described at {@link NumberService}
+     * @return array of phone numbers which already used by clients
+     */
     @Override
     public String[] getAllUsed() {
         return numberDao.getAllUsed().toArray(new String[0]);
     }
 
+    /**
+     * Described at {@link NumberService}
+     * @return array of available to connect phone numbers
+     */
     @Override
     public String[] getAllUnused() {
         return numberDao.getAllUnused().toArray(new String[0]);
     }
 
+    /**
+     * Described at {@link NumberService}
+     * @param number number which is checked to unique status
+     * @return true if unique, false otherwise
+     */
     @Override
     public boolean checkNumberToUnique(Number number) {
         return numberDao.checkNumberToUnique(number);
     }
 
+    /**
+     * Described at {@link NumberService}
+     * @param number number which need to be saved or updated
+     */
     @Override
     public void save(Number number) {
 
@@ -57,21 +78,39 @@ public class NumberServiceImpl implements NumberService {
         numberDao.save(number);
     }
 
+    /**
+     * Described at {@link NumberService}
+     * @param number number which need to be saved or updated
+     */
     @Override
     public void update(Number number) {
         numberDao.save(number);
     }
 
+    /**
+     * Described at {@link NumberService}
+     * @param id id of phone number which we are looking for
+     * @return number with inputted id
+     */
     @Override
     public Number get(int id) {
         return numberDao.get(id);
     }
 
+    /**
+     * Described at {@link NumberService}
+     * @param phoneNumber value of phone number which we are looking for
+     * @return phone number entity
+     */
     @Override
     public Number getByPhoneNumber(String phoneNumber) {
         return numberDao.getByPhoneNumber(phoneNumber);
     }
 
+    /**
+     * Described at {@link NumberService}
+     * @param id id of phone's number which need to be deleted
+     */
     @Override
     public void delete(int id) {
         numberDao.delete(id);

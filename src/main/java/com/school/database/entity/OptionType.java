@@ -7,6 +7,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents option type's table from database
+ */
 @Entity
 @Table(name = "options_type")
 @NoArgsConstructor
