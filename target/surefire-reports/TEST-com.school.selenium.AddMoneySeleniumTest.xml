@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.school.services.tests.TariffServiceMockTests" time="0.03" tests="9" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.school.selenium.AddMoneySeleniumTest" time="9.18" tests="1" errors="1" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -61,13 +61,31 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="getAllTariffsTest1" classname="com.school.services.tests.TariffServiceMockTests" time="0.013"/>
-  <testcase name="saveTariffTest1" classname="com.school.services.tests.TariffServiceMockTests" time="0.001"/>
-  <testcase name="getNumberOfPagesTest1" classname="com.school.services.tests.TariffServiceMockTests" time="0"/>
-  <testcase name="updateTariffTest1" classname="com.school.services.tests.TariffServiceMockTests" time="0.001"/>
-  <testcase name="getAllAvailableTest1" classname="com.school.services.tests.TariffServiceMockTests" time="0"/>
-  <testcase name="getTariffTest1" classname="com.school.services.tests.TariffServiceMockTests" time="0.001"/>
-  <testcase name="getPageOfTariffsTest1" classname="com.school.services.tests.TariffServiceMockTests" time="0"/>
-  <testcase name="deleteTariffTest1" classname="com.school.services.tests.TariffServiceMockTests" time="0.001"/>
-  <testcase name="deleteTariffTest2" classname="com.school.services.tests.TariffServiceMockTests" time="0"/>
+  <testcase name="addMoneyPositiveTest1" classname="com.school.selenium.AddMoneySeleniumTest" time="9.152">
+    <error message="unknown error: net::ERR_CONNECTION_REFUSED&#10;  (Session info: chrome=100.0.4896.88)&#10;Build info: version: &apos;4.1.3&apos;, revision: &apos;7b1ebf28ef&apos;&#10;System info: host: &apos;LAPTOP-FPGO896I&apos;, ip: &apos;192.168.1.55&apos;, os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;1.8.0_321&apos;&#10;Driver info: org.openqa.selenium.chrome.ChromeDriver&#10;Command: [019f80f5a5798d765dbf8c05b0f8644b, get {url=http://localhost:8081/login}]&#10;Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 100.0.4896.88, chrome: {chromedriverVersion: 100.0.4896.60 (6a5d10861ce8..., userDataDir: C:\Users\dimva\AppData\Loca...}, goog:chromeOptions: {debuggerAddress: localhost:57864}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:57864/devtoo..., se:cdpVersion: 100.0.4896.88, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}&#10;Session ID: 019f80f5a5798d765dbf8c05b0f8644b" type="org.openqa.selenium.WebDriverException">org.openqa.selenium.WebDriverException: 
+unknown error: net::ERR_CONNECTION_REFUSED
+  (Session info: chrome=100.0.4896.88)
+Build info: version: '4.1.3', revision: '7b1ebf28ef'
+System info: host: 'LAPTOP-FPGO896I', ip: '192.168.1.55', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_321'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [019f80f5a5798d765dbf8c05b0f8644b, get {url=http://localhost:8081/login}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 100.0.4896.88, chrome: {chromedriverVersion: 100.0.4896.60 (6a5d10861ce8..., userDataDir: C:\Users\dimva\AppData\Loca...}, goog:chromeOptions: {debuggerAddress: localhost:57864}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:57864/devtoo..., se:cdpVersion: 100.0.4896.88, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: 019f80f5a5798d765dbf8c05b0f8644b
+	at com.school.selenium.AddMoneySeleniumTest.addMoneyPositiveTest1(AddMoneySeleniumTest.java:26)
+</error>
+    <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Starting ChromeDriver 100.0.4896.60 (6a5d10861ce8de5fce22564658033b43cb7de047-refs/branch-heads/4896@{#875}) on port 60204
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully.
+апр 12, 2022 4:51:24 PM org.openqa.selenium.remote.ProtocolHandshake createSession
+INFO: Detected dialect: W3C
+апр 12, 2022 4:51:24 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 100, so returning the closest version found: 99
+апр 12, 2022 4:51:24 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+INFO: Found CDP implementation for version 100 of 99
+]]></system-err>
+  </testcase>
 </testsuite>

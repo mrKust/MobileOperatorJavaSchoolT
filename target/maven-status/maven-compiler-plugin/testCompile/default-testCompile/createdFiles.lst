@@ -1,6 +1,9 @@
 com\school\services\tests\OptionTypeServiceMockTests.class
+com\school\selenium\AddMoneySeleniumTest.class
+com\school\selenium\ChangePasswordSelenuimTest.class
 com\school\configuration\TestConfig.class
 com\school\services\tests\NumberServiceMockTests.class
+com\school\selenium\LoginSelenuimTest.class
 com\school\services\tests\TariffServiceMockTests.class
 com\school\services\tests\ClientServiceMockTests.class
 com\school\services\tests\ContractServiceMockTests.class
