@@ -55,7 +55,7 @@
             <div class="mb-3">
                 <label for="client.passportNumber" class="form-label">Card number</label>
                 <input class="form-control" type="text" required="true" pattern="[0-9]{16}"
-                            path="" placeholde="input card number without spaces"/>
+                            id="cardNumber" placeholde="input card number without spaces"/>
             </div>
 
             <div class="mb-3">
@@ -83,15 +83,15 @@
             <div class="input-group">
                 <span class="input-group-text">Input surname and name</span>
                 <input type="text" aria-label="Surname" class="form-control"
-                            path="" required="true" placeholder="Input surname here"/>
+                            id="firstName" required="true" placeholder="Input surname here"/>
                 <input type="text" aria-label="First name" class="form-control"
-                            path="" required="true" placeholder="Input name here"/>
+                            id="surname" required="true" placeholder="Input name here"/>
             </div>
 
             <div class="mb-3">
                 <label for="client.passportNumber" class="form-label">CVC</label>
                 <input class="form-control" type="number" min="100" max="999"
-                            path="" required="true" placeholder="input cvc numper"/>
+                            id="cvc" required="true" placeholder="input cvc numper"/>
             </div>
 
 

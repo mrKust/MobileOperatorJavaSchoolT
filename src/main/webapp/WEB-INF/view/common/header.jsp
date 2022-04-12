@@ -47,19 +47,19 @@
                     <a href="/" class="nav-link" aria-current="page">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/common/allOptions" class="nav-link">Options list</a>
+                    <a href="/common/allOptions" class="nav-link" id="clientOptionsList">Options list</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/common/allTariffs" class="nav-link">Tariffs list</a>
+                    <a href="/common/allTariffs" class="nav-link" id="clientTariffsList">Tariffs list</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/client/updateClient" class="nav-link">My user info</a>
+                    <a href="/client/updateClient" class="nav-link" id="clientUpdateClient">My user info</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/client/allContracts" class="nav-link">My contracts</a>
+                    <a href="/client/allContracts" class="nav-link" id="clientContractsClient">My contracts</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/logout" class="nav-link link-danger">Logout</a>
+                    <a href="/logout" class="nav-link link-danger" id="logout">Logout</a>
                 </li>
             </ul>
         </div>

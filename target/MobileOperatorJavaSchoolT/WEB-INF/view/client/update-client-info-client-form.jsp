@@ -90,7 +90,7 @@
 
                 <div class="mb-3">
                     <label for="client.emailAddress" class="form-label">Password</label>
-                    <button type="button" class="btn btn-warning"
+                    <button type="button" class="btn btn-warning" id="changePasswordButton"
                             onclick="window.location.href= '${clientChangePassword}'">Set new password</button>
                 </div>
 
@@ -99,7 +99,7 @@
                     <span class="input-group-text">$</span>
                     <form:input class="form-control" type="number" min="0" path="client.moneyBalance"
                                 readonly="true"/>
-                    <button type="button" class="btn btn-success"
+                    <button type="button" class="btn btn-success" id="addMoneyButton"
                             onclick="window.location.href= '${clientAddMoneyButton}'">Add money</button>
                 </div>
 
