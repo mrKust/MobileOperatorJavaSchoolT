@@ -28,22 +28,24 @@
             </c:if>
 
             <form:form action="/common/allTariffs" modelAttribute="model">
-            <input type="hidden" name="pageNumber" value="${pageNumber}">
-            <div class="input-group mb-3">
-                <select class="form-select" name="pageSize">
-                    <option value="${model.pageSize}" selected>Choose page size</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                </select>
-                <select class="form-select" name="sortColumn">
-                    <option value="${model.sortColumn}" selected>Choose column</option>
-                    <option value="tariffName">Name</option>
-                    <option value="price">Price</option>
-                    <option value="availableOptionToConnectOrNot">Connect status</option>
-                </select>
-                <input type="submit" class="btn btn-success" value="Refresh">
-            </div>
+                <security:authorize access="hasAnyRole('client', 'control')">
+                    <input type="hidden" name="pageNumber" value="${pageNumber}">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="pageSize">
+                            <option value="${model.pageSize}" selected>Choose page size</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                        </select>
+                        <select class="form-select" name="sortColumn">
+                            <option value="${model.sortColumn}" selected>Choose column</option>
+                            <option value="tariffName">Name</option>
+                            <option value="price">Price</option>
+                            <option value="availableOptionToConnectOrNot">Connect status</option>
+                        </select>
+                        <input type="submit" class="btn btn-success" value="Refresh">
+                    </div>
+                </security:authorize>
                 <table class="table table-striped">
                     <thead>
                     <th scope="col">Tariff's name</th>
@@ -51,7 +53,9 @@
                     <security:authorize access="hasRole('control')">
                         <th scope="col">Available to Connect</th>
                     </security:authorize>
-                    <th scope="col">Operations</th>
+                    <security:authorize access="hasAnyRole('client', 'control')">
+                        <th scope="col">Operations</th>
+                    </security:authorize>
                     </thead>
                     <tbody>
                     <c:forEach var="tariffs" items="${allTariffs}">
@@ -96,10 +100,12 @@
                     <button type="button" class="btn btn-primary"
                             onclick="window.location.href = '/control/addNewTariff'">Add</button>
                 </security:authorize>
-                <jsp:include page="pagination.jsp">
-                    <jsp:param name="pageNumber" value="${pageNumber}"/>
-                    <jsp:param name="action" value="/common/allTarifs"/>
-                </jsp:include>
+                <security:authorize access="hasAnyRole('client', 'control')">
+                    <jsp:include page="pagination.jsp">
+                        <jsp:param name="pageNumber" value="${pageNumber}"/>
+                        <jsp:param name="action" value="/common/allTarifs"/>
+                    </jsp:include>
+                </security:authorize>
             </form:form>
         </div>
     </main>

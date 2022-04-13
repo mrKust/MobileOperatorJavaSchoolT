@@ -11,14 +11,8 @@ f
 6src/main/java/com/school/database/entity/Contract.java,7\b\7b6f330827ae5ff2815a906514e89f66e547a3d0
 ^
 .src/main/webapp/WEB-INF/view/common/footer.jsp,9\2\921fefcb7eb9ef71f7bccde840fd40fbb1d62ae3
-c
-3src/main/webapp/WEB-INF/view/common/all-tariffs.jsp,6\9\692247c7d32a7e1d371390817c495ac27711015b
 ^
 .src/main/webapp/WEB-INF/view/common/header.jsp,7\3\73f11541dcfb8b995fa275dd837b2d3f668deea7
-j
-:src/main/java/com/school/controller/OptionsController.java,0\0\003269d217893164aef41d945633f632b45a5b24
-c
-3src/main/webapp/WEB-INF/view/common/all-options.jsp,3\d\3dd65bab3daabb0208a6fb4e25a3ae5cacb28524
 b
 2src/main/webapp/WEB-INF/view/common/pagination.jsp,3\c\3ce9cf27616f27d6b9bad501f0db4903176604a2
 p
