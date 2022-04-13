@@ -57,7 +57,10 @@ public class OptionTypeServiceImpl implements OptionTypeService {
      */
     @Override
     public boolean checkOptionTypeToUnique(OptionType optionType) {
-        return optionsTypeDao.checkOptionTypeToUnique(optionType);
+        int numberOfRecords = optionsTypeDao.checkOptionTypeToUnique(optionType);
+        if (numberOfRecords == 0)
+            return true;
+        return false;
     }
 
     /**

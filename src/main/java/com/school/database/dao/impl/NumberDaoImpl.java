@@ -96,19 +96,14 @@ public class NumberDaoImpl implements NumberDao {
      * @return true if unique, false otherwise
      */
     @Override
-    public boolean checkNumberToUnique(Number number) {
+    public int checkNumberToUnique(Number number) {
 
         Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("select count(*) from Number where phoneNumber=:number");
         query.setParameter("number", number.getPhoneNumber());
 
-        Integer result = Integer.parseInt(query.getSingleResult().toString());
-
-        if (result.compareTo(0) == 0)
-            return true;
-
-        return false;
+        return Integer.parseInt(query.getSingleResult().toString());
     }
 
     /**

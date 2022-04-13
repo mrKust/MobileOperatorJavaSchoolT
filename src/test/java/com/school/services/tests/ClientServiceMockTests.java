@@ -46,7 +46,7 @@ public class ClientServiceMockTests {
         client1.setPasswordLogIn("qwerty");
         client1.setContractClient(new ArrayList<Contract>());
         client1.setUserRole("control");
-        client1.setMoneyBalance(1000.00);
+        client1.setMoneyBalance(10.00);
 
         client2.setId(2);
         client2.setFirstName("Sergei");
@@ -109,7 +109,7 @@ public class ClientServiceMockTests {
 
     @Test
     public void checkUserEmailToUniqueTest1() {
-        Mockito.when(clientDao.checkUserEmailToUnique(client1)).thenReturn(true);
+        Mockito.when(clientDao.checkUserEmailToUnique(client1)).thenReturn(0);
         boolean result = clientService.checkUserEmailToUnique(client1);
 
         Mockito.verify(clientDao).checkUserEmailToUnique(client1);
@@ -117,8 +117,17 @@ public class ClientServiceMockTests {
     }
 
     @Test
+    public void checkUserEmailToUniqueTest2() {
+        Mockito.when(clientDao.checkUserEmailToUnique(client1)).thenReturn(1);
+        boolean result = clientService.checkUserEmailToUnique(client1);
+
+        Mockito.verify(clientDao).checkUserEmailToUnique(client1);
+        Assert.assertFalse(result);
+    }
+
+    @Test
     public void saveClientTest1() {
-        Mockito.when(clientDao.checkUserEmailToUnique(client1)).thenReturn(true);
+        Mockito.when(clientDao.checkUserEmailToUnique(client1)).thenReturn(0);
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(client1);
 
@@ -192,10 +201,12 @@ public class ClientServiceMockTests {
     public void addMoneyTest1() {
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(client1);
+        clientDto.getClient().setMoneyBalance(0);
         clientDto.setMoney(1000);
         Mockito.when(clientDao.get(client1.getId())).thenReturn(client1);
         clientService.addMoney(clientDto);
         Mockito.verify(clientDao).save(client1);
+        Assert.assertEquals(String.valueOf(1000.0), String.valueOf(client1.getMoneyBalance()));
     }
 
     @Test

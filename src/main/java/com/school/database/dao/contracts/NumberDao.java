@@ -1,7 +1,6 @@
 package com.school.database.dao.contracts;
 
 import com.school.database.entity.Number;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,9 +41,9 @@ public interface NumberDao {
     /**
      * Method checks if phone number with this phone number's value already contains in system
      * @param number number which is checked to unique status
-     * @return true if unique, false otherwise
+     * @return number of same phone numbers
      */
-    boolean checkNumberToUnique(Number number);
+    int checkNumberToUnique(Number number);
 
     /**
      * Method saves or updates phone number

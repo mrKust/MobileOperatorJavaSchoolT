@@ -1,5 +1,6 @@
 package com.school.services.tests;
 
+import com.school.customException.ServiceLayerException;
 import com.school.database.dao.impl.NumberDaoImpl;
 import com.school.database.entity.Number;
 import com.school.service.impl.NumberServiceImpl;
@@ -108,7 +109,7 @@ public class NumberServiceMockTests {
 
     @Test
     public void checkNumberToUniqueTest1() {
-        Mockito.when(numberDao.checkNumberToUnique(number1)).thenReturn(true);
+        Mockito.when(numberDao.checkNumberToUnique(number1)).thenReturn(0);
         boolean result = numberService.checkNumberToUnique(number1);
 
         Mockito.verify(numberDao).checkNumberToUnique(number1);
@@ -120,7 +121,19 @@ public class NumberServiceMockTests {
         Number numberTmp = new Number();
         numberTmp.setPhoneNumber("89584148201");
         numberTmp.setAvailableToConnectStatus(true);
-        Mockito.when(numberDao.checkNumberToUnique(numberTmp)).thenReturn(true);
+        Mockito.when(numberDao.checkNumberToUnique(numberTmp)).thenReturn(0);
+
+        numberService.save(numberTmp);
+
+        Mockito.verify(numberDao).save(numberTmp);
+    }
+
+    @Test(expected = ServiceLayerException.class)
+    public void saveNumberTest2() {
+        Number numberTmp = new Number();
+        numberTmp.setPhoneNumber("89584148201");
+        numberTmp.setAvailableToConnectStatus(true);
+        Mockito.when(numberDao.checkNumberToUnique(numberTmp)).thenReturn(1);
 
         numberService.save(numberTmp);
 

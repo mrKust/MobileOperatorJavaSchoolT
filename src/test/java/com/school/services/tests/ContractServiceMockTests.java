@@ -344,6 +344,7 @@ public class ContractServiceMockTests {
 
         contractService.lock(contractDto);
         Mockito.verify(contractDao).save(contract1);
+        Assert.assertTrue(contract1.isContractBlockStatus());
     }
 
     @Test
@@ -354,6 +355,7 @@ public class ContractServiceMockTests {
 
         contractService.unlock(contractDto);
         Mockito.verify(contractDao).save(contract1);
+        Assert.assertFalse(contract1.isContractBlockStatus());
     }
 
     @Test

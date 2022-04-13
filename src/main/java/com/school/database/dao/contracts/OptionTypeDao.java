@@ -28,9 +28,9 @@ public interface OptionTypeDao {
     /**
      * Method check if option type with this option's type name already stored in system
      * @param optionType option type which checked to unique status
-     * @return true if unique, false otherwise
+     * @return number of records with the same type
      */
-    boolean checkOptionTypeToUnique(OptionType optionType);
+    int checkOptionTypeToUnique(OptionType optionType);
 
     /**
      * Method deletes option type

@@ -83,7 +83,7 @@ public class OptionTypeServiceMockTests {
     public void saveOptionTypeTest1() {
         OptionType optionTypeTmp = new OptionType();
         optionTypeTmp.setOptionType("MMS");
-        Mockito.when(optionTypeDao.checkOptionTypeToUnique(optionTypeTmp)).thenReturn(true);
+        Mockito.when(optionTypeDao.checkOptionTypeToUnique(optionTypeTmp)).thenReturn(0);
 
         optionTypeService.save(optionTypeTmp);
 
@@ -92,7 +92,7 @@ public class OptionTypeServiceMockTests {
 
     @Test
     public void checkOptionTypeToUniqueTest1() {
-        Mockito.when(optionTypeDao.checkOptionTypeToUnique(optionType1)).thenReturn(true);
+        Mockito.when(optionTypeDao.checkOptionTypeToUnique(optionType1)).thenReturn(0);
         boolean result = optionTypeService.checkOptionTypeToUnique(optionType1);
 
         Mockito.verify(optionTypeDao).checkOptionTypeToUnique(optionType1);

@@ -56,7 +56,11 @@ public class NumberServiceImpl implements NumberService {
      */
     @Override
     public boolean checkNumberToUnique(Number number) {
-        return numberDao.checkNumberToUnique(number);
+        int numberOfSameRecords = numberDao.checkNumberToUnique(number);
+        if (numberOfSameRecords == 0)
+            return true;
+
+        return false;
     }
 
     /**

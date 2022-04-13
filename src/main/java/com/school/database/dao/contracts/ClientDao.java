@@ -32,9 +32,9 @@ public interface ClientDao {
     /**
      * Method check if in system contains another client with client's email or not
      * @param client client email address we want check to unique status
-     * @return true if unique, false otherwise
+     * @return number of users with same email
      */
-    boolean checkUserEmailToUnique(Client client);
+    int checkUserEmailToUnique(Client client);
 
     /**
      * Method returns list of client for show it on one page

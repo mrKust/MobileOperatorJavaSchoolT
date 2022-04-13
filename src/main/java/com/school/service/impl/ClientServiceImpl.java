@@ -78,7 +78,10 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     public boolean checkUserEmailToUnique(Client client) {
-        return clientDao.checkUserEmailToUnique(client);
+        int numberOfRecords = clientDao.checkUserEmailToUnique(client);
+        if (numberOfRecords == 0)
+            return true;
+        return false;
     }
 
     /**

@@ -67,19 +67,14 @@ public class ClientDaoImpl implements ClientDao {
      * @return true if unique, false otherwise
      */
     @Override
-    public boolean checkUserEmailToUnique(Client client) {
+    public int checkUserEmailToUnique(Client client) {
 
         Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("select count(*) from Client where emailAddress=:email");
         query.setParameter("email", client.getEmailAddress());
 
-        Integer result = Integer.parseInt(query.getSingleResult().toString());
-
-        if (result.compareTo(0) == 0)
-            return true;
-
-        return false;
+        return Integer.parseInt(query.getSingleResult().toString());
     }
 
     /**

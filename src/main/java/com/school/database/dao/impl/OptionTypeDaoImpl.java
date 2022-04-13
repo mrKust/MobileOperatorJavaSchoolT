@@ -63,19 +63,15 @@ public class OptionTypeDaoImpl implements OptionTypeDao {
      * @return true if unique, false otherwise
      */
     @Override
-    public boolean checkOptionTypeToUnique(OptionType optionType) {
+    public int checkOptionTypeToUnique(OptionType optionType) {
 
         Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("select count(*) from OptionType where optionType=:name");
         query.setParameter("name", optionType.getOptionType());
 
-        Integer result = Integer.parseInt(query.getSingleResult().toString());
+        return Integer.parseInt(query.getSingleResult().toString());
 
-        if (result.compareTo(0) == 0)
-            return true;
-
-        return false;
     }
 
     /**
