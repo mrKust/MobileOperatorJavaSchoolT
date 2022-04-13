@@ -14,10 +14,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
@@ -50,9 +47,13 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     public List<Client> getPageOfClients(ClientDto clientDto, Integer numberOfPage) {
-        if (clientDto.getPageSize() == 0)
+        List<Integer> sizeParams = new ArrayList<>(Arrays.asList(5, 10, 15));
+        if ( (clientDto.getPageSize() == 0) || (!sizeParams.contains(clientDto.getPageSize())) )
             clientDto.setPageSize(5);
-        if (clientDto.getSortColumn() == null)
+        List<String> sortParams = new ArrayList<>(Arrays.asList("firstName", "surname",
+                "dateOfBirth", "emailAddress", "userRole"));
+        if ( (clientDto.getSortColumn() == null) ||
+                (!sortParams.contains(clientDto.getSortColumn())) )
             clientDto.setSortColumn("surname");
         if (numberOfPage == null)
             numberOfPage = 1;

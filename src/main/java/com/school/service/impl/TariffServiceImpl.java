@@ -1,7 +1,5 @@
 package com.school.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.customException.ServiceLayerException;
 import com.school.database.dao.contracts.TariffDao;
 import com.school.database.entity.Tariff;
@@ -59,9 +57,13 @@ public class TariffServiceImpl  implements TariffService {
      */
     @Override
     public List<Tariff> getPageOfTariffs(TariffDto tariffDto, Integer numberOfPage) {
-        if (tariffDto.getPageSize() == 0)
+        List<Integer> sizeParams = new ArrayList<>(Arrays.asList(5, 10, 15));
+        if ( (tariffDto.getPageSize() == 0) || (!sizeParams.contains(tariffDto.getPageSize())) )
             tariffDto.setPageSize(5);
-        if (tariffDto.getSortColumn() == null)
+        List<String> sortParams = new ArrayList<>(Arrays.asList("tariffName", "price",
+                "availableOptionToConnectOrNot"));
+        if ( (tariffDto.getSortColumn() == null) ||
+            (!sortParams.contains(tariffDto.getSortColumn())) )
             tariffDto.setSortColumn("tariffName");
         if (numberOfPage == null)
             numberOfPage = 1;

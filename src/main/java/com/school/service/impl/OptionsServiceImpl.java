@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,9 +68,13 @@ public class OptionsServiceImpl implements OptionsService {
      */
     @Override
     public List<Options> getPageOfOptions(OptionsDto optionsDto, Integer numberOfPage) {
-        if (optionsDto.getPageSize() == 0)
+        List<Integer> sizeParams = new ArrayList<>(Arrays.asList(5, 10, 15));
+        if ( (optionsDto.getPageSize() == 0) || (!sizeParams.contains(optionsDto.getPageSize())) )
             optionsDto.setPageSize(5);
-        if (optionsDto.getSortColumn() == null)
+        List<String> sortParams = new ArrayList<>(Arrays.asList("optionsName", "optionType",
+                "price", "costToAdd", "availableOptionToConnectOrNot"));
+        if ( (optionsDto.getSortColumn() == null) ||
+                (!sortParams.contains(optionsDto.getSortColumn())))
             optionsDto.setSortColumn("optionsName");
         if (numberOfPage == null)
             numberOfPage = 1;

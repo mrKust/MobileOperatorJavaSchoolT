@@ -8,10 +8,7 @@ import com.school.dto.ContractDto;
 import com.school.service.contracts.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ContractServiceImpl implements ContractService {
@@ -58,9 +55,12 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     public List<Contract> getPageOfContracts(ContractDto contractDto, Integer numberOfPage) {
-        if (contractDto.getPageSize() == 0)
+        List<Integer> sizeParams = new ArrayList<>(Arrays.asList(5, 10, 15));
+        if ( (contractDto.getPageSize() == 0) || (!sizeParams.contains(contractDto.getPageSize())))
             contractDto.setPageSize(5);
-        if (contractDto.getSortColumn() == null)
+        List<String> sortParams = new ArrayList<>(Arrays.asList("phoneNumber", "priceForContractPerMonth",
+                "contractBlockStatus", "roleOfUserWhoBlockedContract"));
+        if ( (contractDto.getSortColumn() == null) || (!sortParams.contains(contractDto.getSortColumn())))
             contractDto.setSortColumn("phoneNumber");
         if (numberOfPage == null)
             numberOfPage = 1;
@@ -78,9 +78,12 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public List<Contract> getPageOfClientContracts(ContractDto contractDto, Integer numberOfPage,
                                                    String clientEmail) {
-        if (contractDto.getPageSize() == 0)
+        List<Integer> sizeParams = new ArrayList<>(Arrays.asList(5, 10, 15));
+        if ( (contractDto.getPageSize() == 0) || (!sizeParams.contains(contractDto.getPageSize())))
             contractDto.setPageSize(5);
-        if (contractDto.getSortColumn() == null)
+        List<String> sortParams = new ArrayList<>(Arrays.asList("phoneNumber", "priceForContractPerMonth",
+                "contractBlockStatus", "roleOfUserWhoBlockedContract"));
+        if ( (contractDto.getSortColumn() == null) || (!sortParams.contains(contractDto.getSortColumn())))
             contractDto.setSortColumn("phoneNumber");
         if (numberOfPage == null)
             numberOfPage = 1;

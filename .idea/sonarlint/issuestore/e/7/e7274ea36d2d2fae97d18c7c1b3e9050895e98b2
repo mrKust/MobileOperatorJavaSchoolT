@@ -1,6 +1,2 @@
 
-l	java:S116"XRename this field "PRICE_PATTERN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö³w
-q
-java:S1128"ORemove this unused import 'com.fasterxml.jackson.core.JsonProcessingException'.(ßÔïÇûÿÿÿÿ8Ú§Ì–‚0
-e
-java:S1128"HRemove this unused import 'com.fasterxml.jackson.databind.ObjectMapper'.(´‘¨™8Ú§Ì–‚0
+l	java:S116"XRename this field "PRICE_PATTERN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ö³w

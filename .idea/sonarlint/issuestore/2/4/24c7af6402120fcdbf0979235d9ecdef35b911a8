@@ -1,13 +1,13 @@
 
 v
-java:S3008"`Rename this field "EMAIL_ADDRESS_PATTERN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ׂ´
+java:S3008"`Rename this field "EMAIL_ADDRESS_PATTERN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ׂ´
 E
-java:S5869"*Remove duplicates in this character class.(Êאûחרÿÿÿÿ
+java:S5869"*Remove duplicates in this character class.(Êאûחרÿÿÿÿ
 g
-java:S5998"LRefactor this repetition that can lead to a stack overflow for large inputs.(Êאûחרÿÿÿÿ
+java:S5998"LRefactor this repetition that can lead to a stack overflow for large inputs.(Êאûחרÿÿÿÿ
 4
-java:S2119Ü"Save and re-use this "Random".(¼Ýֵf
+java:S2119Ý"Save and re-use this "Random".(¼Ýֵf
 U
-java:S1155ף">Use isEmpty() to check whether the collection is empty or not.(—‹°£
+java:S1155פ">Use isEmpty() to check whether the collection is empty or not.(—‹°£
 o
-java:S5843"TSimplify this regular expression to reduce its complexity from 88 to the 20 allowed.(Êאûחרÿÿÿÿ
+java:S5843"TSimplify this regular expression to reduce its complexity from 88 to the 20 allowed.(Êאûחרÿÿÿÿ

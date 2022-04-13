@@ -33,24 +33,26 @@
 
             <form:form action="/common/allOptions" modelAttribute="model">
                 <security:authorize access="hasAnyRole('client', 'control')">
-                    <input type="hidden" name="pageNumber" value="${pageNumber}">
-                    <div class="input-group mb-3">
-                        <select class="form-select" name="pageSize">
-                            <option value="${model.pageSize}" selected>Choose page size</option>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                        </select>
-                        <select class="form-select" name="sortColumn">
-                            <option value="${model.sortColumn}" selected>Choose column</option>
-                            <option value="optionsName">Name</option>
-                            <option value="optionType" >Category</option>
-                            <option value="price">Price</option>
-                            <option value="costToAdd">Cost to add</option>
-                            <option value="availableOptionToConnectOrNot">Connect status</option>
-                        </select>
-                        <input type="submit" class="btn btn-success" value="Refresh">
-                    </div>
+                    <section>
+                        <input type="hidden" name="pageNumber" value="${pageNumber}">
+                        <div class="input-group mb-3">
+                            <select class="form-select" name="pageSize">
+                                <option value="${model.pageSize}" selected>Choose page size</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                            </select>
+                            <select class="form-select" name="sortColumn">
+                                <option value="${model.sortColumn}" selected>Choose column</option>
+                                <option value="optionsName">Name</option>
+                                <option value="optionType" >Category</option>
+                                <option value="price">Price</option>
+                                <option value="costToAdd">Cost to add</option>
+                                <option value="availableOptionToConnectOrNot">Connect status</option>
+                            </select>
+                            <input type="submit" class="btn btn-success" value="Refresh">
+                        </div>
+                    </section>
                 </security:authorize>
 
             <table id="table" class="table table-striped">
