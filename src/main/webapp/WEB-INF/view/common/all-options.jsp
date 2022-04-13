@@ -61,7 +61,9 @@
                     <security:authorize access="hasRole('control')">
                         <th scope="col">Available to Connect</th>
                     </security:authorize>
-                    <th scope="col">Operations</th>
+                    <security:authorize access="hasAnyRole()">
+                        <th scope="col">Operations</th>
+                    </security:authorize>
                 </tr>
                 </thead>
                 <tbody>

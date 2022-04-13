@@ -44,7 +44,7 @@ public class Options {
     )
     private List<Tariff> availableForTariffs;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
             name = "contract_options",
