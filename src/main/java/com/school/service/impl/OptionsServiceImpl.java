@@ -60,16 +60,6 @@ public class OptionsServiceImpl implements OptionsService {
 
     /**
      * Described at {@link OptionsService}
-     * @param list list with ids of options which we want to get
-     * @return list of options
-     */
-    @Override
-    public List<Options> getAvailableOptionsNamesAndPricesForTariff(List<Integer> list) {
-        return optionsDao.getAvailableOptionsNamesAndPricesForTariff(list);
-    }
-
-    /**
-     * Described at {@link OptionsService}
      * @param optionsDto option data transfer object
      * @param numberOfPage number of page where options will be shown
      * @return list of options for show on page

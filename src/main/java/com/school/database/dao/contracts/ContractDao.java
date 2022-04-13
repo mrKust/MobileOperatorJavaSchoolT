@@ -15,7 +15,6 @@ public interface ContractDao {
      * @param id id of searched contract
      * @return contract with id
      */
-    @Transactional
     Contract get(int id);
 
     /**
@@ -23,7 +22,6 @@ public interface ContractDao {
      * @param clientEmail email address of client who contracts we want to get
      * @return list of all contracts of one client
      */
-    @Transactional
     List<Contract> getAllContractsOfClient(String clientEmail);
 
     /**
@@ -31,14 +29,12 @@ public interface ContractDao {
      * @param phoneNumber phone number which locked for contract
      * @return contract with inputted phone number
      */
-    @Transactional
     Contract getByPhoneNumber(String phoneNumber);
 
     /**
      * This method returns all contracts in system
      * @return list of contracts in system
      */
-    @Transactional
     List<Contract> getAll();
 
     /**
@@ -48,7 +44,6 @@ public interface ContractDao {
      * @param pageNumber number of page where contracts will be shown
      * @return list of contracts for show on page
      */
-    @Transactional
     List<Contract> getPageOfContracts(int pageSize, String sortColumn, int pageNumber);
 
     /**
@@ -56,7 +51,6 @@ public interface ContractDao {
      * @param sizeOfPage number of record on one page
      * @return number of pages
      */
-    @Transactional
     int getNumberOfPages(int sizeOfPage);
 
     /**
@@ -67,7 +61,6 @@ public interface ContractDao {
      * @param clientEmail email address of client which contract we are looking for
      * @return list of contracts for show on page
      */
-    @Transactional
     List<Contract> getPageOfClientContracts(int pageSize, String sortColumn, int pageNumber, String clientEmail);
 
     /**
@@ -76,21 +69,18 @@ public interface ContractDao {
      * @param clientEmail email address of client which contract we are looking for
      * @return number of pages
      */
-    @Transactional
     int getNumberOfClientContractPages(int sizeOfPage, String clientEmail);
 
     /**
      * Method saves or update contract
      * @param contract contract which need to be saved or updated
      */
-    @Transactional
     void save(Contract contract);
 
     /**
      * Method deletes contract
      * @param id id of contract which should be deleted
      */
-    @Transactional
     void delete(int id);
 
 }

@@ -4,11 +4,13 @@ import com.school.database.entity.Contract;
 import com.school.database.entity.Options;
 import com.school.dto.ContractDto;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * This service describe operations with contracts
  */
+@Transactional
 public interface ContractService {
 
     /**

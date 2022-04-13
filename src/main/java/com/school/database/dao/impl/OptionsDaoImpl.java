@@ -2,7 +2,6 @@ package com.school.database.dao.impl;
 
 import com.school.database.dao.contracts.OptionsDao;
 import com.school.database.entity.Options;
-import com.school.dto.OptionsDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -76,22 +75,6 @@ public class OptionsDaoImpl implements OptionsDao {
 
     /**
      * Described at {@link OptionsDao}
-     * @param list list of ids option's which available for tariff
-     * @return list of options
-     */
-    @Override
-    public List<Options> getAvailableOptionsNamesAndPricesForTariff(List<Integer> list) {
-        Session session = sessionFactory.getCurrentSession();
-
-        Query query = session.createQuery("from Options where id in :idList and availableOptionToConnectOrNot=:status");
-        query.setParameter("idList", list);
-        query.setParameter("status", true);
-
-        return query.getResultList();
-    }
-
-    /**
-     * Described at {@link OptionsDao}
      * @param pageSize number of records on one page
      * @param sortColumn filed which will be used as field to compare options
      * @param pageNumber number of page where options will be shown
@@ -102,7 +85,6 @@ public class OptionsDaoImpl implements OptionsDao {
         Session session = sessionFactory.getCurrentSession();
 
         Query query = session.createQuery("from Options options order by options." + sortColumn + " desc");
-
         query.setFirstResult(pageSize * (pageNumber - 1));
         query.setMaxResults(pageSize);
 

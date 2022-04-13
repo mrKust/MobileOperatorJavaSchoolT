@@ -1,7 +1,6 @@
 package com.school.database.dao.contracts;
 
 import com.school.database.entity.Client;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ public interface ClientDao {
      * @param id id of client which we want to get
      * @return client which we have been looking for
      */
-    @Transactional
     Client get(int id);
 
     /**
@@ -23,14 +21,12 @@ public interface ClientDao {
      * @param email email address of the client which we want to get
      * @return client which we have been looking for
      */
-    @Transactional
     Client getByEmail(String email);
 
     /**
      * Method return all client which registered in system
      * @return list which contains all clients from system
      */
-    @Transactional
     List<Client> getAll();
 
     /**
@@ -38,7 +34,6 @@ public interface ClientDao {
      * @param client client email address we want check to unique status
      * @return true if unique, false otherwise
      */
-    @Transactional
     boolean checkUserEmailToUnique(Client client);
 
     /**
@@ -48,7 +43,6 @@ public interface ClientDao {
      * @param pageNumber number of page where client will be shown
      * @return list of client for show on page
      */
-    @Transactional
     List<Client> getPageOfClients(int pageSize, String sortColumn, int pageNumber);
 
     /**
@@ -56,21 +50,18 @@ public interface ClientDao {
      * @param sizeOfPage number of record on one page
      * @return number of pages
      */
-    @Transactional
     int getNumberOfPages(int sizeOfPage);
 
     /**
      * Method saves or update client
      * @param client client which need to be saved or to be updated
      */
-    @Transactional
     void save(Client client);
 
     /**
      * Method deletes client
      * @param id id of client which should be deleted
      */
-    @Transactional
     void delete(int id);
 
 }

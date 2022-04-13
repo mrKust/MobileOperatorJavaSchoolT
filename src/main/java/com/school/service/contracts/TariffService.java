@@ -3,11 +3,13 @@ package com.school.service.contracts;
 import com.school.database.entity.Tariff;
 import com.school.dto.TariffDto;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * This service describe operations with tariff
  */
+@Transactional
 public interface TariffService {
 
     /**

@@ -3,11 +3,13 @@ package com.school.service.contracts;
 import com.school.database.entity.Options;
 import com.school.dto.OptionsDto;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * This service describe operations with options
  */
+@Transactional
 public interface OptionsService {
 
     /**
@@ -28,13 +30,6 @@ public interface OptionsService {
      * @return list of options
      */
     List<Options> getOptionsFromChosenList(List<Integer> list);
-
-    /**
-     * Method returns all options names and prices which id's contains in list
-     * @param list list with ids of options which we want to get
-     * @return list of options
-     */
-    List<Options> getAvailableOptionsNamesAndPricesForTariff(List<Integer> list);
 
     /**
      * This method returns list of options which will be shown on one page

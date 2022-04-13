@@ -2,11 +2,13 @@ package com.school.service.contracts;
 
 import com.school.database.entity.OptionType;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * This service describe operations with option types
  */
+@Transactional
 public interface OptionTypeService {
 
     /**

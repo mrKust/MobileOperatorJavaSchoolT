@@ -3,11 +3,13 @@ package com.school.service.contracts;
 import com.school.database.entity.Client;
 import com.school.dto.ClientDto;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * This service describe operations with clients
  */
+@Transactional
 public interface ClientService {
 
     /**
