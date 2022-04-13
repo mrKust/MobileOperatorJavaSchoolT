@@ -28,11 +28,13 @@ public class LoggingAspect {
     public Object aroundAllControllerMethodsAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         LOG.setLevel(Level.TRACE);
-        LOG.trace("Begin method " + proceedingJoinPoint.getSignature().getName());
+        LOG.trace("Begin method " + proceedingJoinPoint.getSignature().getDeclaringTypeName() + " " +
+                proceedingJoinPoint.getSignature().getName());
 
         Object targetMethodResult = proceedingJoinPoint.proceed();
 
-        LOG.trace("End method " + proceedingJoinPoint.getSignature().getName());
+        LOG.trace("End method " + proceedingJoinPoint.getSignature().getDeclaringTypeName() + " " +
+                proceedingJoinPoint.getSignature().getName());
 
         return targetMethodResult;
     }
@@ -57,11 +59,13 @@ public class LoggingAspect {
     public Object aroundAllServiceMethodsAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         this.LOG.setLevel(Level.INFO);
-        LOG.info("Begin method " + proceedingJoinPoint.getSignature().getName());
+        LOG.info("Begin method " + proceedingJoinPoint.getSignature().getDeclaringTypeName() + " " +
+                proceedingJoinPoint.getSignature().getName());
 
         Object targetMethodResult = proceedingJoinPoint.proceed();
 
-        LOG.info("End method " + proceedingJoinPoint.getSignature().getName());
+        LOG.info("End method " + proceedingJoinPoint.getSignature().getDeclaringTypeName() + " " +
+                proceedingJoinPoint.getSignature().getName());
 
         return targetMethodResult;
     }
