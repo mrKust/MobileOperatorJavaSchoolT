@@ -27,5 +27,3 @@ b
 2src/main/java/com/school/configuration/Config.java,7\f\7fc03569142e61c4316b97c8035b56a39ecf80e5
 W
 'src/main/webapp/resources/css/style.css,7\9\793286005b9090bf4b63c9281f5cbde07930695e
-b
-2src/main/java/com/school/aspect/LoggingAspect.java,e\d\edfef9e4c11c5b86184c37ea6ba85f48c7246e74

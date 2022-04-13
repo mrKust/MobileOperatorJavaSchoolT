@@ -107,7 +107,6 @@ public class ClientController {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(id));
-        clientDto.setOperationType("update");
         model.addAttribute("model", clientDto);
         model.addAttribute("clientContracts", clientDto.getClient().getContractClient());
 
@@ -143,7 +142,6 @@ public class ClientController {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.getByEmail(principal.getName()));
-        clientDto.setOperationType("update");
         model.addAttribute("model", clientDto);
         model.addAttribute("clientContracts", clientDto.getClient().getContractClient());
 
@@ -179,7 +177,6 @@ public class ClientController {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setClient(clientServiceMVC.get(clientId));
-        clientDto.setOperationType("money");
 
         model.addAttribute("model", clientDto);
 

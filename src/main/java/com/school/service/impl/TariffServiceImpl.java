@@ -125,25 +125,6 @@ public class TariffServiceImpl  implements TariffService {
 
     /**
      * Described at {@link TariffService}
-     * @return string in json format
-     */
-    @Override
-    public String getAllAvailableTariffsDataInJson() {
-        ObjectMapper mapper = new ObjectMapper();
-
-        List<Tariff> list = tariffDao.getAllAvailable();
-        String optionsJson = new String();
-        try {
-            optionsJson = mapper.writeValueAsString(list);
-
-        } catch (JsonProcessingException e) {
-            throw new ServiceLayerException("Convert to json problem " + e.getMessage());
-        }
-        return optionsJson;
-    }
-
-    /**
-     * Described at {@link TariffService}
      * @param id id of tariff which should be deleted
      */
     @Override

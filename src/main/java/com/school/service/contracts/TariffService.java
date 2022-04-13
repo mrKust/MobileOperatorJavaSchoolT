@@ -62,12 +62,6 @@ public interface TariffService {
     Tariff get(int id);
 
     /**
-     * Method converts all available to connect tariffs in json format
-     * @return string in json format
-     */
-    String getAllAvailableTariffsDataInJson();
-
-    /**
      * Method deletes tariffs
      * @param id id of tariff which should be deleted
      */

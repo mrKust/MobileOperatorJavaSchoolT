@@ -16,8 +16,6 @@ public class ClientDto {
 
     private Client client;
 
-    private String operationType;
-
     private String passwordString;
 
     private String passwordString2;
