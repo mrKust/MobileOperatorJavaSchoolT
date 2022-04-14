@@ -109,10 +109,12 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise>
-                                    <div class="mb-3">
-                                        <label class="form-check-label">${option.optionType.optionType} ${option.optionsName} ${option.costToAdd} ${option.price}</label>
-                                        <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
-                                    </div>
+                                    <c:if test="${option.availableOptionToConnectOrNot == true}">
+                                        <div class="mb-3">
+                                            <label class="form-check-label">${option.optionType.optionType} ${option.optionsName} ${option.costToAdd} ${option.price}</label>
+                                            <form:checkbox class="form-check-input" path="stringsOptions" value="${option.id}" name="list"/>
+                                        </div>
+                                    </c:if>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
