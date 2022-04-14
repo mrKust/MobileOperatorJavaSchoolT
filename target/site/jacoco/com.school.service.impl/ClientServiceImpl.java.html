@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.service.impl</a> &gt; <span class="el_source">ClientServiceImpl.java</span></div><h1>ClientServiceImpl.java</h1><pre class="source lang-java linenums">package com.school.service.impl;
+
+import com.school.customException.ServiceLayerException;
+import com.school.database.dao.contracts.ClientDao;
+import com.school.database.entity.Client;
+import com.school.dto.ClientDto;
+import com.school.service.contracts.ClientService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
+
+@Service
+public class ClientServiceImpl implements ClientService {
+
+<span class="fc" id="L23">    private static Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(</span>
+            &quot;(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|\&quot;(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\&quot;)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])&quot;
+    );
+
+    private final ClientDao clientDao;
+
+<span class="fc" id="L29">    ClientServiceImpl(ClientDao clientDao) {</span>
+<span class="fc" id="L30">        this.clientDao = clientDao;</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Described at {@link ClientService}
+     * @return list which contains all clients from system
+     */
+    @Override
+    public List&lt;Client&gt; getAll() {
+<span class="fc" id="L39">        return clientDao.getAll();</span>
+    }
+
+    /**
+     * Described at {@link ClientService}
+     * @param clientDto client data transfer object
+     * @param numberOfPage number of page where client will be shown
+     * @return list of client for show on page
+     */
+    @Override
+    public List&lt;Client&gt; getPageOfClients(ClientDto clientDto, Integer numberOfPage) {
+<span class="fc" id="L50">        List&lt;Integer&gt; sizeParams = new ArrayList&lt;&gt;(Arrays.asList(5, 10, 15));</span>
+<span class="pc bpc" id="L51" title="3 of 4 branches missed.">        if ( (clientDto.getPageSize() == 0) || (!sizeParams.contains(clientDto.getPageSize())) )</span>
+<span class="fc" id="L52">            clientDto.setPageSize(5);</span>
+<span class="fc" id="L53">        List&lt;String&gt; sortParams = new ArrayList&lt;&gt;(Arrays.asList(&quot;firstName&quot;, &quot;surname&quot;,</span>
+                &quot;dateOfBirth&quot;, &quot;emailAddress&quot;, &quot;userRole&quot;));
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if ( (clientDto.getSortColumn() == null) ||</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                (!sortParams.contains(clientDto.getSortColumn())) )</span>
+<span class="fc" id="L57">            clientDto.setSortColumn(&quot;surname&quot;);</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (numberOfPage == null)</span>
+<span class="nc" id="L59">            numberOfPage = 1;</span>
+<span class="fc" id="L60">        return clientDao.getPageOfClients(clientDto.getPageSize(), clientDto.getSortColumn(),</span>
+<span class="fc" id="L61">                numberOfPage);</span>
+    }
+
+    /**
+     * Described at {@link ClientService}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+<span class="fc" id="L71">        return clientDao.getNumberOfPages(sizeOfPage);</span>
+    }
+
+    /**
+     * Described at {@link ClientService}
+     * @param client client email address we want check to unique status
+     * @return true if unique, false otherwise
+     */
+    @Override
+    public boolean checkUserEmailToUnique(Client client) {
+<span class="fc" id="L81">        int numberOfRecords = clientDao.checkUserEmailToUnique(client);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (numberOfRecords == 0)</span>
+<span class="fc" id="L83">            return true;</span>
+<span class="fc" id="L84">        return false;</span>
+    }
+
+    /**
+     * Described at {@link ClientService}
+     * @param clientDto client data transfer object
+     */
+    @Override
+    public void save(ClientDto clientDto) {
+<span class="fc" id="L93">        Client client = clientDto.getClient();</span>
+<span class="fc" id="L94">        client.setEmailAddress(client.getEmailAddress().toLowerCase(Locale.ROOT));</span>
+
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (!EMAIL_ADDRESS_PATTERN.matcher(client.getEmailAddress()).matches()) {</span>
+<span class="nc" id="L97">            throw new ServiceLayerException(&quot;Can't save user with this email.&quot; +</span>
+                    &quot;E-mail incorrect form&quot;);
+        }
+
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (!checkUserEmailToUnique(client)) {</span>
+<span class="nc" id="L102">            throw new ServiceLayerException(&quot;Can't save user with this email.&quot; +</span>
+                    &quot;User with this email already registered&quot;);
+        }
+
+<span class="fc" id="L106">        String roleCast = clientDto.getClient().getUserRole().replace(&quot;,&quot;, &quot;&quot;);</span>
+<span class="fc" id="L107">        client.setUserRole(roleCast);</span>
+
+<span class="fc" id="L109">        String password = createInputPassword();</span>
+<span class="fc" id="L110">        String encodedPassword = new BCryptPasswordEncoder().encode(password);</span>
+<span class="fc" id="L111">        client.setPasswordLogIn(encodedPassword);</span>
+
+<span class="fc" id="L113">        clientDao.save(client);</span>
+<span class="fc" id="L114">        sendPasswordToNewUser(client.getEmailAddress(), password, client.getFirstName());</span>
+<span class="fc" id="L115">    }</span>
+
+    /**
+     * Described at {@link ClientService}
+     * @param clientDto client data transfer object
+     */
+    @Override
+    public void update(ClientDto clientDto) {
+<span class="fc" id="L123">        Client client = get(clientDto.getClient().getId());</span>
+
+<span class="pc bpc" id="L125" title="1 of 4 branches missed.">        if ( (clientDto.getPasswordString() != null) &amp;&amp; (clientDto.getPasswordString2() != null) ) {</span>
+
+<span class="pc bpc" id="L127" title="2 of 4 branches missed.">            if ((clientDto.getPasswordString().length() &gt;= 255) || (clientDto.getPasswordString2().length() &gt;= 255))</span>
+<span class="nc" id="L128">                throw new ServiceLayerException(&quot;Can't update password. Inputted password is too long. (Password size &lt; 255)&quot;);</span>
+
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">            if (clientDto.getPasswordString().equals(clientDto.getPasswordString2())) {</span>
+<span class="nc" id="L131">                String encodedPassword = new BCryptPasswordEncoder().encode(clientDto.getPasswordString());</span>
+<span class="nc" id="L132">                client.setPasswordLogIn(encodedPassword);</span>
+<span class="nc" id="L133">            } else</span>
+<span class="fc" id="L134">                throw new ServiceLayerException(&quot;Can't update password. New passwords doesn't match&quot;);</span>
+        }
+
+<span class="fc" id="L137">        client.setDateOfBirth(clientDto.getClient().getDateOfBirth());</span>
+<span class="fc" id="L138">        client.setPassportNumber(clientDto.getClient().getPassportNumber());</span>
+<span class="fc" id="L139">        client.setMoneyBalance(clientDto.getClient().getMoneyBalance());</span>
+<span class="fc" id="L140">        client.setAddress(clientDto.getClient().getAddress());</span>
+
+
+<span class="fc" id="L143">        clientDao.save(client);</span>
+<span class="fc" id="L144">    }</span>
+
+    /**
+     * Described at {@link ClientService}
+     * @param id id of client which we want to get
+     * @return client which we have been looking for
+     */
+    @Override
+    public Client get(int id) {
+<span class="fc" id="L153">        return clientDao.get(id);</span>
+    }
+
+    /**
+     * Described at {@link ClientService}
+     * @param email email address of the client which we want to get
+     * @return client which we have been looking for
+     */
+    @Override
+    public Client getByEmail(String email) {
+<span class="fc" id="L163">        return clientDao.getByEmail(email);</span>
+    }
+
+    /**
+     * Described at {@link ClientService}
+     * @param clientDto client data transfer object
+     */
+    @Override
+    public void addMoney(ClientDto clientDto) {
+<span class="fc" id="L172">        double moneyAmount = clientDto.getClient().getMoneyBalance();</span>
+<span class="fc" id="L173">        moneyAmount += clientDto.getMoney();</span>
+<span class="fc" id="L174">        clientDto.getClient().setMoneyBalance(moneyAmount);</span>
+<span class="fc" id="L175">        update(clientDto);</span>
+<span class="fc" id="L176">    }</span>
+
+    /**
+     * Described at {@link ClientService}
+     * @param id client id
+     */
+    @Override
+    public void restoreUsersPasswords(int id) {
+<span class="nc" id="L184">        Client client = clientDao.get(id);</span>
+<span class="nc" id="L185">        String password = createInputPassword();</span>
+<span class="nc" id="L186">        String encodedPassword = new BCryptPasswordEncoder().encode(password);</span>
+<span class="nc" id="L187">        client.setPasswordLogIn(encodedPassword);</span>
+
+<span class="nc" id="L189">        clientDao.save(client);</span>
+<span class="nc" id="L190">        sendPasswordToNewUser(client.getEmailAddress(), password, client.getFirstName());</span>
+<span class="nc" id="L191">    }</span>
+
+    /**
+     * Described at {@link ClientService}
+     * @param recipientEmail email of registered user
+     * @param password password of new user
+     * @param name first name of the user
+     */
+    @Override
+    public void sendPasswordToNewUser(String recipientEmail, String password, String name) {
+<span class="fc" id="L201">        Properties prop = new Properties();</span>
+
+        try {
+<span class="fc" id="L204">            prop.load(ClientServiceImpl.class.getClassLoader().getResourceAsStream(&quot;mail.properties&quot;));</span>
+<span class="fc" id="L205">            Session session = Session.getInstance(prop, new Authenticator() {</span>
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+<span class="fc" id="L208">                    return new PasswordAuthentication(prop.getProperty(&quot;email&quot;), prop.getProperty(&quot;password&quot;));</span>
+                }
+            });
+<span class="fc" id="L211">            Message message = new MimeMessage(session);</span>
+<span class="fc" id="L212">            message.setFrom(new InternetAddress(prop.getProperty(&quot;email&quot;)));</span>
+<span class="fc" id="L213">            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));</span>
+<span class="fc" id="L214">            message.setSubject(&quot;Your account in e-care have been creating&quot;);</span>
+<span class="fc" id="L215">            String msg = &quot;Dear &quot; + name + &quot;, account for e-care project on this email were created.\rYour credentials:\n&quot; +</span>
+                    &quot;login: &quot; + recipientEmail + &quot;\rPassword: &quot; + password + &quot;\r&quot; +
+                    &quot;If you get this message, but you don't ask about it. Sorry you address &quot; +
+                    &quot;accidentally concur with input data in school project. Sorry again:)&quot;;
+<span class="fc" id="L219">            MimeBodyPart mimeBodyPart = new MimeBodyPart();</span>
+<span class="fc" id="L220">            mimeBodyPart.setContent(msg, &quot;text/html; charset=utf-8&quot;);</span>
+
+<span class="fc" id="L222">            Multipart multipart = new MimeMultipart();</span>
+<span class="fc" id="L223">            multipart.addBodyPart(mimeBodyPart);</span>
+<span class="fc" id="L224">            message.setContent(multipart);</span>
+<span class="fc" id="L225">            Transport.send(message);</span>
+<span class="nc" id="L226">        } catch (MessagingException | IOException e) {</span>
+<span class="nc" id="L227">            throw new ServiceLayerException(&quot;Can't add new user e-mail couldn't be send -&quot; + e.getMessage());</span>
+<span class="fc" id="L228">        }</span>
+
+<span class="fc" id="L230">    }</span>
+
+    /**
+     * Described at {@link ClientService}
+     * @return 6 length password
+     */
+    @Override
+    public String createInputPassword() {
+<span class="fc" id="L238">        StringBuilder password = new StringBuilder();</span>
+<span class="fc" id="L239">        Random random = new Random();</span>
+
+<span class="fc" id="L241">        String setOfCharacters = &quot;abcdefghxyz1234567-/@&quot;;</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">        for (int i = 0; i &lt; 6; i++) {</span>
+<span class="fc" id="L243">            int randomInt = random.nextInt(setOfCharacters.length());</span>
+<span class="fc" id="L244">            password.append(setOfCharacters.charAt(randomInt));</span>
+        }
+
+<span class="fc" id="L247">        return password.toString();</span>
+    }
+
+    /**
+     * Described at {@link ClientService}
+     * @param id id of client which should be deleted
+     */
+    @Override
+    public void delete(int id) {
+
+<span class="fc bfc" id="L257" title="All 2 branches covered.">        if (id == 1)</span>
+<span class="fc" id="L258">            throw new ServiceLayerException(&quot;You can't delete superadmin!&quot;);</span>
+
+<span class="fc" id="L260">        Client client = get(id);</span>
+
+<span class="fc bfc" id="L262" title="All 2 branches covered.">        if (client.getContractClient().size() &gt; 0) {</span>
+<span class="fc" id="L263">            throw new ServiceLayerException(&quot;Can't delete user with existing contract. Before &quot; +</span>
+                    &quot;deleting user end contract with him&quot;);
+        }
+<span class="fc" id="L266">        clientDao.delete(id);</span>
+<span class="fc" id="L267">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

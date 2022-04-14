@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContractServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.service.impl</a> &gt; <span class="el_source">ContractServiceImpl.java</span></div><h1>ContractServiceImpl.java</h1><pre class="source lang-java linenums">package com.school.service.impl;
+
+import com.school.customException.ServiceLayerException;
+import com.school.database.dao.contracts.ContractDao;
+import com.school.database.entity.*;
+import com.school.database.entity.Number;
+import com.school.dto.ContractDto;
+import com.school.service.contracts.*;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+
+@Service
+public class ContractServiceImpl implements ContractService {
+
+    private final ContractDao contractDao;
+    private final TariffService tariffService;
+    private final ClientService clientService;
+    private final OptionsService optionsService;
+    private final NumberService numberService;
+
+    ContractServiceImpl(ContractDao contractDao, TariffService tariffService, ClientService clientService,
+<span class="fc" id="L23">                        OptionsService optionsService, NumberService numberService) {</span>
+<span class="fc" id="L24">        this.contractDao = contractDao;</span>
+<span class="fc" id="L25">        this.tariffService = tariffService;</span>
+<span class="fc" id="L26">        this.clientService = clientService;</span>
+<span class="fc" id="L27">        this.optionsService = optionsService;</span>
+<span class="fc" id="L28">        this.numberService = numberService;</span>
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * Described at {@link ContractService}
+     * @return list of contracts in system
+     */
+    @Override
+    public List&lt;Contract&gt; getAll() {
+<span class="fc" id="L37">        return contractDao.getAll();</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param clientEmail email address of client who contracts we want to get
+     * @return list of all contracts of one client
+     */
+    @Override
+    public List&lt;Contract&gt; getAllContractsOfClient(String clientEmail) {
+<span class="fc" id="L47">        return contractDao.getAllContractsOfClient(clientEmail);</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     * @param numberOfPage number of page where contracts will be shown
+     * @return list of contracts for show on page
+     */
+    @Override
+    public List&lt;Contract&gt; getPageOfContracts(ContractDto contractDto, Integer numberOfPage) {
+<span class="fc" id="L58">        List&lt;Integer&gt; sizeParams = new ArrayList&lt;&gt;(Arrays.asList(5, 10, 15));</span>
+<span class="pc bpc" id="L59" title="3 of 4 branches missed.">        if ( (contractDto.getPageSize() == 0) || (!sizeParams.contains(contractDto.getPageSize())))</span>
+<span class="fc" id="L60">            contractDto.setPageSize(5);</span>
+<span class="fc" id="L61">        List&lt;String&gt; sortParams = new ArrayList&lt;&gt;(Arrays.asList(&quot;phoneNumber&quot;, &quot;priceForContractPerMonth&quot;,</span>
+                &quot;contractBlockStatus&quot;, &quot;roleOfUserWhoBlockedContract&quot;));
+<span class="pc bpc" id="L63" title="3 of 4 branches missed.">        if ( (contractDto.getSortColumn() == null) || (!sortParams.contains(contractDto.getSortColumn())))</span>
+<span class="fc" id="L64">            contractDto.setSortColumn(&quot;phoneNumber&quot;);</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if (numberOfPage == null)</span>
+<span class="nc" id="L66">            numberOfPage = 1;</span>
+<span class="fc" id="L67">        return contractDao.getPageOfContracts(contractDto.getPageSize(), contractDto.getSortColumn(),</span>
+<span class="fc" id="L68">                numberOfPage);</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     * @param numberOfPage number of page where contracts will be shown
+     * @param clientEmail email address of client which contract we are looking for
+     * @return list of contracts for show on page
+     */
+    @Override
+    public List&lt;Contract&gt; getPageOfClientContracts(ContractDto contractDto, Integer numberOfPage,
+                                                   String clientEmail) {
+<span class="nc" id="L81">        List&lt;Integer&gt; sizeParams = new ArrayList&lt;&gt;(Arrays.asList(5, 10, 15));</span>
+<span class="nc bnc" id="L82" title="All 4 branches missed.">        if ( (contractDto.getPageSize() == 0) || (!sizeParams.contains(contractDto.getPageSize())))</span>
+<span class="nc" id="L83">            contractDto.setPageSize(5);</span>
+<span class="nc" id="L84">        List&lt;String&gt; sortParams = new ArrayList&lt;&gt;(Arrays.asList(&quot;phoneNumber&quot;, &quot;priceForContractPerMonth&quot;,</span>
+                &quot;contractBlockStatus&quot;, &quot;roleOfUserWhoBlockedContract&quot;));
+<span class="nc bnc" id="L86" title="All 4 branches missed.">        if ( (contractDto.getSortColumn() == null) || (!sortParams.contains(contractDto.getSortColumn())))</span>
+<span class="nc" id="L87">            contractDto.setSortColumn(&quot;phoneNumber&quot;);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (numberOfPage == null)</span>
+<span class="nc" id="L89">            numberOfPage = 1;</span>
+<span class="nc" id="L90">        return contractDao.getPageOfClientContracts(contractDto.getPageSize(),</span>
+<span class="nc" id="L91">                contractDto.getSortColumn(), numberOfPage, clientEmail);</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+<span class="fc" id="L101">        return contractDao.getNumberOfPages(sizeOfPage);</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param sizeOfPage number of record on one page
+     * @param clientEmail email address of client which contract we are looking for
+     * @return number of pages
+     */
+    @Override
+    public int getNumberOfClientContractPages(int sizeOfPage, String clientEmail) {
+<span class="nc" id="L112">        return contractDao.getNumberOfClientContractPages(sizeOfPage, clientEmail);</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param chosenOptions list of options which need to be checked
+     * @return true if options could be connected to one contract, false otherwise
+     */
+    @Override
+    public boolean checkOptionsComboToRight(List&lt;Options&gt; chosenOptions) {
+<span class="fc" id="L122">        Map&lt;Integer, Integer&gt; optionTypeCount = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        for (Options tmp : chosenOptions) {</span>
+<span class="fc" id="L124">            Integer count = optionTypeCount.get(tmp.getOptionType().getId());</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            optionTypeCount.put(tmp.getOptionType().getId(), count == null ? 1 : count + 1);</span>
+
+<span class="fc" id="L127">        }</span>
+
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        for (Map.Entry&lt;Integer, Integer&gt; entry : optionTypeCount.entrySet()) {</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">            if (entry.getValue() &gt; 1 )</span>
+<span class="fc" id="L131">                return false;</span>
+<span class="fc" id="L132">        }</span>
+
+<span class="fc" id="L134">        return true;</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     */
+    @Override
+    public void save(ContractDto contractDto) {
+<span class="fc" id="L143">        Contract contract = contractDto.getContract();</span>
+
+<span class="fc" id="L145">        int tariffId = Integer.parseInt(contractDto.getStringsTariff()[0]);</span>
+<span class="fc" id="L146">        Tariff connectedTariff = tariffService.get(tariffId);</span>
+<span class="fc" id="L147">        contract.setContractTariff(connectedTariff);</span>
+
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (contractDto.getStringsClients() == null) {</span>
+<span class="fc" id="L150">            contract.setContractClient(clientService.get(contractDto.getId()));</span>
+        } else {
+<span class="fc" id="L152">            int clientId = Integer.parseInt(contractDto.getStringsClients()[0]);</span>
+<span class="fc" id="L153">            contract.setContractClient(clientService.get(clientId));</span>
+        }
+
+<span class="fc" id="L156">        contract.setPriceForContractPerMonth(connectedTariff.getPrice());</span>
+
+<span class="fc" id="L158">        Number number = numberService.getByPhoneNumber(contract.getPhoneNumber());</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        if (number.isAvailableToConnectStatus() != false) {</span>
+<span class="fc" id="L160">            number.setAvailableToConnectStatus(false);</span>
+<span class="fc" id="L161">            numberService.update(number);</span>
+        } else
+<span class="fc" id="L163">            throw new ServiceLayerException(&quot;This number already connected to different contract&quot;);</span>
+
+<span class="fc" id="L165">        contractDao.save(contract);</span>
+<span class="fc" id="L166">    }</span>
+
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     */
+    @Override
+    public void update(ContractDto contractDto) {
+<span class="fc" id="L174">        Contract contract = get(contractDto.getContract().getId());</span>
+
+<span class="fc" id="L176">        int tariffId = Integer.parseInt(contractDto.getStringsTariff()[0]);</span>
+
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">        if (tariffId != contract.getContractTariff().getId()) {</span>
+<span class="fc" id="L179">            contract.setContractTariff(tariffService.get(tariffId));</span>
+        }
+
+<span class="fc" id="L182">        List&lt;Options&gt; chosenOptions = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L184" title="All 2 branches covered.">        if (contractDto.getStringsOptions() != null) {</span>
+<span class="fc" id="L185">            chosenOptions = optionsService.getOptionsFromChosenList(contractDto.getChosenOptionsList());</span>
+        }
+
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        if (!checkOptionsComboToRight(chosenOptions)) {</span>
+<span class="fc" id="L189">            throw new ServiceLayerException(&quot;Chosen combination of options is forbidden. You must choose only one option from one category&quot;);</span>
+        }
+
+<span class="fc" id="L192">        contract.setConnectedOptions(chosenOptions);</span>
+<span class="fc" id="L193">        contract.setPriceForContractPerMonth(countPricePerMonth(contract));</span>
+
+<span class="fc" id="L195">        contractDao.save(contract);</span>
+<span class="fc" id="L196">    }</span>
+
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     */
+    @Override
+    public void lock(ContractDto contractDto) {
+
+<span class="fc" id="L205">        Contract contract = this.get(contractDto.getId());</span>
+<span class="fc" id="L206">        contract.setContractBlockStatus(true);</span>
+<span class="fc" id="L207">        contract.setRoleOfUserWhoBlockedContract(contractDto.getBlockedRole());</span>
+
+<span class="fc" id="L209">        contractDao.save(contract);</span>
+<span class="fc" id="L210">    }</span>
+
+    /**
+     * Described at {@link ContractService}
+     * @param contractDto contract data transfer object
+     */
+    @Override
+    public void unlock(ContractDto contractDto) {
+
+<span class="fc" id="L219">        Contract contract = this.get(contractDto.getId());</span>
+
+<span class="fc" id="L221">        contract.setContractBlockStatus(false);</span>
+<span class="fc" id="L222">        contract.setRoleOfUserWhoBlockedContract(null);</span>
+
+<span class="fc" id="L224">        contractDao.save(contract);</span>
+<span class="fc" id="L225">    }</span>
+
+    /**
+     * Described at {@link ContractService}
+     * @param contract contract for counting
+     * @return payment for month
+     */
+    @Override
+    public double countPricePerMonth(Contract contract) {
+<span class="fc" id="L234">        Client client = contract.getContractClient();</span>
+<span class="fc" id="L235">        List&lt;Options&gt; connectedOptions = get(contract.getId()).getConnectedOptions();</span>
+<span class="fc" id="L236">        double priceForMonth = contract.getContractTariff().getPrice();</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        for (Options tmp : contract.getConnectedOptions()) {</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">            if (!optionsAlreadyConnectedToContract(tmp.getId(), connectedOptions)) {</span>
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">                if (client.getMoneyBalance() &gt; 0) {</span>
+<span class="nc" id="L240">                    client.setMoneyBalance(client.getMoneyBalance() - tmp.getCostToAdd());</span>
+<span class="nc" id="L241">                    priceForMonth += tmp.getPrice();</span>
+                } else {
+<span class="fc" id="L243">                    throw new ServiceLayerException(&quot;You don't have money to connect option &quot; +</span>
+<span class="fc" id="L244">                            tmp.getOptionsName()+ &quot; &quot; + tmp.getOptionType().getOptionType() +</span>
+<span class="fc" id="L245">                            &quot;. Lack of funds is &quot; + (contract.getContractClient()</span>
+<span class="fc" id="L246">                            .getMoneyBalance() - tmp.getCostToAdd()) );</span>
+                }
+<span class="fc" id="L248">            } else priceForMonth += tmp.getPrice();</span>
+<span class="fc" id="L249">        }</span>
+<span class="fc" id="L250">        return priceForMonth;</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param id id of checked option
+     * @param connectedOptions list of previously connected option
+     * @return true if already been connected, false otherwise
+     */
+    @Override
+    public boolean optionsAlreadyConnectedToContract(int id, List&lt;Options&gt; connectedOptions) {
+<span class="fc bfc" id="L261" title="All 2 branches covered.">        for (Options tmp: connectedOptions) {</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">            if (tmp.getId() == id)</span>
+<span class="fc" id="L263">                return true;</span>
+<span class="fc" id="L264">        }</span>
+<span class="fc" id="L265">        return false;</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param id id of searched contract
+     * @return contract with id
+     */
+    @Override
+    public Contract get(int id) {
+<span class="fc" id="L275">        Contract contract = contractDao.get(id);</span>
+
+<span class="fc" id="L277">        return contract;</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param phoneNumber phone number which locked for contract
+     * @return contract with inputted phone number
+     */
+    @Override
+    public Contract getByPhoneNumber(String phoneNumber) {
+<span class="fc" id="L287">        return contractDao.getByPhoneNumber(phoneNumber);</span>
+    }
+
+    /**
+     * Described at {@link ContractService}
+     * @param id id of contract which should be deleted
+     */
+    @Override
+    public void delete(int id) {
+<span class="fc" id="L296">        Contract contract = get(id);</span>
+<span class="fc" id="L297">        Number number = numberService.getByPhoneNumber(contract.getPhoneNumber());</span>
+<span class="fc" id="L298">        number.setAvailableToConnectStatus(true);</span>
+<span class="fc" id="L299">        numberService.update(number);</span>
+<span class="fc" id="L300">        contractDao.delete(id);</span>
+<span class="fc" id="L301">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

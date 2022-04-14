@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TariffDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.dto</a> &gt; <span class="el_source">TariffDto.java</span></div><h1>TariffDto.java</h1><pre class="source lang-java linenums">package com.school.dto;
+
+import com.school.database.entity.Tariff;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Tariff data transfer object for pass data from view to backend
+ */
+<span class="fc" id="L14">@NoArgsConstructor</span>
+@Getter
+<span class="fc" id="L16">@Setter</span>
+public class TariffDto {
+
+<span class="fc" id="L19">    private Tariff tariff;</span>
+
+<span class="nc" id="L21">    private String[] stringsOptions;</span>
+
+<span class="fc" id="L23">    private int pageSize;</span>
+
+<span class="fc" id="L25">    private String sortColumn;</span>
+
+    public List&lt;Integer&gt; getChosenOptionsList() {
+<span class="fc" id="L28">        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        for (int i = 0; i &lt; this.stringsOptions.length; i++) {</span>
+<span class="fc" id="L31">            int optionId = Integer.parseInt(this.stringsOptions[i]);</span>
+<span class="fc" id="L32">            result.add(optionId);</span>
+        }
+
+<span class="fc" id="L35">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

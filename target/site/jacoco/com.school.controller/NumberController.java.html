@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NumberController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.controller</a> &gt; <span class="el_source">NumberController.java</span></div><h1>NumberController.java</h1><pre class="source lang-java linenums">package com.school.controller;
+
+import com.school.database.entity.Number;
+import com.school.dto.NumberDto;
+import com.school.service.contracts.NumberService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class NumberController {
+
+    private final NumberService numberServiceMVC;
+
+<span class="nc" id="L16">    NumberController(NumberService numberServiceMVC) {</span>
+<span class="nc" id="L17">        this.numberServiceMVC = numberServiceMVC;</span>
+<span class="nc" id="L18">    }</span>
+
+    /**
+     * This method prepare date for add new phone number
+     * @param model model
+     * @return view with add new phone number form
+     */
+    @RequestMapping(&quot;/control/addNewPhoneNumber&quot;)
+    public String addNewPhoneNumber(Model model) {
+
+<span class="nc" id="L28">        Number number = new Number();</span>
+<span class="nc" id="L29">        number.setAvailableToConnectStatus(true);</span>
+<span class="nc" id="L30">        model.addAttribute(&quot;allNumbers&quot;, numberServiceMVC.getAll());</span>
+<span class="nc" id="L31">        model.addAttribute(&quot;phoneNumber&quot;, number);</span>
+
+<span class="nc" id="L33">        return &quot;control/add-phonenumber-control-form&quot;;</span>
+    }
+
+    /**
+     * This method save new phone number
+     * @param phoneNumber phone number which needed to be saved
+     * @return view where all client stored, to add new client with new phone number
+     */
+    @RequestMapping(&quot;/control/savePhoneNumber&quot;)
+    public String savePhoneNumber(@ModelAttribute(&quot;phoneNumber&quot;) Number phoneNumber) {
+
+<span class="nc" id="L44">        NumberDto numberDto = new NumberDto();</span>
+<span class="nc" id="L45">        numberDto.setPhoneNumber(phoneNumber.getPhoneNumber());</span>
+
+<span class="nc" id="L47">        numberServiceMVC.save(phoneNumber);</span>
+
+<span class="nc" id="L49">        return &quot;redirect:/control/allClients&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -29,7 +29,7 @@ public class RabbitConfiguration {
 
     @Bean
     public Queue myQueue1() {
-        return new Queue("queue1", true);
+        return new Queue("queue2", false);
     }
 
 }

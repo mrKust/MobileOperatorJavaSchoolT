@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OptionsServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.service.impl</a> &gt; <span class="el_source">OptionsServiceImpl.java</span></div><h1>OptionsServiceImpl.java</h1><pre class="source lang-java linenums">package com.school.service.impl;
+
+import com.school.customException.ServiceLayerException;
+import com.school.database.dao.contracts.OptionsDao;
+import com.school.database.entity.OptionType;
+import com.school.database.entity.Options;
+import com.school.dto.OptionsDto;
+import com.school.service.contracts.OptionTypeService;
+import com.school.service.contracts.OptionsService;
+import org.springframework.stereotype.Service;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
+@Service
+public class OptionsServiceImpl implements OptionsService {
+
+    private final OptionsDao optionsDao;
+    private final OptionTypeService optionTypeService;
+    private final DecimalFormatSymbols priceFormat;
+    private final DecimalFormat decimalFormat;
+<span class="fc" id="L26">    String PRICE_PATTERN = &quot;##0.00&quot;;</span>
+
+<span class="fc" id="L28">    OptionsServiceImpl(OptionsDao optionsDao, OptionTypeService optionTypeService) {</span>
+<span class="fc" id="L29">        this.optionsDao = optionsDao;</span>
+<span class="fc" id="L30">        this.optionTypeService = optionTypeService;</span>
+<span class="fc" id="L31">        this.priceFormat = new DecimalFormatSymbols(Locale.US);</span>
+<span class="fc" id="L32">        this.decimalFormat = new DecimalFormat(PRICE_PATTERN, priceFormat);</span>
+<span class="fc" id="L33">    }</span>
+
+    /**
+     * Described at {@link OptionsService}
+     * @return list of all options in system
+     */
+    @Override
+    public List&lt;Options&gt; getAll() {
+<span class="fc" id="L41">        return optionsDao.getAll();</span>
+    }
+
+    /**
+     * Described at {@link OptionsService}
+     * @return list of available to connect options
+     */
+    @Override
+    public List&lt;Options&gt; getAllAvailable() {
+<span class="fc" id="L50">        return optionsDao.getAllAvailable();</span>
+    }
+
+    /**
+     * Described at {@link OptionsService}
+     * @param list list with ids of options which we want to get
+     * @return list of options
+     */
+    @Override
+    public List&lt;Options&gt; getOptionsFromChosenList(List&lt;Integer&gt; list) {
+<span class="fc" id="L60">        return optionsDao.getOptionsFromChosenList(list);</span>
+    }
+
+    /**
+     * Described at {@link OptionsService}
+     * @param optionsDto option data transfer object
+     * @param numberOfPage number of page where options will be shown
+     * @return list of options for show on page
+     */
+    @Override
+    public List&lt;Options&gt; getPageOfOptions(OptionsDto optionsDto, Integer numberOfPage) {
+<span class="fc" id="L71">        List&lt;Integer&gt; sizeParams = new ArrayList&lt;&gt;(Arrays.asList(5, 10, 15));</span>
+<span class="pc bpc" id="L72" title="3 of 4 branches missed.">        if ( (optionsDto.getPageSize() == 0) || (!sizeParams.contains(optionsDto.getPageSize())) )</span>
+<span class="fc" id="L73">            optionsDto.setPageSize(5);</span>
+<span class="fc" id="L74">        List&lt;String&gt; sortParams = new ArrayList&lt;&gt;(Arrays.asList(&quot;optionsName&quot;, &quot;optionType&quot;,</span>
+                &quot;price&quot;, &quot;costToAdd&quot;, &quot;availableOptionToConnectOrNot&quot;));
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        if ( (optionsDto.getSortColumn() == null) ||</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                (!sortParams.contains(optionsDto.getSortColumn())))</span>
+<span class="fc" id="L78">            optionsDto.setSortColumn(&quot;optionsName&quot;);</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if (numberOfPage == null)</span>
+<span class="nc" id="L80">            numberOfPage = 1;</span>
+<span class="fc" id="L81">        return optionsDao.getPageOfOptions(optionsDto.getPageSize(), optionsDto.getSortColumn(),</span>
+<span class="fc" id="L82">                numberOfPage);</span>
+    }
+
+    /**
+     * Described at {@link OptionsService}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+<span class="fc" id="L92">        return optionsDao.getNumberOfPages(sizeOfPage);</span>
+    }
+
+    /**
+     * Described at {@link OptionsService}
+     * @param optionsDto option data transfer object
+     */
+    @Override
+    public void save(OptionsDto optionsDto) {
+<span class="fc" id="L101">        Options option = optionsDto.getOptions();</span>
+<span class="fc" id="L102">        option.setPrice(Double.parseDouble(decimalFormat.format(option.getPrice())));</span>
+<span class="fc" id="L103">        option.setCostToAdd(Double.parseDouble(decimalFormat.format(option.getCostToAdd())));</span>
+<span class="fc" id="L104">        String[] chosenOptionType = optionsDto.getStringOptionCategory();</span>
+<span class="fc" id="L105">        OptionType optionType = optionTypeService.get(Integer.parseInt(chosenOptionType[0]));</span>
+<span class="fc" id="L106">        option.setOptionType(optionType);</span>
+<span class="fc" id="L107">        optionsDao.save(option);</span>
+<span class="fc" id="L108">    }</span>
+
+    /**
+     * Described at {@link OptionsService}
+     * @param optionsDto option data transfer object
+     */
+    @Override
+    public void update(OptionsDto optionsDto) {
+<span class="fc" id="L116">        Options option = get(optionsDto.getOptions().getId());</span>
+<span class="fc" id="L117">        option.setOptionsName(optionsDto.getOptions().getOptionsName());</span>
+<span class="fc" id="L118">        option.setPrice(optionsDto.getOptions().getPrice());</span>
+<span class="fc" id="L119">        option.setCostToAdd(optionsDto.getOptions().getCostToAdd());</span>
+<span class="fc" id="L120">        option.setAvailableOptionToConnectOrNot(optionsDto.getOptions().isAvailableOptionToConnectOrNot());</span>
+
+<span class="fc" id="L122">        optionsDao.save(option);</span>
+<span class="fc" id="L123">    }</span>
+
+    /**
+     * Described at {@link OptionsService}
+     * @param id id of option which need to be returned
+     * @return option with this id
+     */
+    @Override
+    public Options get(int id) {
+<span class="fc" id="L132">        return optionsDao.get(id);</span>
+    }
+
+    /**
+     * Described at {@link OptionsService}
+     * @param id option's id which need to be deleted
+     */
+    @Override
+    public void delete(int id) {
+<span class="fc" id="L141">        Options options = get(id);</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (options.getConnectedToContracts().size() &gt; 0) {</span>
+<span class="fc" id="L143">            throw new ServiceLayerException(&quot;Couldn't delete option &quot; + options.getOptionsName() +</span>
+                    &quot;\nOption couldn't be deleted if it connected to although one contract&quot;);
+        }
+<span class="fc" id="L146">        optionsDao.delete(id);</span>
+<span class="fc" id="L147">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

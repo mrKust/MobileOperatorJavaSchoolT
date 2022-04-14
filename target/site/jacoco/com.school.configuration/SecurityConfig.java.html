@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.configuration</a> &gt; <span class="el_source">SecurityConfig.java</span></div><h1>SecurityConfig.java</h1><pre class="source lang-java linenums">package com.school.configuration;
+
+import com.school.advice.securityAdvice;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+/**
+ * SecurityConfig class is the extension of spring's security
+ * WebSecurityConfigAdapter. There we configure our request params
+ */
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    /**
+     * Service which represents the implementation of spring's UserDetailsService.
+     * It provides ud API for loading userDetails by email. After that security module
+     * decides should it authorise user with those credentials or not
+     */
+    private final UserDetailsService userDetailsService;
+
+<span class="nc" id="L28">    public SecurityConfig(UserDetailsService userDetailsService) {</span>
+<span class="nc" id="L29">        this.userDetailsService = userDetailsService;</span>
+<span class="nc" id="L30">    }</span>
+
+    /**
+     * Method creating PasswordEncoder bean
+     * @return BCryptPasswordEncoder
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+<span class="nc" id="L38">        return new BCryptPasswordEncoder();</span>
+    }
+
+    /**
+     * Method creating AccessDeniedHandler method
+     * @return Advice which creates access denied exception handler
+     */
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+<span class="nc" id="L47">        return new securityAdvice();</span>
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+<span class="nc" id="L52">        auth.userDetailsService(userDetailsService);</span>
+<span class="nc" id="L53">    }</span>
+
+    /**
+     * This method describes parameters to access different pages and sets exceptions handler
+     * @param http provide us API for configure http requests
+     * @throws Exception in cases when something go wrong
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+<span class="nc" id="L62">        http.authorizeRequests()</span>
+<span class="nc" id="L63">                .antMatchers(&quot;/common/**&quot;).hasAnyRole(&quot;client&quot;, &quot;control&quot;)</span>
+<span class="nc" id="L64">                .antMatchers(&quot;/client/**&quot;).hasRole(&quot;client&quot;)</span>
+<span class="nc" id="L65">                .antMatchers(&quot;/control/**&quot;).hasRole(&quot;control&quot;)</span>
+<span class="nc" id="L66">                .antMatchers(&quot;/anonymous/**&quot;).permitAll()</span>
+<span class="nc" id="L67">                .antMatchers(&quot;/api/**&quot;).permitAll()</span>
+<span class="nc" id="L68">                .antMatchers(&quot;/errorPage&quot;).permitAll()</span>
+<span class="nc" id="L69">                .antMatchers(&quot;/&quot;).permitAll()</span>
+<span class="nc" id="L70">                .and().formLogin()</span>
+<span class="nc" id="L71">                .and()</span>
+<span class="nc" id="L72">                .exceptionHandling().accessDeniedHandler(accessDeniedHandler());</span>
+<span class="nc" id="L73">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

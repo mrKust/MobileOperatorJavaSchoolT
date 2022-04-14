@@ -112,7 +112,7 @@ public class TariffServiceImpl  implements TariffService {
      */
     @Override
     public void notificationAboutTariffUpdate() {
-        amqpTemplate.convertAndSend("queue1","Update info");
+        amqpTemplate.convertAndSend("queue2","Update info");
     }
 
     /**

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OptionsController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.controller</a> &gt; <span class="el_source">OptionsController.java</span></div><h1>OptionsController.java</h1><pre class="source lang-java linenums">package com.school.controller;
+
+import com.school.database.entity.Options;
+import com.school.dto.OptionsDto;
+import com.school.service.contracts.OptionTypeService;
+import com.school.service.contracts.OptionsService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * This controller show all views which are connected with options
+ */
+@Controller
+public class OptionsController {
+
+    private final OptionsService optionsServiceMVC;
+    private final OptionTypeService optionTypeServiceMVC;
+
+<span class="nc" id="L26">    OptionsController(OptionsService optionsServiceMVC, OptionTypeService optionTypeServiceMVC) {</span>
+<span class="nc" id="L27">        this.optionsServiceMVC = optionsServiceMVC;</span>
+<span class="nc" id="L28">        this.optionTypeServiceMVC = optionTypeServiceMVC;</span>
+<span class="nc" id="L29">    }</span>
+
+    /**
+     * This method show page of options
+     * @param optionsDto options data transfer object with necessary data
+     * @param pageNumber number of page of options
+     * @param model model
+     * @return view with page of options
+     */
+    @RequestMapping(value = &quot;/common/allOptions&quot;)
+    public String showAllOptions(@ModelAttribute(&quot;model&quot;) OptionsDto optionsDto,
+                                 @RequestParam(value = &quot;pageNumber&quot;, required = false) Integer pageNumber,
+                                 Model model) {
+
+<span class="nc" id="L43">        model.addAttribute(&quot;model&quot;, optionsDto);</span>
+<span class="nc" id="L44">        model.addAttribute(&quot;allOptions&quot;, optionsServiceMVC.getPageOfOptions(optionsDto, pageNumber));</span>
+<span class="nc" id="L45">        model.addAttribute(&quot;pageNumber&quot;, pageNumber);</span>
+<span class="nc" id="L46">        model.addAttribute(&quot;numberOfPages&quot;, optionsServiceMVC.getNumberOfPages(optionsDto.getPageSize()));</span>
+
+<span class="nc" id="L48">        return &quot;common/all-options&quot;;</span>
+    }
+
+    /**
+     * This method show all available options for unregistered users
+     * @param model model
+     * @return view with all options which could be connected
+     */
+    @RequestMapping(&quot;/anonymous/allAvailableOptions&quot;)
+    public String showAllAvailableOptions(Model model) {
+
+<span class="nc" id="L59">        model.addAttribute(&quot;allOptions&quot;, optionsServiceMVC.getAllAvailable());</span>
+
+<span class="nc" id="L61">        return &quot;common/all-options&quot;;</span>
+    }
+
+    /**
+     * This method prepare data which is needed to add new option
+     * @param model model
+     * @return view with form to add new option
+     */
+    @RequestMapping(&quot;/control/addNewOption&quot;)
+    public String addNewOption(Model model) {
+
+<span class="nc" id="L72">        OptionsDto optionsDto = new OptionsDto();</span>
+<span class="nc" id="L73">        optionsDto.setOptions(new Options());</span>
+<span class="nc" id="L74">        model.addAttribute(&quot;optionsCategory&quot;, optionTypeServiceMVC.getAll());</span>
+<span class="nc" id="L75">        model.addAttribute(&quot;model&quot;, optionsDto);</span>
+
+<span class="nc" id="L77">        return &quot;control/add-option-info-control-form&quot;;</span>
+    }
+
+    /**
+     * This method saves new option
+     * @param optionsDto options data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view where save method was called with message about save process
+     */
+    @RequestMapping(value = &quot;/control/saveOption&quot;)
+    public RedirectView saveOption(@ModelAttribute(&quot;model&quot;) OptionsDto optionsDto,
+                                   HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L91">        optionsServiceMVC.save(optionsDto);</span>
+<span class="nc" id="L92">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L93">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Option save successfully&quot;);</span>
+
+<span class="nc" id="L95">        return redirectView;</span>
+    }
+
+    /**
+     * This method updates existed option
+     * @param optionsDto options data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view where update method was called with message about save process
+     */
+    @RequestMapping(value = &quot;/control/patchOption&quot;)
+    public RedirectView patchOption(@ModelAttribute(&quot;model&quot;) OptionsDto optionsDto,
+                                   HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L109">        optionsServiceMVC.update(optionsDto);</span>
+<span class="nc" id="L110">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L111">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Option update successfully&quot;);</span>
+
+<span class="nc" id="L113">        return redirectView;</span>
+    }
+
+    /**
+     * This method prepare data to update form when update method called by &quot;control&quot; user
+     * @param id id of option
+     * @param model model
+     * @return view with data form for update option's data
+     */
+    @RequestMapping(value = &quot;/control/updateOption&quot;)
+    public String controlUpdateOption(@RequestParam(&quot;optionId&quot;) int id, Model model) {
+
+<span class="nc" id="L125">        OptionsDto optionsDto = new OptionsDto();</span>
+<span class="nc" id="L126">        optionsDto.setOptions(optionsServiceMVC.get(id));</span>
+<span class="nc" id="L127">        model.addAttribute(&quot;model&quot;, optionsDto);</span>
+
+<span class="nc" id="L129">        return &quot;control/update-option-info-control-form&quot;;</span>
+    }
+
+    /**
+     * This method delete option
+     * @param id id of option
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view where delete method was called with message about delete process
+     */
+    @RequestMapping(value = &quot;/control/deleteOption&quot;)
+    public RedirectView deleteOption(@RequestParam(&quot;optionId&quot;) int id,
+                                     HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L143">        optionsServiceMVC.delete(id);</span>
+<span class="nc" id="L144">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L145">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Option deleted successfully&quot;);</span>
+
+<span class="nc" id="L147">        return redirectView;</span>
+    }
+
+    /**
+     * This method prepare data to update form when update method called by &quot;client&quot; user
+     * @param id id of option
+     * @param model model
+     * @return view with form to update option data
+     */
+    @RequestMapping(&quot;/client/updateOption&quot;)
+    public String clientUpdateOption(@RequestParam(&quot;optionId&quot;) int id, Model model) {
+
+<span class="nc" id="L159">        OptionsDto optionsDto = new OptionsDto();</span>
+<span class="nc" id="L160">        optionsDto.setOptions(optionsServiceMVC.get(id));</span>
+<span class="nc" id="L161">        model.addAttribute(&quot;model&quot;, optionsDto);</span>
+
+<span class="nc" id="L163">        return &quot;client/option-info-client-form&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

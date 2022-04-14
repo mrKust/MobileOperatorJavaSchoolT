@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.controller</a> &gt; <span class="el_source">ClientController.java</span></div><h1>ClientController.java</h1><pre class="source lang-java linenums">package com.school.controller;
+
+import com.school.database.entity.Client;
+import com.school.dto.ClientDto;
+import com.school.service.contracts.ClientService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+
+/**
+ * This controller works with methods which represent client information and activities
+ */
+@Controller
+public class ClientController {
+
+    private final ClientService clientServiceMVC;
+
+<span class="nc" id="L25">    ClientController(ClientService clientServiceMVC) {</span>
+<span class="nc" id="L26">        this.clientServiceMVC = clientServiceMVC;</span>
+<span class="nc" id="L27">    }</span>
+
+    /**
+     * This method shows all clients registered in system
+     * @param clientDto client data transfer object with necessary data
+     * @param pageNumber number of page
+     * @param model model
+     * @return view with clients table
+     */
+    @RequestMapping(&quot;/control/allClients&quot;)
+    public String showAllClients(@ModelAttribute(&quot;model&quot;) ClientDto clientDto,
+                                 @RequestParam(value = &quot;pageNumber&quot;, required = false) Integer pageNumber,
+                                 Model model) {
+
+<span class="nc" id="L41">        model.addAttribute(&quot;model&quot;, clientDto);</span>
+<span class="nc" id="L42">        model.addAttribute(&quot;allClients&quot;, clientServiceMVC.getPageOfClients(clientDto, pageNumber));</span>
+<span class="nc" id="L43">        model.addAttribute(&quot;pageNumber&quot;, pageNumber);</span>
+<span class="nc" id="L44">        model.addAttribute(&quot;numberOfPages&quot;, clientServiceMVC.getNumberOfPages(clientDto.getPageSize()));</span>
+
+<span class="nc" id="L46">        return &quot;control/all-clients&quot;;</span>
+    }
+
+    /**
+     * This method creates necessary data before register new user in system
+     * @param model model
+     * @return view with registration form
+     */
+    @RequestMapping(&quot;/control/addNewClient&quot;)
+    public String addNewClient(Model model) {
+
+<span class="nc" id="L57">        ClientDto tmp = new ClientDto();</span>
+<span class="nc" id="L58">        tmp.setClient(new Client());</span>
+<span class="nc" id="L59">        model.addAttribute(&quot;model&quot;, tmp);</span>
+<span class="nc" id="L60">        return &quot;control/add-client-info-control-form&quot;;</span>
+    }
+
+    /**
+     * This method saves new client in system
+     * @param clientDto client data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected message
+     * @return view after save
+     */
+    @RequestMapping(&quot;/common/saveClient&quot;)
+    public RedirectView saveClient(@ModelAttribute(&quot;model&quot;) ClientDto clientDto,
+                                   HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L74">        clientServiceMVC.save(clientDto);</span>
+<span class="nc" id="L75">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L76">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Client added successfully&quot;);</span>
+
+<span class="nc" id="L78">        return redirectView;</span>
+    }
+
+    /**
+     * This method updates clients information
+     * @param clientDto client data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected message
+     * @return view after save
+     */
+    @RequestMapping(&quot;/common/patchClient&quot;)
+    public RedirectView patchClient(@ModelAttribute(&quot;model&quot;) ClientDto clientDto,
+                                   HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L92">        clientServiceMVC.update(clientDto);</span>
+<span class="nc" id="L93">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L94">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Client updated successfully&quot;);</span>
+
+<span class="nc" id="L96">        return redirectView;</span>
+    }
+
+    /**
+     * This method prepare necessary information for update client's form when it called from &quot;control&quot; user
+     * @param id client's id
+     * @param model model
+     * @return view with form for update client's info
+     */
+    @RequestMapping(&quot;/control/updateClient&quot;)
+    public String controlUpdateClient(@RequestParam(&quot;clientId&quot;) int id, Model model) {
+
+<span class="nc" id="L108">        ClientDto clientDto = new ClientDto();</span>
+<span class="nc" id="L109">        clientDto.setClient(clientServiceMVC.get(id));</span>
+<span class="nc" id="L110">        model.addAttribute(&quot;model&quot;, clientDto);</span>
+<span class="nc" id="L111">        model.addAttribute(&quot;clientContracts&quot;, clientDto.getClient().getContractClient());</span>
+
+<span class="nc" id="L113">        return &quot;control/update-client-info-control-form&quot;;</span>
+    }
+
+    /**
+     * This methods delete client from system
+     * @param id id of client
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message
+     */
+    @RequestMapping(&quot;/control/deleteClient&quot;)
+    public RedirectView deleteClient(@RequestParam(&quot;clientId&quot;) int id,
+                                     HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L127">        clientServiceMVC.delete(id);</span>
+<span class="nc" id="L128">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L129">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Client deleted successfully&quot;);</span>
+
+<span class="nc" id="L131">        return redirectView;</span>
+    }
+
+    /**
+     * This method prepare necessary information for update client's form when it called from &quot;client&quot; user
+     * @param principal user data
+     * @param model model
+     * @return view with form to update client's info
+     */
+    @RequestMapping(&quot;/client/updateClient&quot;)
+    public String clientUpdateClient(Principal principal, Model model) {
+
+<span class="nc" id="L143">        ClientDto clientDto = new ClientDto();</span>
+<span class="nc" id="L144">        clientDto.setClient(clientServiceMVC.getByEmail(principal.getName()));</span>
+<span class="nc" id="L145">        model.addAttribute(&quot;model&quot;, clientDto);</span>
+<span class="nc" id="L146">        model.addAttribute(&quot;clientContracts&quot;, clientDto.getClient().getContractClient());</span>
+
+<span class="nc" id="L148">        return &quot;client/update-client-info-client-form&quot;;</span>
+
+    }
+
+    /**
+     * This method prepares data to client's change password event
+     * @param clientId id of client
+     * @param model model
+     * @return view with form to switch password
+     */
+    @RequestMapping(&quot;/client/changePasswordClient&quot;)
+    public String changePassword(@RequestParam(&quot;clientId&quot;) int clientId, Model model) {
+
+<span class="nc" id="L161">        ClientDto clientDto = new ClientDto();</span>
+<span class="nc" id="L162">        clientDto.setClient(clientServiceMVC.get(clientId));</span>
+<span class="nc" id="L163">        model.addAttribute(&quot;model&quot;, clientDto);</span>
+
+<span class="nc" id="L165">        return &quot;client/change-password-client&quot;;</span>
+
+    }
+
+    /**
+     * This method send new password to user
+     * @param clientId id of client
+     * @param model model
+     * @return previous view with message about operation result
+     */
+    @RequestMapping(&quot;/control/restorePasswordClient&quot;)
+    public RedirectView restorePassword(@RequestParam(&quot;clientId&quot;) int clientId, Model model,
+                                  HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L179">        clientServiceMVC.restoreUsersPasswords(clientId);</span>
+<span class="nc" id="L180">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L181">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Password restored successfully&quot;);</span>
+
+<span class="nc" id="L183">        return redirectView;</span>
+
+    }
+
+    /**
+     * This method prepares info to client's add money to balance event
+     * @param clientId id of client
+     * @param model model
+     * @return view with form to add money on client's balance
+     */
+    @RequestMapping(&quot;/client/addMoneyToAccaunt&quot;)
+    public String addMoney(@RequestParam(&quot;clientId&quot;) int clientId, Model model) {
+
+<span class="nc" id="L196">        ClientDto clientDto = new ClientDto();</span>
+<span class="nc" id="L197">        clientDto.setClient(clientServiceMVC.get(clientId));</span>
+
+<span class="nc" id="L199">        model.addAttribute(&quot;model&quot;, clientDto);</span>
+
+<span class="nc" id="L201">        return &quot;client/add-money-to-account-client-form&quot;;</span>
+    }
+
+    /**
+     * This method sends money data to process for it correct
+     * @param clientDto client data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message about money process
+     */
+    @RequestMapping(&quot;/client/moneyProcess&quot;)
+    public RedirectView addMoneyCheck(@ModelAttribute(&quot;model&quot;) ClientDto clientDto,
+                                      HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L215">        clientServiceMVC.addMoney(clientDto);</span>
+<span class="nc" id="L216">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L217">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Money added successfully&quot;);</span>
+
+<span class="nc" id="L219">        return redirectView;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

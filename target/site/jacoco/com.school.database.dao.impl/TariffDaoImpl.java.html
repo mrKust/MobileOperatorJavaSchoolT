@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TariffDaoImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.database.dao.impl</a> &gt; <span class="el_source">TariffDaoImpl.java</span></div><h1>TariffDaoImpl.java</h1><pre class="source lang-java linenums">package com.school.database.dao.impl;
+
+import com.school.database.dao.contracts.TariffDao;
+import com.school.database.entity.Tariff;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
+import java.util.List;
+
+@Repository
+public class TariffDaoImpl implements TariffDao {
+
+    private final SessionFactory sessionFactory;
+
+<span class="nc" id="L17">    TariffDaoImpl(SessionFactory sessionFactory) {</span>
+<span class="nc" id="L18">        this.sessionFactory = sessionFactory;</span>
+<span class="nc" id="L19">    }</span>
+
+    /**
+     * Described at {@link TariffDao}
+     * @param id id of tariff which we are looking for
+     * @return tariff with required id
+     */
+    @Override
+    public Tariff get(int id) {
+
+<span class="nc" id="L29">        Session session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L30">        return session.get(Tariff.class, id);</span>
+
+    }
+
+    /**
+     * Described at {@link TariffDao}
+     * @param name name of tariff which we are looking for
+     * @return tariff with required name
+     */
+    @Override
+    public Tariff getByName(String name) {
+<span class="nc" id="L41">        Session session = sessionFactory.getCurrentSession();</span>
+
+<span class="nc" id="L43">        Query query = session.createQuery(&quot;from Tariff where tariffName=:name&quot;);</span>
+<span class="nc" id="L44">        query.setParameter(&quot;name&quot;, name);</span>
+
+<span class="nc" id="L46">        return  (Tariff) query.getSingleResult();</span>
+
+    }
+
+    /**
+     * Described at {@link TariffDao}
+     * @return list of tariffs
+     */
+    @Override
+    public List&lt;Tariff&gt; getAll() {
+
+<span class="nc" id="L57">        Session session = sessionFactory.getCurrentSession();</span>
+
+<span class="nc" id="L59">        Query query = session.createQuery(&quot;SELECT e FROM Tariff e&quot;);</span>
+<span class="nc" id="L60">        return query.getResultList();</span>
+
+    }
+
+    /**
+     * Described at {@link TariffDao}
+     * @return list of available to connect tariffs
+     */
+    @Override
+    public List&lt;Tariff&gt; getAllAvailable() {
+<span class="nc" id="L70">        Session session = sessionFactory.getCurrentSession();</span>
+
+<span class="nc" id="L72">        Query query = session.createQuery(&quot;from Tariff where availableToConnectOrNotStatus=:status&quot;);</span>
+<span class="nc" id="L73">        query.setParameter(&quot;status&quot;, true);</span>
+
+<span class="nc" id="L75">        return query.getResultList();</span>
+    }
+
+    /**
+     * Described at {@link TariffDao}
+     * @param pageSize number of records on one page
+     * @param sortColumn filed which will be used as field to compare tariffs
+     * @param pageNumber number of page where tariffs will be shown
+     * @return list of tariffs for show on page
+     */
+    @Override
+    public List&lt;Tariff&gt; getPageOfTariffs(int pageSize, String sortColumn, int pageNumber) {
+<span class="nc" id="L87">        Session session = sessionFactory.getCurrentSession();</span>
+
+<span class="nc" id="L89">        Query query = session.createQuery(&quot;from Tariff tariff order by tariff.&quot; + sortColumn + &quot; desc&quot;);</span>
+
+<span class="nc" id="L91">        query.setFirstResult(pageSize * (pageNumber - 1));</span>
+<span class="nc" id="L92">        query.setMaxResults(pageSize);</span>
+
+<span class="nc" id="L94">        return query.getResultList();</span>
+    }
+
+    /**
+     * Described at {@link TariffDao}
+     * @param sizeOfPage number of record on one page
+     * @return number of pages
+     */
+    @Override
+    public int getNumberOfPages(int sizeOfPage) {
+<span class="nc" id="L104">        Session session = sessionFactory.getCurrentSession();</span>
+
+<span class="nc" id="L106">        Query query = session.createQuery(&quot;select count(*) from Tariff &quot;);</span>
+
+<span class="nc" id="L108">        Integer numberOfRecords = Integer.parseInt(query.getSingleResult().toString());</span>
+
+<span class="nc" id="L110">        return (int) Math.ceil((double) numberOfRecords / sizeOfPage);</span>
+    }
+
+    /**
+     * Described at {@link TariffDao}
+     * @param tariff tariff which need to be saved or updated
+     */
+    @Override
+    public void save(Tariff tariff) {
+
+<span class="nc" id="L120">        Session session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L121">        session.saveOrUpdate(tariff);</span>
+
+<span class="nc" id="L123">    }</span>
+
+    /**
+     * Described at {@link TariffDao}
+     * @param id id of tariff which should be deleted
+     */
+    @Override
+    public void delete(int id) {
+
+<span class="nc" id="L132">        Session session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L133">        Query query = session.createQuery(&quot;delete from Tariff &quot; +</span>
+                &quot;where id =:tariffId&quot;);
+<span class="nc" id="L135">        query.setParameter(&quot;tariffId&quot;, id);</span>
+<span class="nc" id="L136">        query.executeUpdate();</span>
+
+<span class="nc" id="L138">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

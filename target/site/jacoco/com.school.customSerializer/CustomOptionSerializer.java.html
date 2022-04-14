@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomOptionSerializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.customSerializer</a> &gt; <span class="el_source">CustomOptionSerializer.java</span></div><h1>CustomOptionSerializer.java</h1><pre class="source lang-java linenums">package com.school.customSerializer;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.school.database.entity.Options;
+
+import java.io.IOException;
+
+/**
+ * This class serialize Options entity to json format
+ */
+public class CustomOptionSerializer extends StdSerializer&lt;Options&gt; {
+
+    public CustomOptionSerializer() {
+<span class="nc" id="L16">        this(null);</span>
+<span class="nc" id="L17">    }</span>
+    public CustomOptionSerializer(Class&lt;Options&gt; t) {
+<span class="nc" id="L19">        super(t);</span>
+<span class="nc" id="L20">    }</span>
+
+    /**
+     * Method convert option entity to json string
+     * @param options entity which will be converted
+     * @param jsonGenerator convert string, numbers and object in json format
+     * @param serializerProvider provider
+     * @throws IOException If generator couldn't write something
+     */
+    @Override
+    public void serialize(Options options, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+<span class="nc" id="L31">        jsonGenerator.writeStartObject();</span>
+<span class="nc" id="L32">        jsonGenerator.writeStringField(&quot;options_name&quot;, options.getOptionsName());</span>
+<span class="nc" id="L33">        jsonGenerator.writeStringField(&quot;options_category&quot;, options.getOptionType().getOptionType());</span>
+<span class="nc" id="L34">        jsonGenerator.writeNumberField(&quot;options_price&quot;, options.getPrice());</span>
+<span class="nc" id="L35">        jsonGenerator.writeNumberField(&quot;options_costToAdd&quot;, options.getCostToAdd());</span>
+<span class="nc" id="L36">        jsonGenerator.writeEndObject();</span>
+<span class="nc" id="L37">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.school.services.tests.ClientServiceMockTests
 -------------------------------------------------------------------------------
-Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.104 s - in com.school.services.tests.ClientServiceMockTests
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.349 s - in com.school.services.tests.ClientServiceMockTests

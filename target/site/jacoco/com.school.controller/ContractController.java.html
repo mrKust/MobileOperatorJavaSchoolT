@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContractController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.controller</a> &gt; <span class="el_source">ContractController.java</span></div><h1>ContractController.java</h1><pre class="source lang-java linenums">package com.school.controller;
+
+import com.school.database.entity.Contract;
+import com.school.dto.ContractDto;
+import com.school.service.contracts.ClientService;
+import com.school.service.contracts.ContractService;
+import com.school.service.contracts.NumberService;
+import com.school.service.contracts.TariffService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+
+/**
+ * This controller redirect to different view which need to work with contracts
+ */
+@Controller
+public class ContractController {
+
+    private final ContractService contractServiceMVC;
+    private final TariffService tariffServiceMVC;
+    private final ClientService clientServiceMVC;
+    private final NumberService numberServiceMVC;
+
+    ContractController(ContractService contractServiceMVC, ClientService clientServiceMVC,
+<span class="nc" id="L30">                       TariffService tariffServiceMVC, NumberService numberServiceMVC) {</span>
+<span class="nc" id="L31">        this.contractServiceMVC = contractServiceMVC;</span>
+<span class="nc" id="L32">        this.tariffServiceMVC = tariffServiceMVC;</span>
+<span class="nc" id="L33">        this.clientServiceMVC = clientServiceMVC;</span>
+<span class="nc" id="L34">        this.numberServiceMVC = numberServiceMVC;</span>
+<span class="nc" id="L35">    }</span>
+
+    /**
+     * This method show all contracts which contains in system
+     * @param contractDto contract data transfer object with necessary data
+     * @param pageNumber number of page with contracts
+     * @param model model
+     * @return view with page of contracts
+     */
+    @RequestMapping(&quot;/control/allContracts&quot;)
+    public String showAllContracts(@ModelAttribute(&quot;model&quot;) ContractDto contractDto,
+                                   @RequestParam(value = &quot;pageNumber&quot;, required = false) Integer pageNumber,
+                                   Model model) {
+
+<span class="nc" id="L49">        model.addAttribute(&quot;model&quot;, contractDto);</span>
+<span class="nc" id="L50">        model.addAttribute(&quot;allContracts&quot;, contractServiceMVC.getPageOfContracts(contractDto, pageNumber));</span>
+<span class="nc" id="L51">        model.addAttribute(&quot;pageNumber&quot;, pageNumber);</span>
+<span class="nc" id="L52">        model.addAttribute(&quot;numberOfPages&quot;, contractServiceMVC.getNumberOfPages(contractDto.getPageSize()));</span>
+
+<span class="nc" id="L54">        return &quot;control/all-contracts&quot;;</span>
+    }
+
+    /**
+     * This method prepares data to form for creating new contract when it created by &quot;control&quot; user
+     * @param model model
+     * @return view with form to add new contract for user
+     */
+    @RequestMapping(&quot;/control/addNewContract&quot;)
+    public String addNewContract(Model model) {
+
+<span class="nc" id="L65">        ContractDto tmp = new ContractDto();</span>
+<span class="nc" id="L66">        tmp.setContract(new Contract());</span>
+<span class="nc" id="L67">        tmp.setStringsNumbers(numberServiceMVC.getAllUnused());</span>
+<span class="nc" id="L68">        model.addAttribute(&quot;tariffsList&quot;, tariffServiceMVC.getAll());</span>
+<span class="nc" id="L69">        model.addAttribute(&quot;clientsList&quot;, clientServiceMVC.getAll());</span>
+<span class="nc" id="L70">        model.addAttribute(&quot;model&quot;, tmp);</span>
+<span class="nc" id="L71">        return &quot;control/add-contract-info-control-form&quot;;</span>
+    }
+
+    /**
+     * This method prepares data to form for creating new contract when it created by &quot;client&quot; user
+     * @param model model
+     * @param principal user's data
+     * @return view with form to add new contract for client which call this method
+     */
+    @RequestMapping(&quot;/client/addNewContract&quot;)
+    public String addNewContractClient(Model model, Principal principal) {
+
+<span class="nc" id="L83">        ContractDto tmp = new ContractDto();</span>
+<span class="nc" id="L84">        tmp.setContract(new Contract());</span>
+<span class="nc" id="L85">        tmp.setId(clientServiceMVC.getByEmail(principal.getName()).getId());</span>
+<span class="nc" id="L86">        tmp.setStringsNumbers(numberServiceMVC.getAllUnused());</span>
+<span class="nc" id="L87">        model.addAttribute(&quot;tariffsList&quot;, tariffServiceMVC.getAll());</span>
+<span class="nc" id="L88">        model.addAttribute(&quot;model&quot;, tmp);</span>
+<span class="nc" id="L89">        return &quot;client/add-contract-info-client-form&quot;;</span>
+    }
+
+    /**
+     * This method saves new contract
+     * @param contractDto contract data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message about save procedure result
+     */
+    @RequestMapping(&quot;/common/saveContract&quot;)
+    public RedirectView saveContract(@ModelAttribute(&quot;model&quot;) ContractDto contractDto,
+                                     HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L103">        contractServiceMVC.save(contractDto);</span>
+<span class="nc" id="L104">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L105">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Contract added successfully&quot;);</span>
+
+<span class="nc" id="L107">        return redirectView;</span>
+    }
+
+    /**
+     * This method updates contract data
+     * @param contractDto contract data transfer object with necessary data
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message about update procedure result
+     */
+    @RequestMapping(&quot;/common/patchContract&quot;)
+    public RedirectView patchContract(@ModelAttribute(&quot;model&quot;) ContractDto contractDto,
+                                     HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L121">        contractServiceMVC.update(contractDto);</span>
+<span class="nc" id="L122">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L123">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Contract updated successfully&quot;);</span>
+
+<span class="nc" id="L125">        return redirectView;</span>
+    }
+
+    /**
+     * This method prepares information to update contract form when it called from &quot;control&quot; user
+     * @param id contract id
+     * @param model model
+     * @return view with form for update contracts data
+     */
+    @RequestMapping(&quot;/control/updateContract&quot;)
+    public String controlUpdateContract(@RequestParam(&quot;contractId&quot;) int id, Model model) {
+
+<span class="nc" id="L137">        ContractDto tmp = new ContractDto();</span>
+<span class="nc" id="L138">        tmp.setContract(contractServiceMVC.get(id));</span>
+<span class="nc" id="L139">        model.addAttribute(&quot;connectedOptions&quot;, tmp.castConnectedOptionsInStrings(tmp.getContract().getConnectedOptions()));</span>
+<span class="nc" id="L140">        model.addAttribute(&quot;availableForTariffOptionsList&quot;, tmp.getContract().getContractTariff().getOptions());</span>
+<span class="nc" id="L141">        model.addAttribute(&quot;connectedTariff&quot;, tmp.getContract().getContractTariff());</span>
+<span class="nc" id="L142">        model.addAttribute(&quot;tariffsList&quot;, tariffServiceMVC.getAllAvailable());</span>
+<span class="nc" id="L143">        model.addAttribute(&quot;model&quot;, tmp);</span>
+
+<span class="nc" id="L145">        return &quot;control/update-contract-info-control-form&quot;;</span>
+    }
+
+    /**
+     * This method deletes contract from system
+     * @param id id of contract
+     * @param request http request
+     * @param redir container for redirected attributes
+     * @return view with message about delete procedure result
+     */
+    @RequestMapping(&quot;/common/deleteContract&quot;)
+    public RedirectView deleteContract(@RequestParam(&quot;contractId&quot;) int id,
+                                       HttpServletRequest request, RedirectAttributes redir) {
+
+<span class="nc" id="L159">        contractServiceMVC.delete(id);</span>
+<span class="nc" id="L160">        RedirectView redirectView = new RedirectView(request.getHeader(&quot;Referer&quot;), true);</span>
+<span class="nc" id="L161">        redir.addFlashAttribute(&quot;successMessage&quot;, &quot;Contract deleted successfully&quot;);</span>
+
+<span class="nc" id="L163">        return redirectView;</span>
+    }
+
+    /**
+     * This method show all contracts of one client
+     * @param principal client data
+     * @param contractDto contract data transfer object with necessary data
+     * @param pageNumber page of contracts
+     * @param model model
+     * @return view with client's contracts
+     */
+    @RequestMapping(&quot;/client/allContracts&quot;)
+    public String clientAllContracts(Principal principal,
+                                     @ModelAttribute(&quot;model&quot;) ContractDto contractDto,
+                                     @RequestParam(value = &quot;pageNumber&quot;, required = false) Integer pageNumber,
+                                     Model model) {
+
+<span class="nc" id="L180">        model.addAttribute(&quot;model&quot;, contractDto);</span>
+<span class="nc" id="L181">        model.addAttribute(&quot;allContracts&quot;, contractServiceMVC.getPageOfClientContracts(contractDto, pageNumber, principal.getName()));</span>
+<span class="nc" id="L182">        model.addAttribute(&quot;pageNumber&quot;, pageNumber);</span>
+<span class="nc" id="L183">        model.addAttribute(&quot;numberOfPages&quot;, contractServiceMVC.getNumberOfClientContractPages(contractDto.getPageSize(), principal.getName()));</span>
+
+<span class="nc" id="L185">        return &quot;client/all-contracts&quot;;</span>
+    }
+
+    /**
+     * This method prepares data for contract update when update contracts called from &quot;client&quot; user
+     * @param contractId id of contract
+     * @param model model
+     * @return view with form for update contracts data
+     */
+    @RequestMapping(&quot;/client/updateContract&quot;)
+    public String clientUpdateContract(@RequestParam(&quot;contractId&quot;) int contractId, Model model) {
+
+<span class="nc" id="L197">        ContractDto tmp = new ContractDto();</span>
+<span class="nc" id="L198">        tmp.setContract(contractServiceMVC.get(contractId));</span>
+<span class="nc" id="L199">        model.addAttribute(&quot;connectedOptions&quot;, tmp.castConnectedOptionsInStrings(tmp.getContract().getConnectedOptions()));</span>
+<span class="nc" id="L200">        model.addAttribute(&quot;availableForTariffOptionsList&quot;, tmp.getContract().getContractTariff().getOptions());</span>
+<span class="nc" id="L201">        model.addAttribute(&quot;connectedTariff&quot;, tmp.getContract().getContractTariff());</span>
+<span class="nc" id="L202">        model.addAttribute(&quot;tariffsList&quot;, tariffServiceMVC.getAllAvailable());</span>
+<span class="nc" id="L203">        model.addAttribute(&quot;model&quot;, tmp);</span>
+
+
+<span class="nc" id="L206">        return &quot;client/update-contract-info-client-form&quot;;</span>
+
+    }
+
+    /**
+     * This method set contact block status of contract
+     * @param id id of contract
+     * @param request http request
+     * @return previous view, where lock option was called
+     */
+    @RequestMapping(&quot;/common/lockContract&quot;)
+    public String controlLockClient(@RequestParam(&quot;contractId&quot;) int id, HttpServletRequest request) {
+
+<span class="nc" id="L219">        ContractDto contractDto = new ContractDto();</span>
+<span class="nc" id="L220">        contractDto.setId(id);</span>
+
+<span class="nc bnc" id="L222" title="All 2 branches missed.">        if (request.isUserInRole(&quot;ROLE_control&quot;)) {</span>
+<span class="nc" id="L223">            contractDto.setBlockedRole(&quot;control&quot;);</span>
+        } else {
+<span class="nc" id="L225">            contractDto.setBlockedRole(&quot;client&quot;);</span>
+        }
+
+<span class="nc" id="L228">        contractServiceMVC.lock(contractDto);</span>
+
+<span class="nc" id="L230">        return &quot;redirect:&quot; + request.getHeader(&quot;Referer&quot;);</span>
+    }
+
+    /**
+     * This method set contact unblock status of contract
+     * @param id id of contract
+     * @param request http request
+     * @return previous view, where unlock option was called
+     */
+    @RequestMapping(&quot;/common/unlockContract&quot;)
+    public String controlUnlockClient(@RequestParam(&quot;contractId&quot;) int id, HttpServletRequest request) {
+
+<span class="nc" id="L242">        ContractDto contractDto = new ContractDto();</span>
+<span class="nc" id="L243">        contractDto.setId(id);</span>
+
+<span class="nc" id="L245">        contractServiceMVC.unlock(contractDto);</span>
+
+<span class="nc" id="L247">        return &quot;redirect:&quot; + request.getHeader(&quot;Referer&quot;);</span>
+    }
+
+    /**
+     * This method prepares used phone numbers to search by it
+     * @param model model
+     * @return view with search bar
+     */
+    @RequestMapping(&quot;/control/inputNumberToSearch&quot;)
+    public String getSearchData(Model model) {
+
+<span class="nc" id="L258">        ContractDto contractDto = new ContractDto();</span>
+<span class="nc" id="L259">        contractDto.setStringsNumbers(numberServiceMVC.getAllUsed());</span>
+<span class="nc" id="L260">        model.addAttribute(&quot;model&quot;, contractDto);</span>
+<span class="nc" id="L261">        return &quot;control/input-number-for-search&quot;;</span>
+    }
+
+    /**
+     * This method returns client which has contract with this number
+     * @param phoneNumber number which used to search
+     * @param model model
+     * @return view with client and his contracts
+     */
+    @RequestMapping(&quot;/control/searchByPhoneNumber&quot;)
+    public String searchContractByPhoneNumber(@RequestParam(&quot;userPhoneNumber&quot;) String phoneNumber, Model model) {
+
+<span class="nc" id="L273">        Contract contract = contractServiceMVC.getByPhoneNumber(phoneNumber);</span>
+<span class="nc" id="L274">        model.addAttribute(&quot;clientId&quot;, contract.getContractClient().getId());</span>
+
+<span class="nc" id="L276">        return &quot;redirect:/control/updateClient&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

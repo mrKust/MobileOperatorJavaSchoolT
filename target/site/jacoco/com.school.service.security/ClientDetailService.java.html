@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientDetailService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MobileOperatorJavaSchoolT Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.school.service.security</a> &gt; <span class="el_source">ClientDetailService.java</span></div><h1>ClientDetailService.java</h1><pre class="source lang-java linenums">package com.school.service.security;
+
+import com.school.database.entity.Client;
+import com.school.service.contracts.ClientService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class ClientDetailService implements UserDetailsService {
+
+    private final ClientService clientService;
+
+<span class="nc" id="L18">    public ClientDetailService(ClientService clientService) {</span>
+<span class="nc" id="L19">        this.clientService = clientService;</span>
+<span class="nc" id="L20">    }</span>
+
+    /**
+     * Method load user by user's email
+     * @param s user's email
+     * @return user cridentials
+     * @throws UsernameNotFoundException
+     */
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+<span class="nc" id="L30">        Client tmp = clientService.getByEmail(s);</span>
+<span class="nc" id="L31">        return Optional.ofNullable(tmp)</span>
+<span class="nc" id="L32">                .map(client-&gt; User.withUsername(client.getEmailAddress())</span>
+<span class="nc" id="L33">                        .password(client.getPasswordLogIn())</span>
+<span class="nc" id="L34">                        .roles(client.getUserRole())</span>
+<span class="nc" id="L35">                        .build())</span>
+<span class="nc" id="L36">                .orElseThrow(()-&gt; new UsernameNotFoundException(&quot;User not found&quot;));</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
