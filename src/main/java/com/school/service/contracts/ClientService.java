@@ -73,6 +73,11 @@ public interface ClientService {
     void addMoney(ClientDto clientDto);
 
     /**
+     * Method restores user password to new one
+     * @param id client id
+     */
+    void restoreUsersPasswords(int id);
+    /**
      * This method sends credentials to new user by email
      * @param recipientEmail email of registered user
      * @param password password of new user

@@ -1,6 +1,4 @@
 
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 e
 5src/main/java/com/school/database/entity/Options.java,9\a\9ac4baae6feeccadec42bb8841608e0b93293752
 d
@@ -19,12 +17,8 @@ W
 'src/main/webapp/resources/css/style.css,7\9\793286005b9090bf4b63c9281f5cbde07930695e
 b
 2src/main/java/com/school/aspect/LoggingAspect.java,e\d\edfef9e4c11c5b86184c37ea6ba85f48c7246e74
-x
-Hsrc/main/webapp/WEB-INF/view/control/update-client-info-control-form.jsp,5\6\56273b7e73a782b83757156a870c1d2ee5554622
 k
 ;src/main/java/com/school/controller/ContractController.java,8\2\82d067d62e3c0830faf5529a025f09e04a2df50b
-i
-9src/main/java/com/school/controller/ClientController.java,3\c\3c21b4425a187fdc1f0ca4753330b4a23b884ef7
 [
 +src/main/java/com/school/dto/ClientDto.java,c\a\ca7122f14ea59124015d685a12c8e527f413d349
 b
@@ -33,8 +27,6 @@ n
 >src/main/java/com/school/database/dao/impl/OptionsDaoImpl.java,1\8\18fda63e671c60c943e4b917b0ec8f8ef5632d65
 n
 >src/main/java/com/school/service/contracts/OptionsService.java,b\3\b360b7328cdb77a276213334ff272e2313fa1c5a
-m
-=src/main/java/com/school/service/contracts/ClientService.java,0\4\046dbdd450e51e23f9db44eae7f6c0b8b25393f0
 p
 @src/main/java/com/school/database/dao/contracts/ContractDao.java,3\b\3b1d3063c2c4728beeec46aa7adb5d74baae539c
 o
@@ -45,18 +37,12 @@ n
 >src/main/java/com/school/database/dao/contracts/TariffDao.java,6\3\63c73c1882cd0b3962b150dea10477e05c454d0d
 m
 =src/main/java/com/school/service/contracts/TariffService.java,1\a\1ab7352d8e66b0eebc342826fbf3f022cf1b0cf2
-j
-:src/main/java/com/school/controller/OptionsController.java,0\0\003269d217893164aef41d945633f632b45a5b24
 b
 2src/main/webapp/WEB-INF/view/common/pagination.jsp,3\c\3ce9cf27616f27d6b9bad501f0db4903176604a2
-c
-3src/main/webapp/WEB-INF/view/common/all-options.jsp,3\d\3dd65bab3daabb0208a6fb4e25a3ae5cacb28524
 i
 9src/main/webapp/WEB-INF/view/control/all-optionsTypes.jsp,2\a\2a0be6989fc11d55338bbe93c9f4e5fed19223db
 e
 5src/main/webapp/WEB-INF/view/client/all-contracts.jsp,9\9\99a6eeb15c8f77e6b4b0b8350793cf14716d5820
-l
-<src/main/java/com/school/service/impl/TariffServiceImpl.java,e\7\e7274ea36d2d2fae97d18c7c1b3e9050895e98b2
 c
 3src/main/webapp/WEB-INF/view/common/all-tariffs.jsp,6\9\692247c7d32a7e1d371390817c495ac27711015b
 d
@@ -93,7 +79,11 @@ n
 >src/main/java/com/school/database/dao/contracts/ClientDao.java,1\3\13cd92b8c91bb8f864cc45cb21213224c72af80e
 s
 Csrc/test/java/com/school/services/tests/ClientServiceMockTests.java,2\8\28dfb61fe53ecb51ae9eeadf37a7b79dc431d21c
-l
-<src/main/java/com/school/service/impl/ClientServiceImpl.java,2\4\24c7af6402120fcdbf0979235d9ecdef35b911a8
 m
 =src/main/java/com/school/database/dao/impl/ClientDaoImpl.java,9\a\9a263645f9effb8d3d7ebadfbcbcb93f94a1fff8
+c
+3src/main/webapp/WEB-INF/view/common/all-options.jsp,3\d\3dd65bab3daabb0208a6fb4e25a3ae5cacb28524
+j
+:src/main/java/com/school/controller/OptionsController.java,0\0\003269d217893164aef41d945633f632b45a5b24
+l
+<src/main/java/com/school/service/impl/TariffServiceImpl.java,e\7\e7274ea36d2d2fae97d18c7c1b3e9050895e98b2

@@ -1,28 +1,30 @@
 -------------------------------------------------------------------------------
 Test set: com.school.selenium.LoginSelenuimTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 18.894 s <<< FAILURE! - in com.school.selenium.LoginSelenuimTest
-loginNegativeTest1(com.school.selenium.LoginSelenuimTest)  Time elapsed: 9.416 s  <<< ERROR!
-org.openqa.selenium.WebDriverException: 
-unknown error: net::ERR_CONNECTION_REFUSED
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 2.956 s <<< FAILURE! - in com.school.selenium.LoginSelenuimTest
+loginNegativeTest1(com.school.selenium.LoginSelenuimTest)  Time elapsed: 1.639 s  <<< ERROR!
+org.openqa.selenium.NoSuchElementException: 
+no such element: Unable to locate element: {"method":"css selector","selector":"#username"}
   (Session info: chrome=100.0.4896.88)
+For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
 Build info: version: '4.1.3', revision: '7b1ebf28ef'
 System info: host: 'LAPTOP-FPGO896I', ip: '192.168.1.55', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_321'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [faff5d7f468bd862118f64b28dac3061, get {url=http://localhost:8081/login}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 100.0.4896.88, chrome: {chromedriverVersion: 100.0.4896.60 (6a5d10861ce8..., userDataDir: C:\Users\dimva\AppData\Loca...}, goog:chromeOptions: {debuggerAddress: localhost:62860}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:62860/devtoo..., se:cdpVersion: 100.0.4896.88, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Session ID: faff5d7f468bd862118f64b28dac3061
-	at com.school.selenium.LoginSelenuimTest.loginNegativeTest1(LoginSelenuimTest.java:34)
+Command: [f607ca91a0fbf7d92c119d8fe2d4bc7b, findElement {using=id, value=username}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 100.0.4896.88, chrome: {chromedriverVersion: 100.0.4896.60 (6a5d10861ce8..., userDataDir: C:\Users\dimva\AppData\Loca...}, goog:chromeOptions: {debuggerAddress: localhost:50230}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:50230/devtoo..., se:cdpVersion: 100.0.4896.88, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: f607ca91a0fbf7d92c119d8fe2d4bc7b
+	at com.school.selenium.LoginSelenuimTest.loginNegativeTest1(LoginSelenuimTest.java:35)
 
-loginPositiveTest1(com.school.selenium.LoginSelenuimTest)  Time elapsed: 9.477 s  <<< ERROR!
-org.openqa.selenium.WebDriverException: 
-unknown error: net::ERR_CONNECTION_REFUSED
+loginPositiveTest1(com.school.selenium.LoginSelenuimTest)  Time elapsed: 1.317 s  <<< ERROR!
+org.openqa.selenium.NoSuchElementException: 
+no such element: Unable to locate element: {"method":"css selector","selector":"#username"}
   (Session info: chrome=100.0.4896.88)
+For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
 Build info: version: '4.1.3', revision: '7b1ebf28ef'
 System info: host: 'LAPTOP-FPGO896I', ip: '192.168.1.55', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_321'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [126195affb8a70b2af599ce5cee6e82a, get {url=http://localhost:8081/login}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 100.0.4896.88, chrome: {chromedriverVersion: 100.0.4896.60 (6a5d10861ce8..., userDataDir: C:\Users\dimva\AppData\Loca...}, goog:chromeOptions: {debuggerAddress: localhost:62925}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:62925/devtoo..., se:cdpVersion: 100.0.4896.88, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
-Session ID: 126195affb8a70b2af599ce5cee6e82a
-	at com.school.selenium.LoginSelenuimTest.loginPositiveTest1(LoginSelenuimTest.java:23)
+Command: [158c6c9d766eb22f97ac17181fe9ff12, findElement {using=id, value=username}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 100.0.4896.88, chrome: {chromedriverVersion: 100.0.4896.60 (6a5d10861ce8..., userDataDir: C:\Users\dimva\AppData\Loca...}, goog:chromeOptions: {debuggerAddress: localhost:50248}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), se:cdp: ws://localhost:50248/devtoo..., se:cdpVersion: 100.0.4896.88, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:virtualAuthenticators: true}
+Session ID: 158c6c9d766eb22f97ac17181fe9ff12
+	at com.school.selenium.LoginSelenuimTest.loginPositiveTest1(LoginSelenuimTest.java:24)
 

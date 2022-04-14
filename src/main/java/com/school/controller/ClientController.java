@@ -167,6 +167,24 @@ public class ClientController {
     }
 
     /**
+     * This method send new password to user
+     * @param clientId id of client
+     * @param model model
+     * @return previous view with message about operation result
+     */
+    @RequestMapping("/control/restorePasswordClient")
+    public RedirectView restorePassword(@RequestParam("clientId") int clientId, Model model,
+                                  HttpServletRequest request, RedirectAttributes redir) {
+
+        clientServiceMVC.restoreUsersPasswords(clientId);
+        RedirectView redirectView = new RedirectView(request.getHeader("Referer"), true);
+        redir.addFlashAttribute("successMessage", "Password restored successfully");
+
+        return redirectView;
+
+    }
+
+    /**
      * This method prepares info to client's add money to balance event
      * @param clientId id of client
      * @param model model

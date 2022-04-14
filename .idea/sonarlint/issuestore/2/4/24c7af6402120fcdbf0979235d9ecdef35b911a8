@@ -1,15 +1,0 @@
-
-v
-java:S3008"`Rename this field "EMAIL_ADDRESS_PATTERN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÒŽ´
-E
-java:S5869"*Remove duplicates in this character class.(Êàûçøÿÿÿÿ
-g
-java:S5998"LRefactor this repetition that can lead to a stack overflow for large inputs.(Êàûçøÿÿÿÿ
-c
-java:S1126R"AReplace this if-then-else statement by a single return statement.(¿´ô†ùÿÿÿÿ8ÇÈ”Ÿ‚0
-4
-java:S2119à"Save and re-use this "Random".(¼ÝÅf
-U
-java:S1155÷">Use isEmpty() to check whether the collection is empty or not.(—‹°£
-o
-java:S5843"TSimplify this regular expression to reduce its complexity from 88 to the 20 allowed.(Êàûçøÿÿÿÿ

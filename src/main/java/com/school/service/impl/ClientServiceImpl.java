@@ -177,6 +177,21 @@ public class ClientServiceImpl implements ClientService {
 
     /**
      * Described at {@link ClientService}
+     * @param id client id
+     */
+    @Override
+    public void restoreUsersPasswords(int id) {
+        Client client = clientDao.get(id);
+        String password = createInputPassword();
+        String encodedPassword = new BCryptPasswordEncoder().encode(password);
+        client.setPasswordLogIn(encodedPassword);
+
+        clientDao.save(client);
+        sendPasswordToNewUser(client.getEmailAddress(), password, client.getFirstName());
+    }
+
+    /**
+     * Described at {@link ClientService}
      * @param recipientEmail email of registered user
      * @param password password of new user
      * @param name first name of the user

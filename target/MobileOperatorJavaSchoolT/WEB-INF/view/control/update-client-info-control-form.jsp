@@ -35,6 +35,10 @@
                 <form:hidden path="client.id"/>
                 <form:hidden path="client.userRole"/>
 
+                <c:url var="clientChangePassword" value="/control/restorePasswordClient">
+                    <c:param name="clientId" value="${model.client.id}"/>
+                </c:url>
+
                 <div class="input-group">
                     <span class="input-group-text">First and last name</span>
                     <form:input aria-label="First name" type="text" required="true" class="form-control" path="client.firstName" readonly="true"/>
@@ -120,6 +124,8 @@
                 </table>
 
                 <input type="submit" class="btn btn-primary" value="Confirm"/>
+                <button type="button" class="btn btn-info" id="changePasswordButton"
+                        onclick="window.location.href= '${clientChangePassword}'">Restore password</button>
 
             </form:form>
         </div>

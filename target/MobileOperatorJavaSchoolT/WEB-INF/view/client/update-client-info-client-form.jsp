@@ -90,7 +90,7 @@
 
                 <div class="mb-3">
                     <label for="client.emailAddress" class="form-label">Password</label>
-                    <button type="button" class="btn btn-warning" id="changePasswordButton"
+                    <button type="button" class="btn btn-info" id="changePasswordButton"
                             onclick="window.location.href= '${clientChangePassword}'">Set new password</button>
                 </div>
 
