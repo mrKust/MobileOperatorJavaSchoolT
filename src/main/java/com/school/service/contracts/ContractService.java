@@ -83,7 +83,7 @@ public interface ContractService {
      * @param contract contract for counting
      * @return payment for month
      */
-    double countPricePerMonth(Contract contract);
+    double countPricePerMonth(Contract contract, List<Options> previouslyConnectedOptions);
 
     /**
      * Method check if option have been already connected to contract

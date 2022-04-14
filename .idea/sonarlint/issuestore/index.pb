@@ -19,8 +19,6 @@ n
 >src/main/java/com/school/service/contracts/OptionsService.java,b\3\b360b7328cdb77a276213334ff272e2313fa1c5a
 p
 @src/main/java/com/school/database/dao/contracts/ContractDao.java,3\b\3b1d3063c2c4728beeec46aa7adb5d74baae539c
-o
-?src/main/java/com/school/service/contracts/ContractService.java,6\d\6d885a04b464ce6b435a6b7cc9f903ab49853995
 q
 Asrc/main/java/com/school/service/contracts/OptionTypeService.java,8\c\8c46301bdbde1569848b650c7c5d59b34508f590
 n
@@ -41,10 +39,6 @@ m
 =src/main/java/com/school/service/impl/OptionsServiceImpl.java,f\0\f0e6c94f679f10e74de9c253c9af2fde6f3110f1
 f
 6src/main/webapp/WEB-INF/view/control/all-contracts.jsp,0\f\0fb5fbe8abc09a2781a9e1e00fbfefff6a29253f
-n
->src/main/java/com/school/service/impl/ContractServiceImpl.java,e\5\e5f53c7090a38236ed158156fc5dd340e317513d
-u
-Esrc/test/java/com/school/services/tests/ContractServiceMockTests.java,9\c\9caa242610abff343a3df27477115e199f1ef573
 o
 ?src/main/java/com/school/database/dao/contracts/OptionsDao.java,e\4\e40a238572302e598a7bf7e3f4b51ed1cbc54ba9
 m
@@ -119,7 +113,5 @@ x
 Hsrc/main/webapp/WEB-INF/view/control/update-tariff-info-control-form.jsp,5\b\5b969b322314dd2cb4515cc51ed1296b47f01036
 k
 ;src/main/java/com/school/controller/ContractController.java,8\2\82d067d62e3c0830faf5529a025f09e04a2df50b
-l
-<src/main/java/com/school/service/impl/TariffServiceImpl.java,e\7\e7274ea36d2d2fae97d18c7c1b3e9050895e98b2
 j
 :src/main/java/com/school/controller/AdvRestController.java,3\4\3407fe7c5db2fad30ea89a0b3f4176963b75f48c

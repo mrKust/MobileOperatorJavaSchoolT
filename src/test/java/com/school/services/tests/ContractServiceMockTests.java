@@ -381,7 +381,7 @@ public class ContractServiceMockTests {
         optionsList.add(options2);
         contract1.setConnectedOptions(optionsList);
         Mockito.when(contractDao.get(contract1.getId())).thenReturn(contract1);
-        double result = contractService.countPricePerMonth(contract1);
+        double result = contractService.countPricePerMonth(contract1, new ArrayList<>());
 
         Assert.assertEquals(String.valueOf(30.0), String.valueOf(result));
     }
@@ -409,7 +409,7 @@ public class ContractServiceMockTests {
         optionsList.add(options2);
         contract1.setConnectedOptions(optionsList);
         Mockito.when(contractDao.get(contract1.getId())).thenReturn(contract2);
-        double result = contractService.countPricePerMonth(contract1);
+        double result = contractService.countPricePerMonth(contract1, new ArrayList<>());
 
         Assert.assertEquals(String.valueOf(30.0), String.valueOf(result));
     }

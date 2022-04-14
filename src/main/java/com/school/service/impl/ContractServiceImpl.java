@@ -180,6 +180,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         List<Options> chosenOptions = new ArrayList<>();
+        List<Options> previouslyConnectedOptions = contract.getConnectedOptions();
 
         if (contractDto.getStringsOptions() != null) {
             chosenOptions = optionsService.getOptionsFromChosenList(contractDto.getChosenOptionsList());
@@ -190,7 +191,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         contract.setConnectedOptions(chosenOptions);
-        contract.setPriceForContractPerMonth(countPricePerMonth(contract));
+        contract.setPriceForContractPerMonth(countPricePerMonth(contract, previouslyConnectedOptions));
 
         contractDao.save(contract);
     }
@@ -230,14 +231,14 @@ public class ContractServiceImpl implements ContractService {
      * @return payment for month
      */
     @Override
-    public double countPricePerMonth(Contract contract) {
+    public double countPricePerMonth(Contract contract, List<Options> previouslyConnectedOptions) {
         Client client = contract.getContractClient();
-        List<Options> connectedOptions = get(contract.getId()).getConnectedOptions();
         double priceForMonth = contract.getContractTariff().getPrice();
         for (Options tmp : contract.getConnectedOptions()) {
-            if (!optionsAlreadyConnectedToContract(tmp.getId(), connectedOptions)) {
-                if (client.getMoneyBalance() > 0) {
-                    client.setMoneyBalance(client.getMoneyBalance() - tmp.getCostToAdd());
+            if (!optionsAlreadyConnectedToContract(tmp.getId(), previouslyConnectedOptions)) {
+                double rest = client.getMoneyBalance() - tmp.getCostToAdd();
+                if (rest >= 0) {
+                    client.setMoneyBalance(rest);
                     priceForMonth += tmp.getPrice();
                 } else {
                     throw new ServiceLayerException("You don't have money to connect option " +
