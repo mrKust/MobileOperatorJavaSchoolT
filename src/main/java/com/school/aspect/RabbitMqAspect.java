@@ -35,9 +35,10 @@ public class RabbitMqAspect {
      * This method log and send notification when existed tariff was updated
      */
     @After("execution(* com.school.service.impl.TariffServiceImpl.update(..))")
-    public void afterTariffUpdate() {
+    public void afterTariffUpdate() throws InterruptedException {
         LOG.setLevel(Level.TRACE);
         LOG.trace("Send notification about updating existed tariff");
+        Thread.sleep(1000);
         tariffService.notificationAboutTariffUpdate();
     }
 }

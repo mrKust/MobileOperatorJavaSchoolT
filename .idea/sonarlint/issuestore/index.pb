@@ -5,8 +5,6 @@ b
 .src/main/webapp/WEB-INF/view/common/footer.jsp,9\2\921fefcb7eb9ef71f7bccde840fd40fbb1d62ae3
 p
 @src/main/webapp/WEB-INF/view/control/input-number-for-search.jsp,e\0\e0a95cda0f579dc97e72f08a7b3205a7c185f99e
-W
-'src/main/webapp/resources/css/style.css,7\9\793286005b9090bf4b63c9281f5cbde07930695e
 b
 2src/main/java/com/school/aspect/LoggingAspect.java,e\d\edfef9e4c11c5b86184c37ea6ba85f48c7246e74
 [
@@ -89,8 +87,6 @@ o
 ?src/main/java/com/school/configuration/RabbitConfiguration.java,e\d\ede4cb62b13ed8e1c021d80898e8182ce353195d
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-c
-3src/main/java/com/school/aspect/RabbitMqAspect.java,d\5\d5768697047a15ef9e234df6761f67d5c416476c
 ^
 .src/main/webapp/WEB-INF/view/common/header.jsp,7\3\73f11541dcfb8b995fa275dd837b2d3f668deea7
 h
@@ -115,3 +111,11 @@ k
 ;src/main/java/com/school/controller/ContractController.java,8\2\82d067d62e3c0830faf5529a025f09e04a2df50b
 j
 :src/main/java/com/school/controller/AdvRestController.java,3\4\3407fe7c5db2fad30ea89a0b3f4176963b75f48c
+l
+<src/main/java/com/school/service/impl/TariffServiceImpl.java,e\7\e7274ea36d2d2fae97d18c7c1b3e9050895e98b2
+u
+Esrc/test/java/com/school/services/tests/ContractServiceMockTests.java,9\c\9caa242610abff343a3df27477115e199f1ef573
+n
+>src/main/java/com/school/service/impl/ContractServiceImpl.java,e\5\e5f53c7090a38236ed158156fc5dd340e317513d
+o
+?src/main/java/com/school/service/contracts/ContractService.java,6\d\6d885a04b464ce6b435a6b7cc9f903ab49853995
