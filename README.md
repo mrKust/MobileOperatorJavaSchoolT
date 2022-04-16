@@ -2,6 +2,9 @@
 
 This repository represent my project for Deutsche Telekom Java School (spring 2022) </br>
 The project keeps changing </br>
+Links for other part parts of project:
+- EJB part https://github.com/mrKust/BridgeBeetwenMobileOperatorJavaSchoolTParts
+- Angular part https://github.com/mrKust/ng-MobileOpereatorJavaSchoolTSecondPart
 
 - Main criteries for successful ending:
     - Functionality is working :white_check_mark:
@@ -14,8 +17,8 @@ The project keeps changing </br>
     - Deployed on AS :white_check_mark:
     - Exception Handeling :white_check_mark:
     - Logging :white_check_mark:
-    - Technical solution description :negative_squared_cross_mark:
-    - Unit-test for buisness logic :negative_squared_cross_mark: </br>
+    - Technical solution description :white_check_mark:
+    - Unit-test for buisness logic :white_check_mark: </br>
   <!-- end of the list -->
 
   <!-- :white_check_mark: -->
