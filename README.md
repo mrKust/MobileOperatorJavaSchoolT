@@ -5,6 +5,8 @@ The project keeps changing </br>
 Links for other part parts of project:
 - EJB part https://github.com/mrKust/BridgeBeetwenMobileOperatorJavaSchoolTParts
 - Angular part https://github.com/mrKust/ng-MobileOpereatorJavaSchoolTSecondPart
+<br>System scheme:<br>
+![](database/system_scheme.png)
 
 - Main criteries for successful ending:
     - Functionality is working :white_check_mark:
