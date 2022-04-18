@@ -113,9 +113,15 @@ j
 :src/main/java/com/school/controller/AdvRestController.java,3\4\3407fe7c5db2fad30ea89a0b3f4176963b75f48c
 l
 <src/main/java/com/school/service/impl/TariffServiceImpl.java,e\7\e7274ea36d2d2fae97d18c7c1b3e9050895e98b2
+W
+'src/main/webapp/resources/css/style.css,7\9\793286005b9090bf4b63c9281f5cbde07930695e
 u
 Esrc/test/java/com/school/services/tests/ContractServiceMockTests.java,9\c\9caa242610abff343a3df27477115e199f1ef573
+c
+3src/main/java/com/school/aspect/RabbitMqAspect.java,d\5\d5768697047a15ef9e234df6761f67d5c416476c
 n
 >src/main/java/com/school/service/impl/ContractServiceImpl.java,e\5\e5f53c7090a38236ed158156fc5dd340e317513d
 o
 ?src/main/java/com/school/service/contracts/ContractService.java,6\d\6d885a04b464ce6b435a6b7cc9f903ab49853995
+o
+?src/main/java/com/school/database/dao/impl/ContractDaoImpl.java,3\f\3f0f2dc400fcac2038ea72dcedf8f570735e4f77
