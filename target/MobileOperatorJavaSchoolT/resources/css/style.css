@@ -1,0 +1,54 @@
+:root {
+    --color1: #7FFF00;
+    --color2: #ADFF2F;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+#startPage {
+    padding-top: 10px;
+    text-align: center;
+    background: white;
+}
+
+.header {
+
+    padding-bottom: 10px;
+    background: var(--color1);
+    background: -moz-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: -webkit-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: linear-gradient(45deg,   var(--color1) 0%,  var(--color2) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= var(--color1),
+    endColorstr= var(--color2),GradientType=1 );
+}
+
+.header h2 {
+    font-size: xx-large;
+    color: black;
+    padding-left: 80px;
+}
+
+.footer {
+    background: var(--color1);
+    background: -moz-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: -webkit-linear-gradient(45deg,  var(--color1) 0%, var(--color2) 100%);
+    background: linear-gradient(45deg,   var(--color1) 0%,  var(--color2) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= var(--color1),
+    endColorstr= var(--color2),GradientType=1 );
+    text-align: center ;
+    padding-bottom: 20px;
+}
+
+.footer strong.text {
+    font-size: larger;
+    color: black;
+}

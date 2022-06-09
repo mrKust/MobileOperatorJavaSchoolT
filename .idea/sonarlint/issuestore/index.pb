@@ -125,3 +125,5 @@ o
 ?src/main/java/com/school/service/contracts/ContractService.java,6\d\6d885a04b464ce6b435a6b7cc9f903ab49853995
 o
 ?src/main/java/com/school/database/dao/impl/ContractDaoImpl.java,3\f\3f0f2dc400fcac2038ea72dcedf8f570735e4f77
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
