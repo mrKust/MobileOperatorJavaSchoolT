@@ -9,8 +9,11 @@ Links for other part parts of project:
 #### Project structure
 <p> Project contains three parts. You can see structure of project on picture 1.<br> 
 <strong>First one</strong> is a CRM systems which allows to create and manage mobile operator's options, tariffs, clients and their contracts. System has to types of access. One is for mobile operator's employee this part named "Control plane" and the other one is for clients. It is named as "User plane". In control plane user can create or update new options, tariffs, client's accs and manage clients contracts. In user plane client can look on available to connect options and tariffs, also he can change his own account info or manage their contracts. You can see examples of system work on pictures 2 - 5.<br>
+Used technologies: Spring (Web, Core, Security, AOP), JSP, JSTL, CSS, Bootstrap, JUnit, Mockito, Selenium. <br>
 <strong>Second part</strong> is like bridge between first and second one. Second part have one singleton bean inside it. In this bean we store list of available to connect tariffs with options for it. Every time when user changes tariff or option system send to MQ broker messages about changes. Second part gets MQ messages, after than it takes new version and sends it to the third part.<br>
+Used technologies: EJB, MQ. <br>
 <strong>Third part</strong> is a simple angular page. It connects throug web socket to the second part and only recieves new version of tariff's list and presents it on the main page. Example of the third part info you can see on the picture 6.</p><br>
+Used technologies: Angular. <br>
 
 
 ![Picture 1 - Scheme of app](database/system_scheme.png) *Picture 1 - Scheme of app* <br>
