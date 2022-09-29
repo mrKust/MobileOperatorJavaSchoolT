@@ -63,8 +63,6 @@ m
 =src/main/java/com/school/database/dao/impl/ClientDaoImpl.java,9\a\9a263645f9effb8d3d7ebadfbcbcb93f94a1fff8
 c
 3src/main/webapp/WEB-INF/view/common/all-options.jsp,3\d\3dd65bab3daabb0208a6fb4e25a3ae5cacb28524
-j
-:src/main/java/com/school/controller/OptionsController.java,0\0\003269d217893164aef41d945633f632b45a5b24
 v
 Fsrc/main/webapp/WEB-INF/view/client/update-client-info-client-form.jsp,6\8\6834cd367a6bdbe40267ffaefc78a629cd63eafb
 i
@@ -127,3 +125,9 @@ o
 ?src/main/java/com/school/database/dao/impl/ContractDaoImpl.java,3\f\3f0f2dc400fcac2038ea72dcedf8f570735e4f77
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+i
+9src/main/java/com/school/controller/TariffController.java,e\f\ef7bfba9a4ea62bfcff7c07a173d0635d4383785
+j
+:src/main/java/com/school/controller/OptionsController.java,0\0\003269d217893164aef41d945633f632b45a5b24
+m
+=src/main/java/com/school/controller/OptionTypeController.java,1\6\160bad0a5f9d90159e67621aa3faee628cbf82c1

@@ -1,6 +1,7 @@
 package com.school.configuration;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.school.service.impl.ClientServiceImpl;
 import org.springframework.context.annotation.*;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -52,13 +55,21 @@ public class Config implements WebMvcConfigurer {
     @Bean
     public DataSource dataSource() {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        Properties databaseProp = new Properties();
         try {
+            databaseProp.load(ClientServiceImpl.class.getClassLoader().getResourceAsStream("database.properties"));
             dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
-            dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/db_ecare?useSSL=false");
-            dataSource.setUser("admin");
-            dataSource.setPassword("admin");
+            dataSource.setJdbcUrl("jdbc:mysql://" +
+                    databaseProp.getProperty("databaseAddress") +
+                    ":" + databaseProp.getProperty("databasePort") +
+                    "/" + databaseProp.getProperty("databaseName") + "?useSSL=false");
+            //dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/db_ecare?useSSL=false");
+            dataSource.setUser(databaseProp.getProperty("databaseUser"));
+            dataSource.setPassword(databaseProp.getProperty("databasePassword"));
         }   catch (PropertyVetoException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         return dataSource;
